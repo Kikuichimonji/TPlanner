@@ -53,7 +53,7 @@ class Controller
   protected function authRequired(): void
   {
     if ( !$this->isAuth() ) {
-      header('Location: '.self::REDIRECT_GUEST);
+      header('Location: '.self::REDIRECT_GUEST.'?err=1');
       exit();
     }
   }

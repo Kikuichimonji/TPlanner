@@ -12,7 +12,13 @@
 
   <main>
     <h4>LOGIN</h4>
-    <?php isset($data) ? var_dump($data) : null; ?>
+    <?php isset($data) ? var_dump($data) : null;
+      if(isset($_GET['err'])){
+        if($_GET['err']== 1){
+          echo '<p> Vous devez être connecté pour voir cette page<p/>';
+        }
+      }
+    ?>
     <form action="login.php?act=submit" method="post">
       <label for="pseudo">Pseudo</label>
       <input type="text" name="pseudo" id="pseudo">

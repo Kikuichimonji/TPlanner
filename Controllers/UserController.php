@@ -13,7 +13,7 @@ class UserController extends Controller
   public function __construct()
   {
     // Vérifie si l'utilisateur est connecté sinon redirection
-    //$this->authRequired();
+    $this->authRequired();
   }
 
   /**
