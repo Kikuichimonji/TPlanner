@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use Models\Note;
 
 class DashboardController extends Controller
 {
@@ -25,7 +24,7 @@ class DashboardController extends Controller
   {
     //var_dump($_SESSION);die();
     $this->view('dashboard.php', [
-
+        'user' => $_SESSION['user'],
     ]);
   }
 

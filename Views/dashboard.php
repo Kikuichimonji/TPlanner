@@ -9,7 +9,7 @@
   <header>
     <?php 
       require_once 'layout/menu.php'; 
-      $user = $_SESSION['user']
+      $user = $data['user']
     ?>
   </header>
 

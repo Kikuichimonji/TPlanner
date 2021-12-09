@@ -23,11 +23,8 @@ class LoginController extends Controller
 
   public function login($data)
   {
-    // ...
-
-    // $this->session()['id'] = ...;
     $um = new ModelsUserManager();
-    $user = $um->getMembre($data['pseudo']);
+    $user = $um->getOneByUsername($data['pseudo']);
     $this->session("id",$user->getId());
     $this->session('user',$user);
 
@@ -35,10 +32,10 @@ class LoginController extends Controller
     var_dump($user->getId());die();*/
 
     header("Location:dashboard.php");
-    $this->view('dashboard.php', [
+   /* $this->view('dashboard.php', [
       'test' => 'Mon dasboard !',
-      'user' => $this->session(),
-    ]);
+      'user' => $this->session('user'),
+    ]);*/
 
   }
 }

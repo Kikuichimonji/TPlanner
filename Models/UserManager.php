@@ -10,7 +10,7 @@
             self::connect(self::$classname);
         }
 
-        public function getMembre($username){
+        public function getOneByUsername($username){
 
             $sql = "SELECT *
             FROM user 
