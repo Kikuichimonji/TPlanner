@@ -7,7 +7,7 @@ Autoloader::register();
 
 //test
 // Start Controller : NAMESPACE\CLASSNAME
-$controller = new Controllers\WelcomeController();
+$controller = new Controllers\IndexController();
 
 // Call Controller method
 $controller->index();

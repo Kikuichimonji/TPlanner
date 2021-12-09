@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class WelcomeController extends Controller
+class IndexController extends Controller
 {
   /**
    * Affiche une vue.

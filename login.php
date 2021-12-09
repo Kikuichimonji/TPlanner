@@ -10,13 +10,13 @@ Autoloader::register();
 $controller = new Controllers\LoginController();
 
 // Call Controller method
-if(!isset($_GET["act"])){
+if(!isset($_GET["act"])){ //What happen when we appear on the page normaly
     $controller->index();
 }else{
-    if($_GET["act"]== "submit"){
+    if($_GET["act"]== "submit"){ // Comming from the login form
         $controller->login($_POST);
     }
-    else{
+    else{ //If the user type a random attribute in get
         $controller->index();
     }
 }
