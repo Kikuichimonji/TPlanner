@@ -6,7 +6,7 @@ Autoloader::register();
 
 
 // Start Controller : NAMESPACE\CLASSNAME
-$controller = new Controllers\UserController();
+$controller = new Controllers\UsersController();
 
 // Call Controller method
 $controller->index();

@@ -16,7 +16,25 @@
   <main>
     <h4>Dashboard</h4>
     <p>Bienvenue <?= $user->getUsername() ?></p>
-    <?php var_dump($user ?? []); ?>
+    <?php 
+      foreach($user->getListBoards() as $board)
+      {
+          echo "<span>{$board->getLabel()}</span>
+          <div>";
+          foreach($board->getListLists() as $list)
+          {
+            echo "<span>{$list->getLabel()}</span>";
+            echo "<ul>";
+              foreach($list->getListCards() as $card)
+              {
+                echo "<li><a>{$card->getTitle()}</a><p>{$card->getDescription()}</p></li>";
+              }
+            echo "</ul>";
+          }
+          echo"</div>";
+      }
+    ?>
+    <?php //var_dump($user ?? []); ?>
   </main>
 
   <?php require_once 'layout/footer.php'; ?>

@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use App\UserManager;
-use Models\UserManager as ModelsUserManager;
+use Models\UsersManager;
 
 class LoginController extends Controller
 {
@@ -23,7 +22,7 @@ class LoginController extends Controller
 
   public function login($data)
   {
-    $um = new ModelsUserManager();
+    $um = new UsersManager();
     $user = $um->getOneByUsername($data['pseudo']);
     $this->session("id",$user->getId());
     $this->session('user',$user);

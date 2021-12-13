@@ -2,6 +2,7 @@
 
 namespace Models;
 use App\AbstractEntity;
+use Models\UsersManager;
 
 class Users extends AbstractEntity
 {
@@ -16,10 +17,13 @@ class Users extends AbstractEntity
   private $mail;
   private $role;
   private $dateCreation;
+  private $listBoards;
 
   public function __construct($data)
   {
     parent::hydrate($data,$this);
+    $um = new UsersManager();
+    $this->listBoards = $um->getBoards($this->id);
   }
   
   public function __toString()
@@ -143,6 +147,26 @@ class Users extends AbstractEntity
   public function setDateCreation($dateCreation)
   {
     $this->dateCreation = $dateCreation;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of listBoards
+   */ 
+  public function getListBoards()
+  {
+    return $this->listBoards;
+  }
+
+  /**
+   * Set the value of listBoards
+   *
+   * @return  self
+   */ 
+  public function setListBoards($listBoards)
+  {
+    $this->listBoards = $listBoards;
 
     return $this;
   }

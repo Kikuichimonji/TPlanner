@@ -2,6 +2,7 @@
 
 namespace Models;
 use App\AbstractEntity;
+use Models\BoardManager;
 
 class Board extends AbstractEntity
 {
@@ -12,10 +13,13 @@ class Board extends AbstractEntity
 
     private $id;
     private $label;
+    private $listLists;
 
     public function __construct($data)
     {
         parent::hydrate($data,$this);
+        $bm = new BoardManager();
+        $this->listLists = $bm->getLists($this->id);
     }
     
     public function __toString()
@@ -60,6 +64,26 @@ class Board extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of listLists
+     */ 
+    public function getListLists()
+    {
+        return $this->listLists;
+    }
+
+    /**
+     * Set the value of listLists
+     *
+     * @return  self
+     */ 
+    public function setListLists($listLists)
+    {
+        $this->listLists = $listLists;
 
         return $this;
     }

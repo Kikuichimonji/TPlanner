@@ -2,20 +2,20 @@
     namespace Models;
     use App\AbstractManager;
 
-    class UsersManager extends AbstractManager
+    class BoardManager extends AbstractManager
     {
-        private static $classname = "Models\Users";
+        private static $classname = "Models\Board";
 
         public function __construct(){
             self::connect(self::$classname);
         }
 
-        public function getOneByUsername($username){
+        public function getOneById($id){
 
             $sql = "SELECT *
-            FROM users
-            WHERE LOWER(username) = :username";
-            $arg= ["username" => $username];     
+            FROM board
+            WHERE id = :id";
+            $arg= ["id" => $id];     
 
             return self::getOneOrNullResult(
                 self::select($sql,$arg, false),
@@ -24,7 +24,7 @@
         }
 
         public function findAll(){
-            $sql = "SELECT * FROM users";
+            $sql = "SELECT * FROM board";
 
             return self::getResults(
                 self::select($sql, null, true),
@@ -32,16 +32,14 @@
             );
         }
 
-        public function getBoards($id){
+        public function getLists($id){
 
-            $sql = "SELECT b.id,b.label FROM board b
-                    INNER JOIN usersboard ub ON ub.id_board = b.id
-                    INNER JOIN users u ON u.id = ub.id_user
-                    WHERE u.id = :id";
+            $sql = "SELECT * FROM lists l
+                    WHERE l.id_board = :id";
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),
-                "Models\Board"
+                "Models\lists"
             );
         }
     }

@@ -2,10 +2,10 @@
 
 namespace Controllers;
 
-use Models\UserManager;
+use Models\UsersManager;
 
 
-class UserController extends Controller
+class UsersController extends Controller
 {
   /**
    * HomeController constructor.
@@ -22,7 +22,7 @@ class UserController extends Controller
    */
   public function index()
   {
-    $user = new UserManager();
+    $user = new UsersManager();
     $users = $user->findAll();
     
     $this->view('user.php', [
