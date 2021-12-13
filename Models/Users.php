@@ -3,7 +3,7 @@
 namespace Models;
 use App\AbstractEntity;
 
-class User extends AbstractEntity
+class Users extends AbstractEntity
 {
   /**
    * @inheritdoc
@@ -11,11 +11,11 @@ class User extends AbstractEntity
   protected $table = 'users';
 
   private $id;
-  private $mail;
-  private $password;
   private $username;
-  private $dateinscription;
+  private $password;
+  private $mail;
   private $role;
+  private $dateCreation;
 
   public function __construct($data)
   {
@@ -128,21 +128,21 @@ class User extends AbstractEntity
   }
 
   /**
-   * Get the value of dateinscription
+   * Get the value of dateCreation
    */ 
-  public function getDateinscription()
+  public function getDateCreation()
   {
-    return $this->dateinscription;
+    return $this->dateCreation;
   }
 
   /**
-   * Set the value of dateinscription
+   * Set the value of dateCreation
    *
    * @return  self
    */ 
-  public function setDateinscription($dateinscription)
+  public function setDateCreation($dateCreation)
   {
-    $this->dateinscription = $dateinscription;
+    $this->dateCreation = $dateCreation;
 
     return $this;
   }

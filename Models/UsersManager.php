@@ -2,9 +2,9 @@
     namespace Models;
     use App\AbstractManager;
 
-    class UserManager extends AbstractManager
+    class UsersManager extends AbstractManager
     {
-        private static $classname = "Models\User";
+        private static $classname = "Models\Users";
 
         public function __construct(){
             self::connect(self::$classname);
@@ -13,7 +13,7 @@
         public function getOneByUsername($username){
 
             $sql = "SELECT *
-            FROM user 
+            FROM users
             WHERE LOWER(username) = :username";
             $arg= ["username" => $username];     
 
@@ -24,7 +24,7 @@
         }
 
         public function findAll(){
-            $sql = "SELECT * FROM user";
+            $sql = "SELECT * FROM users";
 
             return self::getResults(
                 self::select($sql, null, true),
