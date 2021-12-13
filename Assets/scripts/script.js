@@ -1,14 +1,11 @@
-let boardContainer = document.querySelector(".boardContainer");
-let board = boardContainer.querySelector(".board");
-let cards = board.querySelectorAll(".card");
-
-
+let cards = document.querySelectorAll(".card");
 
 cards.forEach(item => item.addEventListener("click", (e) => //Event for when we're gonna click on the cards
 {
     cards.forEach(item => item.className = "card");
     e.target.className = "card active";
 }));
+
 
 
 let draggedTarget;
@@ -24,28 +21,28 @@ document.addEventListener("dragstart", function(ev) {
 
 document.addEventListener("dragenter", function(ev) {
 
-    if(ev.target.classList.contains("board"))
+    if(ev.target.classList.contains("list"))
     {
-        if(!draggedTarget.classList.contains("board")){
+        if(!draggedTarget.classList.contains("list")){
             ev.target.appendChild(draggedTarget);
         }
         ev.target.addEventListener("dragleave", function(boardEv) {
             boardEv.preventDefault();
-            if(boardEv.target.classList.contains("board")){
+            if(boardEv.target.classList.contains("list")){
                 boardEv.target.style.cssText = "border:5px solid black;";
             }
         });
     }
 
     if(draggedTarget.classList.contains("card")){
-        if(ev.target.classList.contains("board")){
+        if(ev.target.classList.contains("list")){
             ev.target.style.cssText = "border:5px solid green;";
-        }else if(ev.target.parentNode.className == "board"){
+        }else if(ev.target.parentNode.className == "list"){
             ev.target.parentNode.style.cssText = "border:5px solid green;";
         }
     }
 
-    if (ev.target !== draggedTarget  && !draggedTarget.classList.contains("board") && ev.target.classList.contains("card")) {
+    if (ev.target !== draggedTarget  && !draggedTarget.classList.contains("list") && ev.target.classList.contains("card")) {
         let ep = ev.target.previousElementSibling;
         let en = ev.target.nextElementSibling;
         let dp = draggedTarget.previousElementSibling;
@@ -79,7 +76,7 @@ document.addEventListener("dragenter", function(ev) {
 
 /*document.addEventListener("dragleave", function(ev) {
     ev.preventDefault();
-    if(ev.target.classList.contains("board") ){
+    if(ev.target.classList.contains("list") ){
         ev.target.style.cssText = "border:5px solid black;";
     }
 });*/
@@ -91,12 +88,12 @@ document.addEventListener("dragover", function(ev) {
 document.addEventListener("drop", function(ev) {
     ev.preventDefault();
     draggedTarget.style.backgroundColor = "";
-    if(ev.target.classList.contains("board"))
+    if(ev.target.classList.contains("list"))
     {
         ev.target.style.cssText = "border:5px solid black;";
     }
     
-    if(ev.target.classList.contains("board") && ev.target !== draggedTarget && !draggedTarget.classList.contains("board"))
+    if(ev.target.classList.contains("list") && ev.target !== draggedTarget && !draggedTarget.classList.contains("list"))
     {
         data = ev.dataTransfer.getData("Data");
         el = document.getElementById(data);

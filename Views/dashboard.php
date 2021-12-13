@@ -21,11 +21,11 @@
       foreach($user->getListBoards() as $board)
       {
           echo "<span>{$board->getLabel()}</span>
-          <div class='boardContainer'>";
+          <div class='board'>";
           foreach($board->getListLists() as $list)
           {
             echo "<div><span>{$list->getLabel()}</span>";
-            echo "<ul class='board' draggable='true'>";
+            echo "<ul class='list' draggable='true'>";
               foreach($list->getListCards() as $card)
               {
                 echo "<li draggable='true' class='card'><a>{$card->getTitle()}</a><p>{$card->getDescription()}</p></li>";

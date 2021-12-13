@@ -2,13 +2,14 @@
 {
     box-sizing: border-box;
 }
-.boardContainer{
+.board{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    border: 1px solid red;
 }
 
-.board {
+.list {
     position: relative;
     background-color: black;
     min-height: 200px;
