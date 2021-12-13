@@ -91,8 +91,11 @@ document.addEventListener("dragover", function(ev) {
 document.addEventListener("drop", function(ev) {
     ev.preventDefault();
     draggedTarget.style.backgroundColor = "";
-    ev.target.style.cssText = "border:5px solid black;";
-
+    if(ev.target.classList.contains("board"))
+    {
+        ev.target.style.cssText = "border:5px solid black;";
+    }
+    
     if(ev.target.classList.contains("board") && ev.target !== draggedTarget && !draggedTarget.classList.contains("board"))
     {
         data = ev.dataTransfer.getData("Data");

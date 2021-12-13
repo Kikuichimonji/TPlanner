@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./Assets/css/style.css">
   <title>Dashboard</title>
 </head>
 <body>
   <header>
     <?php 
-      require_once 'layout/menu.php'; 
+      require_once 'layout/header.php'; 
       $user = $data['user']
     ?>
   </header>
@@ -20,16 +21,16 @@
       foreach($user->getListBoards() as $board)
       {
           echo "<span>{$board->getLabel()}</span>
-          <div>";
+          <div class='boardContainer'>";
           foreach($board->getListLists() as $list)
           {
-            echo "<span>{$list->getLabel()}</span>";
-            echo "<ul>";
+            echo "<div><span>{$list->getLabel()}</span>";
+            echo "<ul class='board' draggable='true'>";
               foreach($list->getListCards() as $card)
               {
-                echo "<li><a>{$card->getTitle()}</a><p>{$card->getDescription()}</p></li>";
+                echo "<li draggable='true' class='card'><a>{$card->getTitle()}</a><p>{$card->getDescription()}</p></li>";
               }
-            echo "</ul>";
+            echo "</ul></div>";
           }
           echo"</div>";
       }
@@ -38,5 +39,6 @@
   </main>
 
   <?php require_once 'layout/footer.php'; ?>
+  <script src="./Assets/scripts/script.js"></script>
 </body>
 </html>
