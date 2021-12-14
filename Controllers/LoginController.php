@@ -14,18 +14,28 @@ class LoginController extends Controller
    */
   public function index()
   {
+    if(isset($this->session()['auth'])){
+      header("Location: dashboard.php");
+      die();
+    }
+    $token = hash_hmac("sha256","tralala",$this->getToken());
     $this->view('login.php', [
       'test' => 'Mon login !',
-      'var' => 45,
+      'token' => $token,
     ]);
   }
 
   public function login($data)
   {
+    if(!$this->csrfCheck($data['token'])){
+      header("Location:index.php");
+    }
+    
     $um = new UsersManager();
     $user = $um->getOneByUsername($data['pseudo']);
     $this->session("id",$user->getId());
     $this->session('user',$user);
+    $this->session('auth',true);
 
     /*echo 'loginController ';
     var_dump($user->getId());die();*/

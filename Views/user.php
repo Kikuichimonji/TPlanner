@@ -11,11 +11,22 @@
     </header>
 
     <main>
-        <h4>Liste des utilisateurs</h4>
-        <?php foreach($data['users'] as $user){
-            echo $user."<br>";
-        }
-         ?>
+        <h4>Profil de l'utilisateur : <?php echo $data['user']->getUsername(); ?></h4>
+        <ul>
+            <li>Username : <?= $data['user']->getUsername()?></li>
+            <li>Password : <?= $data['user']->getPassword()?></li>
+            <li>Email : <?= $data['user']->getMail()?></li>
+            <li>Role : <?= $data['user']->getRole()?></li>
+            <li>Date de creation du compte : <?= $data['user']->getDateCreation()?></li>
+            <li>Board(s) :
+            <?php 
+                foreach($data['user']->getListBoards() as $board)
+                {
+                    echo $board->getLabel().", ";
+                }
+            
+            ?></li>
+        </ul>
     </main>
 
     <?php require_once 'layout/footer.php'; ?>

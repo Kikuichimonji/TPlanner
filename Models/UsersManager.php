@@ -23,6 +23,19 @@
             );
         }
 
+        public function getOneById($id){
+
+            $sql = "SELECT *
+            FROM users
+            WHERE id = :id";
+            $arg= ["id" => $id];     
+
+            return self::getOneOrNullResult(
+                self::select($sql,$arg, false),
+                self::$classname
+            );
+        }
+
         public function findAll(){
             $sql = "SELECT * FROM users";
 

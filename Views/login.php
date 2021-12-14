@@ -25,6 +25,7 @@
       <label for="password">Password</label>
       <input type="password" name="password" id="password">
       <button type="submit">Connection</button>
+      <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
     </form>
   </main>
 

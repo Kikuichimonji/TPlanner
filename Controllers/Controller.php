@@ -100,4 +100,54 @@ class Controller
 
     return $_SESSION;
   }
+
+  /**
+   * Create a random token
+   * 
+   * @return void
+   */
+  protected function setToken() //CSRF Token creation
+  {
+    /*var_dump($this->session());die();*/
+    $this->session();
+    if(isset($_SESSION["token"])){
+      if($_SESSION["token"] === null){
+        return $this->session('token',bin2hex(random_bytes(32)));
+      }
+    }
+  }
+
+  /**
+   * Get the actual CSRF token of the user
+   * 
+   * @return string
+   */
+  protected function getToken() //CSRF Token recuperation
+  {
+    /*var_dump($this->session());die();*/
+    $this->session();
+    if(isset($_SESSION["token"])){
+      return $_SESSION["token"];
+    }
+  }
+
+  /**
+   * Compare the CSRF token between the user and the form
+   * 
+   * 
+   */
+  protected function csrfCheck($token) //CSRF Token recuperation
+  {
+    try{
+      if(!empty($_POST)){
+        if(isset($_POST['token']) && !hash_equals($_POST['token'],$token)){
+          return false;
+        }
+        return true;
+      }
+    }catch(\Exception $e){
+      echo $e->getMessage();
+      die();
+    }
+  }
 }

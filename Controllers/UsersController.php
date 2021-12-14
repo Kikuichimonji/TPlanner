@@ -22,11 +22,12 @@ class UsersController extends Controller
    */
   public function index()
   {
-    $user = new UsersManager();
-    $users = $user->findAll();
+    $um = new UsersManager();
+    //var_dump($_SESSION);die();
+    $user = $um->getOneById($_SESSION['user']->getId());
     
     $this->view('user.php', [
-      'users' => $users,
+      'user' => $user,
     ]);
   }
 
