@@ -40,7 +40,7 @@ abstract class Autoloader{
 
 define("DS",DIRECTORY_SEPARATOR);
 define("ROOT",".".DS);
-define('PUBLIC_PATH', ROOT.'public'.DS);
+define('PUBLIC_PATH', ROOT.'assets'.DS);
 define('CSS_PATH', PUBLIC_PATH.'css'.DS);
 define('IMG_PATH', PUBLIC_PATH.'img'.DS);
 
