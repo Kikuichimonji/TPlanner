@@ -1,5 +1,6 @@
 let cards = document.querySelectorAll(".card");
 
+
 cards.forEach(item => item.addEventListener("click", (e) => //Event for when we're gonna click on the cards
 {
     cards.forEach(item => item.className = "card");
@@ -7,21 +8,16 @@ cards.forEach(item => item.addEventListener("click", (e) => //Event for when we'
 }));
 
 
-
-let draggedTarget;
-
 document.addEventListener("dragstart", function(ev) {
+    //console.log(ev.target.nodeName)
     if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL"))
     {
-
         draggedTarget = ev.target;
         draggedTarget.id = "cardActive";
         ev.dataTransfer.setData("Data", ev.target.id);
         draggedTarget.style.backgroundColor = "#444";
         ev.dataTransfer.setDragImage(draggedTarget, -10, -10);
-
     }
-
 });
 
 document.addEventListener("dragenter", function(ev) {
@@ -80,12 +76,9 @@ document.addEventListener("dragenter", function(ev) {
     }
 });
 
-/*document.addEventListener("dragleave", function(ev) {
+document.addEventListener("dragleave", function(ev) {
     ev.preventDefault();
-    if(ev.target.classList.contains("list") ){
-        ev.target.style.cssText = "border:5px solid black;";
-    }
-});*/
+});
 
 document.addEventListener("dragover", function(ev) {
     ev.preventDefault();
@@ -96,9 +89,11 @@ document.addEventListener("drop", function(ev) {
     {
         ev.preventDefault();
         draggedTarget.style.backgroundColor = "";
-        if(ev.target.classList.contains("list"))
-        {
+
+        if(ev.target.classList.contains("list")){
             ev.target.style.cssText = "border:5px solid black;";
+        }else if(ev.target.parentNode.classList.contains("list")){
+            ev.target.parentNode.style.cssText = "border:5px solid black;";
         }
         
         if(ev.target.classList.contains("list") && ev.target !== draggedTarget && !draggedTarget.classList.contains("list"))

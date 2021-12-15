@@ -114,6 +114,8 @@ class Controller
       if($_SESSION["token"] === null){
         return $this->session('token',bin2hex(random_bytes(32)));
       }
+    }else{
+      return $this->session('token',bin2hex(random_bytes(32)));
     }
   }
 
@@ -124,10 +126,13 @@ class Controller
    */
   protected function getToken() //CSRF Token recuperation
   {
-    /*var_dump($this->session());die();*/
-    $this->session();
+    //var_dump($this->session());die();
+    //$this->session();
     if(isset($_SESSION["token"])){
       return $_SESSION["token"];
+    }else{
+      $this->setToken();
+      //var_dump($this->session());die();
     }
   }
 

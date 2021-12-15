@@ -18,6 +18,8 @@ class LoginController extends Controller
       header("Location: dashboard.php");
       die();
     }
+    //$this->session();
+    //var_dump($this->getToken());die();
     $token = hash_hmac("sha256","tralala",$this->getToken());
     $this->view('login.php', [
       'test' => 'Mon login !',
@@ -46,5 +48,14 @@ class LoginController extends Controller
       'user' => $this->session('user'),
     ]);*/
 
+  }
+
+  public function logout()
+  {
+    if(isset($this->session()['auth'])){
+      session_destroy();
+      header("Location:index.php");
+      die();
+    }
   }
 }

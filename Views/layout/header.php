@@ -16,7 +16,7 @@
                   <ul>
                     <li><a href=''>Voir Profil</a></li>
                     <li><a href=''>Autre Option</a></li>
-                    <li><a href=''>Se deconnecter</a></li>
+                    <li><a href='login.php?act=logout'>Se deconnecter</a></li>
                   </ul>
                 </div>
               </div>";
