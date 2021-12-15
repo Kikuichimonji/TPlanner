@@ -39,6 +39,5 @@
   </main>
 
   <?php require_once 'layout/footer.php'; ?>
-  <script src="./Assets/scripts/script.js"></script>
 </body>
 </html>

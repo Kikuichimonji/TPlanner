@@ -10,7 +10,16 @@
   <?php 
     if(isset($_SESSION)){
       if(isset($_SESSION['user'])){
-        echo "<a href='' id='userMenu'>{$_SESSION['user']->getUsername()}</a>";
+        echo  "<div id='headerContainer'>
+                <a href='' id='userMenu'>{$_SESSION['user']->getUsername()}</a>
+                <div id='popUpProfile'>
+                  <ul>
+                    <li><a href=''>Voir Profil</a></li>
+                    <li><a href=''>Autre Option</a></li>
+                    <li><a href=''>Se deconnecter</a></li>
+                  </ul>
+                </div>
+              </div>";
       }
     }
   ?>
