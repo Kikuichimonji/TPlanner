@@ -30,6 +30,14 @@
             return $results;
         }
 
+        protected static function getValue($row){
+            
+            if($row != null){
+                return $row;
+            }
+            return null;
+        }
+
         protected static function select($sql, $params = null, $multiple = true){
             
             try{

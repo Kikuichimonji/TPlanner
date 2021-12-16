@@ -1,9 +1,22 @@
 let cards = document.querySelectorAll(".card");
+let lists = document.querySelectorAll(".list");
+
+cards.forEach((item)=>{
+    item.hiddenId = item.id;
+    item.removeAttribute('id');
+});
+
+lists.forEach((item)=>{
+    item.hiddenId = item.id;
+    item.removeAttribute('id');
+});
 
 
 cards.forEach(item => item.addEventListener("click", (e) => //Event for when we're gonna click on the cards
 {
-    cards.forEach(item => item.className = "card");
+    cards.forEach((item) => {
+        item => item.className = "card";
+    })
     e.target.className = "card active";
 }));
 
@@ -88,6 +101,7 @@ document.addEventListener("drop", function(ev) {
     if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL"))
     {
         ev.preventDefault();
+
         draggedTarget.style.backgroundColor = "";
 
         if(ev.target.classList.contains("list")){
@@ -102,6 +116,57 @@ document.addEventListener("drop", function(ev) {
             el = document.getElementById(data);
             ev.target.appendChild(el);
         }
-        draggedTarget.id = "";
+        
+        if(ev.target.parentNode.classList.contains("list")){
+            target = ev.target.parentNode 
+        }else if(ev.target.classList.contains("list")){
+            target = ev.target 
+        }
+        
+        cardList = target.querySelectorAll(".card")
+        cardsArray = [... cardList]
+        cardPos = cardsArray.indexOf(draggedTarget)
+
+
+        myHeaders = new Headers();
+
+        var myInit = { method: 'GET',
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default' };
+
+        const moveCard = "board.php?list=" + draggedTarget.parentNode.hiddenId + "&pos=" + cardPos + "&card=" + draggedTarget.hiddenId;
+
+        var myRequest = new Request(moveCard,myInit);
+        
+        fetch(myRequest).then((response) => {
+            response.text().then(response => {
+                console.log(response)
+                if(response === 'false')
+                    console.log("Problème de paramètres")
+                else
+                    console.log("tout est ok")
+            })
+            if(!response.ok) {
+                console.log("Mauvaise réponse du réseau")
+            }
+        })
+
+        
+        /*fetch(myRequest).then(function(response) {
+        if(response.ok) {
+            response.blob().then(function(myBlob) {
+            var objectURL = URL.createObjectURL(myBlob);
+            myImage.src = objectURL;
+            });
+        } else {
+            console.log('Mauvaise réponse du réseau');
+        }
+        })
+        .catch(function(error) {
+        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+        });*/
+
+        draggedTarget.removeAttribute("id");
     }
 }); 

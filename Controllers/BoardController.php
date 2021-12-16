@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\BoardManager;
 use Models\UsersManager;
+use Models\CardManager;
 
 
 class BoardController extends Controller

@@ -35,7 +35,8 @@
         public function getCards($id){
 
             $sql = "SELECT * FROM card c
-                    WHERE c.id_list = :id";
+                    WHERE c.id_list = :id
+                    ORDER BY c.positions";
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),
