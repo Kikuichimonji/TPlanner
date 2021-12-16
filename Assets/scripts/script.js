@@ -27,6 +27,7 @@ document.addEventListener("dragstart", function(ev) {
     {
         draggedTarget = ev.target;
         draggedTarget.id = "cardActive";
+        draggedTarget.oldList = draggedTarget.parentNode.hiddenId
         ev.dataTransfer.setData("Data", ev.target.id);
         draggedTarget.style.backgroundColor = "#444";
         ev.dataTransfer.setDragImage(draggedTarget, -10, -10);
@@ -135,7 +136,7 @@ document.addEventListener("drop", function(ev) {
                 mode: 'cors',
                 cache: 'default' };
 
-        const moveCard = "board.php?list=" + draggedTarget.parentNode.hiddenId + "&pos=" + cardPos + "&card=" + draggedTarget.hiddenId;
+        const moveCard = "board.php?list=" + draggedTarget.parentNode.hiddenId + "&pos=" + cardPos + "&card=" + draggedTarget.hiddenId + "&oldList="+draggedTarget.oldList;
 
         var myRequest = new Request(moveCard,myInit);
         

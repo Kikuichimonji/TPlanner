@@ -82,6 +82,7 @@
         protected static function update($sql, $params){
             try{
                 $stmt = self::$connection->prepare($sql);
+                //var_dump($stmt->execute($params));
                 return $stmt->execute($params);
             }
             catch(\PDOException $e) {

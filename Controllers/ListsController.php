@@ -25,12 +25,13 @@ class ListsController extends Controller
     {
     }
 
-    public function edit($card,$list,$pos)
+    public function edit($card,$list,$oldList,$pos)
     {
 
         $cm = new CardManager();
         $oldPos = $cm->getPos($card)['positions'];
-        //var_dump($oldPos);die();
-        $cm->edit($card,$list,$pos,$oldPos);
+        //$isChanging = $list != $oldList;
+        //var_dump($isChanging);die();
+        $cm->edit($card,$list,$oldList,$pos,$oldPos);
     }
 }

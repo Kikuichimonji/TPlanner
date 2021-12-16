@@ -17,7 +17,8 @@ if(!isset($_GET["list"])){
     if($_GET["list"] == "undefined" or $_GET["pos"] == -1 or !$_GET["card"]){
         echo "false";
     }else{
-        $ListsController->edit($_GET['card'],$_GET['list'],$_GET['pos']);
+        //var_dump($_GET);die();
+        $ListsController->edit($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos']);
     }
 }
 
