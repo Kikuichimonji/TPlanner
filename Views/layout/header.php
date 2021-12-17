@@ -1,12 +1,5 @@
 <nav>
-  <ul>
-    <li>
-      <a href="index.php">Accueil</a>
-    </li>
-    <li>
-      <a href="login.php">Login</a>
-    </li>
-  </ul>
+  <a href="index.php">LOGO</a>
   <?php 
     if(isset($_SESSION)){
       if(isset($_SESSION['user'])){
@@ -19,6 +12,11 @@
                     <li><a href='login.php?act=logout'>Se deconnecter</a></li>
                   </ul>
                 </div>
+              </div>";
+      }else{
+        echo  "<div>
+                <a href='' id=''>S'inscrire</a>
+                <a href='' id=''>Se connecter</a>
               </div>";
       }
     }

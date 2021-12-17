@@ -1,4 +1,4 @@
 <footer>
-    Je suis FOOTER
+    Footer
 </footer>
 <script src="./Assets/scripts/script.js"></script>
