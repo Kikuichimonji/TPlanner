@@ -11,3 +11,4 @@ $controller = new Controllers\UsersController();
 // Call Controller method
 $controller->index();
 // END SCRIPT
+//
