@@ -33,11 +33,13 @@ document.addEventListener("dragstart", function(ev) { //Event start when we star
 
         }
         
+    }else{
+        draggedElement = null;
     }
 });
 
 document.addEventListener("dragenter", function(ev) { //Even start when the dragged target enter an element
-    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL")) //If we drag into something && we drag into a card || we drag into a list
+    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL") && draggedElement) //If we drag into something && we drag into a card || we drag into a list
     {
         draggedInto = ev.target;
         if(draggedInto.classList.contains("list")) //if we drag into a list
@@ -60,7 +62,11 @@ document.addEventListener("dragenter", function(ev) { //Even start when the drag
                 draggedInto.parentNode.style.cssText = "border:5px solid green;";
             }
         }
-
+        /*
+        *
+        * i'm trying to not repeat code, but it makes it way more complex because i have to check eveyrtime the targets and dragged element
+        * 
+        */
 
         /*if (draggedInto !== draggedElement  && (draggedInto.classList.contains("card") || draggedInto.classList.contains("list"))) {
 
@@ -153,35 +159,33 @@ document.addEventListener("dragenter", function(ev) { //Even start when the drag
             let dpp = draggedParent.previousElementSibling;
             let dpn = draggedParent.nextElementSibling;
 
-            dip ? (dip.classList.contains("listContainer") ? null : dip = null ) : null
-            din ? (din.classList.contains("listContainer") ? null : din = null ) : null
             
-            if (!dip && !dpn) { //If you take the last element and drag it to the start (from the side)
+            if (!dip && !dpn) {
                 draggedIntoContainer.insertAdjacentElement("beforebegin", draggedParent);
                 //console.log('!ep !dpn')
             }
-            else if (!din && !dpp) {  //if you take the first element and drag it to the end (from the side)
+            else if (!din && !dpp) {
                 draggedIntoContainer.insertAdjacentElement("afterend", draggedParent);
                // console.log('!din !dpp')
             } 
-            else if (dip && dip != draggedParent) {   //if we move up (the previous element target is different than the one dragged)
+            else if (dip && dip != draggedParent) {
 
                 dip.insertAdjacentElement("afterend", draggedParent);
                 draggedParent.insertAdjacentElement("afterend", draggedIntoContainer);
                 //console.log('dip dip')
             } 
-            else if (!dip) {     //if we reach the top from inside the list
+            else if (!dip) {
                 draggedIntoContainer.insertAdjacentElement("beforebegin", draggedParent);
                 //console.log('!dip')
             } 
-            else if (din && din != draggedParent) { //if we move down (the next element target is different than the one dragged)
+            else if (din && din != draggedParent) {
                 dip.insertAdjacentElement("beforebegin", draggedParent);
                 draggedParent.insertAdjacentElement("beforebegin", draggedIntoContainer);
-               // console.log('din din')
+                //console.log('din din')
             } 
-            else if (!din) {     //if we reach the end from inside the list
-                dpp.insertAdjacentElement("afterend", draggedIntoContainer); // we attach it just after the previous one
-               // console.log('!din')
+            else if (!din) {
+                dpp.insertAdjacentElement("afterend", draggedIntoContainer);
+                //console.log('!din')
             }
         }
     }
@@ -196,59 +200,66 @@ document.addEventListener("dragover", function(ev) {
 });
 
 document.addEventListener("drop", function(ev) {
+    if(!draggedElement){ //if we drag something not authorized , we stop everythin
+        return ; 
+    }
     draggedElement.style.backgroundColor = "";
-    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board")))
+    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board"))) //we make sure to limit where we can drop items
     {
         ev.preventDefault();
         
-        if(draggedElement.classList.contains("card") && (!ev.target.classList.contains("card") && !ev.target.classList.contains("list")))
+        if(draggedElement.classList.contains("card") && (!ev.target.classList.contains("card") && !ev.target.classList.contains("list"))) //if we drag a card into a board we stop the code (nothing happens)
         {
             return ;
         }
 
-        if(ev.target.classList.contains("list")){
+        if(ev.target.classList.contains("list")){  //more border shenanigans
             ev.target.style.cssText = "border:5px solid black;";
         }else if(ev.target.parentNode.classList.contains("list")){
             ev.target.parentNode.style.cssText = "border:5px solid black;";
         }
 
-        
-        if(ev.target.parentNode.classList.contains("list")){
-            target = ev.target.parentNode 
-        }else if(ev.target.classList.contains("list")){
-            target = ev.target 
+        if(draggedElement.classList.contains("card"))
+        {
+            if(ev.target.parentNode.classList.contains("list")){ //We verify if the card is drop inside another card or indide a list
+                target = ev.target.parentNode 
+            }else if(ev.target.classList.contains("list")){
+                target = ev.target 
+            }
+        }else{
+            target = document.querySelector(".board") //if the list is dragged , we only have one board
         }
+        
 
-        myHeaders = new Headers();
+        myHeaders = new Headers(); //If we want custom headers
 
-        var myInit = { method: 'GET',
+        var myInit = { method: 'GET', //Fetch settings
                 headers: myHeaders,
                 mode: 'cors',
                 cache: 'default' };
 
+        
+        list = target.querySelectorAll("."+draggedElement.className);
+        listArray = [... list];
+        pos = listArray.indexOf(draggedElement);
+
         if(draggedElement.classList.contains("list")){
-            listList = document.querySelectorAll(".list")
-            listArray = [... listList]
-            listPos = listArray.indexOf(draggedElement)
-            move = "board.php?listEl=" + draggedElement.hiddenId + "&listPos=" + listPos ;
+            move = "board.php?listEl=" + draggedElement.hiddenId + "&listPos=" + pos ; //the link for moving lists
         }else{
-            cardList = target.querySelectorAll(".card")
-            cardsArray = [... cardList]
-            cardPos = cardsArray.indexOf(draggedElement)
-            move = "board.php?list=" + draggedElement.parentNode.hiddenId + "&pos=" + cardPos + "&card=" + draggedElement.hiddenId + "&oldList="+draggedElement.oldList;
+            move = "board.php?list=" + draggedElement.parentNode.hiddenId + "&pos=" + pos + "&card=" + draggedElement.hiddenId + "&oldList="+draggedElement.oldList; //the link for moving cards
         }
 
         
-        var myRequest = new Request(move,myInit);
-        fetch(myRequest).then((response) => {
+        var myRequest = new Request(move,myInit); //We prepare the fetch request with settings and our link destination
+        fetch(myRequest).then((response) => { //We fetch the result
             response.text().then(response => {
-                console.log(response)
-                if(response === 'false')
+                console.log(response) //My check of the controler response
+                if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
                     console.log("Problème de paramètres")
                 else
                     console.log("tout est ok")
             })
-            if(!response.ok) {
+            if(!response.ok) { // If fetch failed somehow , maybe permission? dunno
                 console.log("Mauvaise réponse du réseau")
             }
         })
