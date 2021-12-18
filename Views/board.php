@@ -30,7 +30,7 @@
             {
                 echo "<li draggable='true' class='card' id='{$card->getId()}'>{$card->getTitle()}{$card->getDescription()}</li>";
             }
-            echo "</ul></div>";
+            echo "</ul><div>+ Add a card</div></div>";
         }
         ?>
         </div>

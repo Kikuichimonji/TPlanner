@@ -9,7 +9,73 @@ cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess wi
 lists.forEach((item)=>{
     item.hiddenId = item.id;
     item.removeAttribute('id');
+    item.nextElementSibling.hiddenId = item.hiddenId;
+    item.nextElementSibling.addEventListener("click", (ev) =>
+    {
+        addNewCard(ev.target);
+    })
 });
+
+function addNewCard(el)
+{
+    let newBox = document.createElement("input");
+    newBox.setAttribute("type","text");
+    newBox.setAttribute("placeholder","Enter card title here");
+
+    let newButton = document.createElement("button");
+    newButton.innerHTML = "Confirm";
+    newBox.hiddenId = el.hiddenId;
+    newButton.hiddenId = el.hiddenId;
+
+    let parent = el.parentNode;
+    parent.removeChild(el);
+    parent.appendChild(newBox);
+    parent.appendChild(newButton);
+    newButton.addEventListener("click", ev =>{
+        let card = ev.target.previousElementSibling
+        let cardText = card.value;
+
+        if(cardText !== ""){
+            //console.log(ev.target.hiddenId)
+            goFetch(card)
+        }else{
+            console.log("Please enter a name")
+        }
+        //console.log("he clicked")
+        
+    })
+}
+
+function goFetch(el)
+{
+    myHeaders = new Headers(); //If we want custom headers
+
+    var myInit = { method: 'GET', //Fetch settings
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default' };
+
+    link = "board.php?list=" + el.hiddenId + "&text="+el.value; //the link for a new card
+
+
+    let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
+    fetch(myRequest).then((response) => { //We fetch the result
+        response.text().then(response => {
+            console.log(response) //My check of the controler response
+            if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
+                console.log("Problème de paramètres")
+            else{
+                console.log("tout est ok")
+                location.reload();
+            }
+                
+        })
+        if(!response.ok) { // If fetch failed somehow , maybe permission? dunno
+            console.log("Mauvaise réponse du réseau")
+        }
+    })
+}
+
 
 cards.forEach(item => item.addEventListener("click", (e) => //Event for when we're gonna click on the cards
 {
@@ -18,6 +84,7 @@ cards.forEach(item => item.addEventListener("click", (e) => //Event for when we'
     })
     e.target.className = "card active";
 }));
+
 
 
 document.addEventListener("dragstart", function(ev) { //Event start when we start dragging

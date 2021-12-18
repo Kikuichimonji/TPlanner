@@ -102,6 +102,34 @@
 
             return self::update($sql,$arg);
         }
+
+        public function getMaxPos($id){
+
+            $sql = "SELECT MAX(positions) as max
+            FROM card
+            WHERE id_list = :id";
+            $arg= ["id" => $id];     
+
+            return self::getValue(
+                self::select($sql,$arg, false)
+            );
+        }
+
+        public function add($id,$title){
+
+
+            $pos = $this->getMaxPos($id)['max']? $this->getMaxPos($id)['max']+1 : 0;
+            $sql= "INSERT INTO card(title,positions,id_list) 
+                   VALUES (:title,:positions,:id_list)";
+
+            $arg= ["title" => $title,
+                    "id_list" => $id,
+                    "positions" => $pos];
+
+            //var_dump($pos);die();
+
+            return self::insert($sql,$arg);
+        }
     }
 
 ?>
