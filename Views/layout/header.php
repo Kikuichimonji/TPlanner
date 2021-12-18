@@ -16,7 +16,7 @@
       }else{
         echo  "<div>
                 <a href='' id=''>S'inscrire</a>
-                <a href='' id=''>Se connecter</a>
+                <a href='login.php' id=''>Se connecter</a>
               </div>";
       }
     }

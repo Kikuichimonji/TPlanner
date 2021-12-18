@@ -1,7 +1,7 @@
 let cards = document.querySelectorAll(".card");
 let lists = document.querySelectorAll(".list");
 
-cards.forEach((item)=>{
+cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
     item.hiddenId = item.id;
     item.removeAttribute('id');
 });
@@ -10,7 +10,6 @@ lists.forEach((item)=>{
     item.hiddenId = item.id;
     item.removeAttribute('id');
 });
-
 
 cards.forEach(item => item.addEventListener("click", (e) => //Event for when we're gonna click on the cards
 {
@@ -21,70 +20,168 @@ cards.forEach(item => item.addEventListener("click", (e) => //Event for when we'
 }));
 
 
-document.addEventListener("dragstart", function(ev) {
-    //console.log(ev.target.nodeName)
-    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL"))
+document.addEventListener("dragstart", function(ev) { //Event start when we start dragging
+    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL")) //If we drag something && we drag a card || we drag a list
     {
-        draggedTarget = ev.target;
-        draggedTarget.id = "cardActive";
-        draggedTarget.oldList = draggedTarget.parentNode.hiddenId
-        ev.dataTransfer.setData("Data", ev.target.id);
-        draggedTarget.style.backgroundColor = "#444";
-        ev.dataTransfer.setDragImage(draggedTarget, -10, -10);
+        draggedElement = ev.target; //For better clarity
+        draggedElement.style.backgroundColor = "#444";
+        
+        if(draggedElement.nodeName =="LI"){
+            draggedElement.oldList = draggedElement.parentNode.hiddenId //We save the old list position
+            ev.dataTransfer.setDragImage(draggedElement, -10, -10);
+        }else if(draggedElement.nodeName == "UL"){ //Nothing to do in it for now
+
+        }
+        
     }
 });
 
-document.addEventListener("dragenter", function(ev) {
-    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL"))
+document.addEventListener("dragenter", function(ev) { //Even start when the dragged target enter an element
+    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL")) //If we drag into something && we drag into a card || we drag into a list
     {
-        if(ev.target.classList.contains("list"))
+        draggedInto = ev.target;
+        if(draggedInto.classList.contains("list")) //if we drag into a list
         {
-            if(!draggedTarget.classList.contains("list")){
-                ev.target.appendChild(draggedTarget);
+            if(!draggedElement.classList.contains("list")){ //if we drag something else than a list (can only be a card)
+                draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
             }
-            ev.target.addEventListener("dragleave", function(boardEv) {
-                boardEv.preventDefault();
-                if(boardEv.target.classList.contains("list")){
-                    boardEv.target.style.cssText = "border:5px solid black;";
+            draggedInto.addEventListener("dragleave", function(leftEl) { //if we leave an element
+                leftEl.preventDefault();
+                if(leftEl.target.classList.contains("list")){ //if we leave a list
+                    leftEl.target.style.cssText = "border:5px solid black;"; //we remove the indication border
                 }
             });
         }
 
-        if(draggedTarget.classList.contains("card")){
-            if(ev.target.classList.contains("list")){
-                ev.target.style.cssText = "border:5px solid green;";
-            }else if(ev.target.parentNode.className == "list"){
-                ev.target.parentNode.style.cssText = "border:5px solid green;";
+        if(draggedElement.classList.contains("card")){ //We put a border to help see where we can drop the element
+            if(draggedInto.classList.contains("list")){
+                draggedInto.style.cssText = "border:5px solid green;";
+            }else if(draggedInto.parentNode.className == "list"){ //if we drag into a card we have to still color the list green
+                draggedInto.parentNode.style.cssText = "border:5px solid green;";
             }
         }
 
-        if (ev.target !== draggedTarget  && !draggedTarget.classList.contains("list") && ev.target.classList.contains("card")) {
-            let ep = ev.target.previousElementSibling;
-            let en = ev.target.nextElementSibling;
-            let dp = draggedTarget.previousElementSibling;
-            let dn = draggedTarget.nextElementSibling;
-            /*console.log(ep.innerHTML)
-            console.log(en.innerHTML)*/
+
+        /*if (draggedInto !== draggedElement  && (draggedInto.classList.contains("card") || draggedInto.classList.contains("list"))) {
+
+            if(draggedElement.classList.contains("list")){
+
+                draggedInto_ = draggedInto.classList.contains("card") ? draggedInto.parentNode.parentNode : draggedInto.parentNode;
+                draggedElement_ = draggedElement.parentNode;
+
+                ep = draggedInto_.previousElementSibling;
+                en = draggedInto_.nextElementSibling;
+                dp = draggedElement_.previousElementSibling;
+                dn = draggedElement_.nextElementSibling;
+            }else{
+                draggedInto_ = draggedInto;
+                draggedElement_ = draggedElement;
+
+                ep = draggedInto_.previousElementSibling
+                console.log(ep)
+                en = draggedInto_.nextElementSibling;
+                dp = draggedElement_.previousElementSibling;
+                dn = draggedElement_.nextElementSibling;
+            }
+
             
             if (!ep && !dn) { //If you take the last element and drag it to the start (from the side)
-                ev.target.insertAdjacentElement("beforebegin", draggedTarget);
+                draggedInto_.insertAdjacentElement("beforebegin", draggedElement_);
+                console.log("!ep !dn")
             }
             else if (!en && !dp) {  //if you take the first element and drag it to the end (from the side)
-                ev.target.insertAdjacentElement("afterend", draggedTarget);
+                draggedInto_.insertAdjacentElement("afterend", draggedElement_);
+                console.log("!ep !dp")
             } 
-            else if (ep && ep != draggedTarget) {   //if we move up (the previous element target is different than the one dragged)
-                ep.insertAdjacentElement("afterend", draggedTarget);
-                draggedTarget.insertAdjacentElement("afterend", ev.target);
+            else if (ep && ep != draggedElement_) {   //if we move up (the previous element target is different than the one dragged)
+                ep.insertAdjacentElement("afterend", draggedElement_);
+                draggedElement_.insertAdjacentElement("afterend", draggedInto_);
+
+                console.log("ep ep")
             } 
             else if (!ep) {     //if we reach the top from inside the list
-                ev.target.insertAdjacentElement("beforebegin", draggedTarget);
+                draggedInto_.insertAdjacentElement("beforebegin", draggedElement_);
+                console.log("!ep")
             } 
-            else if (en && en != draggedTarget) { //if we move down (the next element target is different than the one dragged)
-                en.insertAdjacentElement("beforebegin", draggedTarget);
-                draggedTarget.insertAdjacentElement("beforebegin", ev.target);
+            else if (en && en != draggedElement_) { //if we move down (the next element target is different than the one dragged)
+                en.insertAdjacentElement("beforebegin", draggedElement_);
+                draggedElement_.insertAdjacentElement("beforebegin", draggedInto_);
+                console.log("en en")
             } 
             else if (!en) {     //if we reach the end from inside the list
-                dp.insertAdjacentElement("afterend", ev.target); // we attach it just after the previous one
+                dp.insertAdjacentElement("afterend", draggedInto_); // we attach it just after the previous one
+                console.log("!en")
+            }
+        }*/
+
+        if (draggedInto !== draggedElement  && !draggedElement.classList.contains("list") && draggedInto.classList.contains("card")) { //D&D code for card dragging
+            let ep = draggedInto.previousElementSibling;
+            let en = draggedInto.nextElementSibling;
+            let dp = draggedElement.previousElementSibling;
+            let dn = draggedElement.nextElementSibling;
+            
+            if (!ep && !dn) { 
+                draggedInto.insertAdjacentElement("beforebegin", draggedElement);
+            }
+            else if (!en && !dp) {  
+                draggedInto.insertAdjacentElement("afterend", draggedElement);
+            } 
+            else if (ep && ep != draggedElement) {  
+                ep.insertAdjacentElement("afterend", draggedElement);
+                draggedElement.insertAdjacentElement("afterend", draggedInto);
+            } 
+            else if (!ep) {     
+                draggedInto.insertAdjacentElement("beforebegin", draggedElement);
+            } 
+            else if (en && en != draggedElement) { 
+                en.insertAdjacentElement("beforebegin", draggedElement);
+                draggedElement.insertAdjacentElement("beforebegin", draggedInto);
+            } 
+            else if (!en) {    
+                dp.insertAdjacentElement("afterend", draggedInto);
+            }
+        }
+
+        if (draggedInto !== draggedElement  && draggedElement.classList.contains("list") && draggedInto.classList.contains("list")) { //D&D code for list dragging
+
+
+            draggedInto.classList.contains("card") ? draggedIntoContainer = draggedInto.parentNode.parentNode : draggedIntoContainer = draggedInto.parentNode;
+            draggedParent = draggedElement.parentNode;
+
+            let dip = draggedIntoContainer.previousElementSibling;
+            let din = draggedIntoContainer.nextElementSibling;
+            let dpp = draggedParent.previousElementSibling;
+            let dpn = draggedParent.nextElementSibling;
+
+            dip ? (dip.classList.contains("listContainer") ? null : dip = null ) : null
+            din ? (din.classList.contains("listContainer") ? null : din = null ) : null
+            
+            if (!dip && !dpn) { //If you take the last element and drag it to the start (from the side)
+                draggedIntoContainer.insertAdjacentElement("beforebegin", draggedParent);
+                //console.log('!ep !dpn')
+            }
+            else if (!din && !dpp) {  //if you take the first element and drag it to the end (from the side)
+                draggedIntoContainer.insertAdjacentElement("afterend", draggedParent);
+               // console.log('!din !dpp')
+            } 
+            else if (dip && dip != draggedParent) {   //if we move up (the previous element target is different than the one dragged)
+
+                dip.insertAdjacentElement("afterend", draggedParent);
+                draggedParent.insertAdjacentElement("afterend", draggedIntoContainer);
+                //console.log('dip dip')
+            } 
+            else if (!dip) {     //if we reach the top from inside the list
+                draggedIntoContainer.insertAdjacentElement("beforebegin", draggedParent);
+                //console.log('!dip')
+            } 
+            else if (din && din != draggedParent) { //if we move down (the next element target is different than the one dragged)
+                dip.insertAdjacentElement("beforebegin", draggedParent);
+                draggedParent.insertAdjacentElement("beforebegin", draggedIntoContainer);
+               // console.log('din din')
+            } 
+            else if (!din) {     //if we reach the end from inside the list
+                dpp.insertAdjacentElement("afterend", draggedIntoContainer); // we attach it just after the previous one
+               // console.log('!din')
             }
         }
     }
@@ -99,35 +196,28 @@ document.addEventListener("dragover", function(ev) {
 });
 
 document.addEventListener("drop", function(ev) {
-    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL"))
+    draggedElement.style.backgroundColor = "";
+    if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board")))
     {
         ev.preventDefault();
-
-        draggedTarget.style.backgroundColor = "";
+        
+        if(draggedElement.classList.contains("card") && (!ev.target.classList.contains("card") && !ev.target.classList.contains("list")))
+        {
+            return ;
+        }
 
         if(ev.target.classList.contains("list")){
             ev.target.style.cssText = "border:5px solid black;";
         }else if(ev.target.parentNode.classList.contains("list")){
             ev.target.parentNode.style.cssText = "border:5px solid black;";
         }
-        
-        if(ev.target.classList.contains("list") && ev.target !== draggedTarget && !draggedTarget.classList.contains("list"))
-        {
-            data = ev.dataTransfer.getData("Data");
-            el = document.getElementById(data);
-            ev.target.appendChild(el);
-        }
+
         
         if(ev.target.parentNode.classList.contains("list")){
             target = ev.target.parentNode 
         }else if(ev.target.classList.contains("list")){
             target = ev.target 
         }
-        
-        cardList = target.querySelectorAll(".card")
-        cardsArray = [... cardList]
-        cardPos = cardsArray.indexOf(draggedTarget)
-
 
         myHeaders = new Headers();
 
@@ -136,10 +226,20 @@ document.addEventListener("drop", function(ev) {
                 mode: 'cors',
                 cache: 'default' };
 
-        const moveCard = "board.php?list=" + draggedTarget.parentNode.hiddenId + "&pos=" + cardPos + "&card=" + draggedTarget.hiddenId + "&oldList="+draggedTarget.oldList;
+        if(draggedElement.classList.contains("list")){
+            listList = document.querySelectorAll(".list")
+            listArray = [... listList]
+            listPos = listArray.indexOf(draggedElement)
+            move = "board.php?listEl=" + draggedElement.hiddenId + "&listPos=" + listPos ;
+        }else{
+            cardList = target.querySelectorAll(".card")
+            cardsArray = [... cardList]
+            cardPos = cardsArray.indexOf(draggedElement)
+            move = "board.php?list=" + draggedElement.parentNode.hiddenId + "&pos=" + cardPos + "&card=" + draggedElement.hiddenId + "&oldList="+draggedElement.oldList;
+        }
 
-        var myRequest = new Request(moveCard,myInit);
         
+        var myRequest = new Request(move,myInit);
         fetch(myRequest).then((response) => {
             response.text().then(response => {
                 console.log(response)
@@ -152,22 +252,5 @@ document.addEventListener("drop", function(ev) {
                 console.log("Mauvaise réponse du réseau")
             }
         })
-
-        
-        /*fetch(myRequest).then(function(response) {
-        if(response.ok) {
-            response.blob().then(function(myBlob) {
-            var objectURL = URL.createObjectURL(myBlob);
-            myImage.src = objectURL;
-            });
-        } else {
-            console.log('Mauvaise réponse du réseau');
-        }
-        })
-        .catch(function(error) {
-        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-        });*/
-
-        draggedTarget.removeAttribute("id");
     }
 }); 
