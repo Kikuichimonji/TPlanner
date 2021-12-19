@@ -17,6 +17,7 @@ class Users extends AbstractEntity
   private $mail;
   private $role;
   private $dateCreation;
+  private $color;
   private $listBoards;
 
   public function __construct($data)
@@ -167,6 +168,26 @@ class Users extends AbstractEntity
   public function setListBoards($listBoards)
   {
     $this->listBoards = $listBoards;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of color
+   */ 
+  public function getColor()
+  {
+    return $this->color;
+  }
+
+  /**
+   * Set the value of color
+   *
+   * @return  self
+   */ 
+  public function setColor($color)
+  {
+    $this->color = $color;
 
     return $this;
   }

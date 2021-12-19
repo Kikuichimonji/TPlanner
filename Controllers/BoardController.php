@@ -22,18 +22,36 @@ class BoardController extends Controller
    * Affiche une vue.
    * "index" (convention d'écriture) Méthode par défaut d'appel d'un controleur
    */
-  public function index($idBoard)
+  public function index($idBoard = null)
   {
     $um = new UsersManager();
-    //var_dump($_SESSION);die();
+    $user = $um->getOneById($_SESSION['user']->getId());
+    if($idBoard){
+      
+      $bm = new BoardManager();
+      $board = $bm->getOneById($idBoard);
+      
+      $this->view('board.php', [
+      'user' => $user,
+      'board' => $board,
+    ]);
+    }else{
+      $this->view('dashboard.php', [
+        'user' => $user
+      ]);
+    }
+  }
+
+  public function reload($id)
+  {
+    $um = new UsersManager();
     $user = $um->getOneById($_SESSION['user']->getId());
     $bm = new BoardManager();
-    $board = $bm->getOneById($idBoard);
-    
-    $this->view('board.php', [
+    $board = $bm->getOneById($id);
+
+    $this->view('boardContent.php', [
       'user' => $user,
       'board' => $board,
     ]);
   }
-
 }

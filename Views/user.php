@@ -18,6 +18,7 @@
             <li>Password : <?= $data['user']->getPassword()?></li>
             <li>Email : <?= $data['user']->getMail()?></li>
             <li>Role : <?= $data['user']->getRole()?></li>
+            <li class="icon">Icone : <span style="background-color:<?= $data['user']->getColor(); ?>"><?=  strtoupper(substr($data['user']->getUsername(),0,2)) ?></span></li>
             <li>Date de creation du compte : <?= $data['user']->getDateCreation()?></li>
             <li>Board(s) :
             <?php 

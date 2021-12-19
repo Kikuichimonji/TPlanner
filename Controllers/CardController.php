@@ -29,7 +29,6 @@ class CardController extends Controller
     public function add($id,$title)
     {
         $cm = new CardManager();
-    
         //var_dump($oldPos);die();
         $cm->add($id,$title);
     }
@@ -37,5 +36,11 @@ class CardController extends Controller
     {
         //var_dump($oldPos);die();
         
+    }
+
+    public function deleteCard($id,$pos,$list)
+    {
+        $cm = new CardManager();
+        $cm->deleteCard($id,$pos,$list);
     }
 }

@@ -59,6 +59,7 @@
         protected static function insert($sql, $params){
             try{
                 $stmt = self::$connection->prepare($sql);
+                self::setChange();
                 return $stmt->execute($params);
             }
             catch(\PDOException $e) {
@@ -71,6 +72,7 @@
             try{
                 $stmt = self::$connection->prepare($sql);
                 $stmt->execute($params);
+                self::setChange();
                 return self::$connection->lastInsertId();
             }
             catch(\PDOException $e) {
@@ -82,8 +84,11 @@
         protected static function update($sql, $params){
             try{
                 $stmt = self::$connection->prepare($sql);
+                $stmt = $stmt->execute($params);
+
+                self::setChange();
                 //var_dump($stmt->execute($params));
-                return $stmt->execute($params);
+                return $stmt;
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
@@ -94,11 +99,24 @@
         protected static function delete($sql, $params){
             try{
                 $stmt = self::$connection->prepare($sql);
-                return $stmt->execute($params);
+                $stmt = $stmt->execute($params);
+
+                self::setChange();
+                return $stmt;
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
                 die();  // meurt
             }
+        }
+
+        protected static function setChange(){
+            $sql = "UPDATE lastChange
+                        SET lastChange = :date
+                        WHERE id = 1";
+            $params= ["date" => date("Y-m-d H:i:s")];
+
+            $stmt = self::$connection->prepare($sql);
+            return $stmt->execute($params);
         }
     }

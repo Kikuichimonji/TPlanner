@@ -134,6 +134,25 @@
 
             return self::insert($sql,$arg);
         }
+
+        public function deleteCard($id,$pos,$list){
+
+            $sql = "UPDATE card 
+                    SET positions = positions -1
+                    WHERE positions > :pos
+                    AND id_list = :list;
+                    DELETE
+                    FROM card
+                    WHERE id = :id ";
+
+            $arg=  ["id" => $id,
+                    "pos" => $pos,
+                    "list"=> $list];
+
+            //var_dump($pos);die();
+
+            return self::delete($sql,$arg);
+        }
     }
 
 ?>

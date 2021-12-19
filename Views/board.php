@@ -9,15 +9,17 @@
 <body>
     <header>
         <?php 
+        
         require_once 'layout/header.php'; 
-        $user = $data['user'];
-        $board = $data['board'];
         ?>
     </header>
-
-    <main>
+    <main id="<?=$_GET['id'] ?>">
+    <?php 
+        if(isset($data)){
+            $user = $data['user'];
+            $board = $data['board'];
+        }?>
         <h4>Dashboard</h4>
-        <img src="" alt="">
         <p>Bienvenue <?= $user->getUsername() ?></p>
         
         <div class='board' id='<?= $board->getId(); ?>'>       
@@ -28,13 +30,15 @@
             echo "<ul class='list' draggable='true' id='{$list->getId()}'>";
             foreach($list->getListCards() as $card)
             {
-                echo "<li draggable='true' class='card' id='{$card->getId()}'>{$card->getTitle()}{$card->getDescription()}</li>";
+                echo "<li draggable='true' class='card' id='{$card->getId()}'><span><img src='Assets/img/skull.png'></span>{$card->getTitle()}{$card->getDescription()}</li>";
             }
             echo "</ul><div>+ Add a card</div></div>";
         }
         ?>
         </div>
     </main>
-    <?php require_once 'layout/footer.php'; ?>
+    <?php 
+        require_once 'layout/footer.php'; 
+    ?>
 </body>
 </html>

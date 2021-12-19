@@ -4,11 +4,13 @@
     if(isset($_SESSION)){
       if(isset($_SESSION['user'])){
         echo  "<div id='headerContainer'>
-                <a href='' id='userMenu'>{$_SESSION['user']->getUsername()}</a>
+                <span class='icon'>
+                  <span style='background-color:".$_SESSION['user']->getColor()."'>".strtoupper(substr($_SESSION['user']->getUsername(),0,2))."</span>
+                </span>
                 <div id='popUpProfile'>
                   <ul>
                     <li><a href='user.php'>Voir Profil</a></li>
-                    <li><a href=''>Autre Option</a></li>
+                    <li><a href='dashboard.php'>DashBoard</a></li>
                     <li><a href='login.php?act=logout'>Se deconnecter</a></li>
                   </ul>
                 </div>
