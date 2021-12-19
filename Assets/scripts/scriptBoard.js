@@ -75,7 +75,12 @@ function addNewEl(el)
         let el = ev.target.previousElementSibling
         let elText = el.value;
 
-        let args = el.previousElementSibling.classList.contains("list") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
+        if(el.previousElementSibling){
+            args = el.previousElementSibling.classList.contains("list") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
+        }else{
+            args = {"type" : "newList", 'list' : el};
+        }
+            
         if(elText !== ""){
             //console.log(el.hiddenId)
             goFetch(args)
@@ -92,7 +97,7 @@ function deleteCard(el){
     let list = el.parentNode.querySelectorAll(".card");
     listArray = [... list];
     pos = listArray.indexOf(el);
-    console.log(list)
+    //console.log(list)
     let args = {"type" : "deleteCard",
                 "el" : card,
                 "pos"  : pos,

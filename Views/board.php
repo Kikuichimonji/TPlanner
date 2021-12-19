@@ -18,5 +18,6 @@
         require_once 'boardContent.php';
         require_once 'layout/footer.php'; 
     ?>
+    <script src="./Assets/scripts/scriptBoard.js"></script>
 </body>
 </html>
