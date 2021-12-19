@@ -99,6 +99,69 @@
                 //echo $sql2;
             return self::update($sql,$arg);
         }
+
+        public function getMaxPos($id){
+
+            $sql = "SELECT MAX(listPosition) as max
+            FROM lists
+            WHERE id_board = :id";
+            $arg= ["id" => $id];     
+
+            return self::getValue(
+                self::select($sql,$arg, false)
+            );
+        }
+
+        public function add($id,$title){
+
+
+            $pos = $this->getMaxPos($id)['max']? $this->getMaxPos($id)['max']+1 : 0;
+            $sql= "INSERT INTO lists(label,listPosition,id_board) 
+                   VALUES (:title,:positions,:id_list)";
+
+            $arg= ["title" => $title,
+                    "id_list" => $id,
+                    "positions" => $pos];
+
+            //var_dump($pos);die();
+
+            return self::insert($sql,$arg);
+        }
+
+        public function deleteList($id,$pos,$board){
+
+            $sql = "UPDATE lists 
+                    SET listPosition = listPosition -1
+                    WHERE listPosition > :pos
+                    AND id_board = :board;
+                    DELETE
+                    FROM lists
+                    WHERE id = :id ";
+
+            $arg=  ["id" => $id,
+                    "pos" => $pos,
+                    "board"=> $board];
+
+            $cardSql = " DELETE
+            FROM card
+            WHERE id IN(";
+
+            $cards = $this->getCards($id);
+            $count = 0;
+            foreach ($cards as $card) {
+                $cardSql.= $card->getId();
+                $count++;
+                if(count($cards) != $count){
+                    $cardSql.= ",";
+                }
+            }
+            $cardSql.=")";
+            if($count){
+                self::delete($cardSql);
+            }
+                
+            return self::delete($sql,$arg);
+        }
     }
 
 ?>

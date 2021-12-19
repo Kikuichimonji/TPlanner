@@ -122,7 +122,7 @@
         public function add($id,$title){
 
 
-            $pos = $this->getMaxPos($id)['max']? $this->getMaxPos($id)['max']+1 : 0;
+            $pos = isset($this->getMaxPos($id)['max'])? $this->getMaxPos($id)['max']+1 : 0;
             $sql= "INSERT INTO card(title,positions,id_list) 
                    VALUES (:title,:positions,:id_list)";
 

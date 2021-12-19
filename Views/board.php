@@ -14,8 +14,8 @@
         ?>
     </header>
 
-    <?php 
-        require_once 'boardContent.php'; 
+    <?php
+        require_once 'boardContent.php';
         require_once 'layout/footer.php'; 
     ?>
 </body>

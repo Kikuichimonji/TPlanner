@@ -96,7 +96,7 @@
             }
         }
 
-        protected static function delete($sql, $params){
+        protected static function delete($sql, $params = null){
             try{
                 $stmt = self::$connection->prepare($sql);
                 $stmt = $stmt->execute($params);

@@ -7,8 +7,8 @@
     <h4>Dashboard</h4>
     <p>Bienvenue <?= $user->getUsername() ?></p>
     
-    <div class='board' id='<?= $board->getId(); ?>'>       
-    <?php 
+    <div class='board' id='<?= $board->getId(); ?>'>
+    <?php
         foreach($board->getListLists() as $list)
         {
             echo "<div class='listContainer'><div class='listHeader' draggable='true'><span>{$list->getLabel()}</span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
@@ -20,6 +20,6 @@
             echo "</ul><div>+ Add a card</div></div>";
         }
     ?>
-    <div>+ Add a list</div>
+    <div id="addList">+ Add a list</div>
     </div>
 </main>

@@ -40,4 +40,17 @@ class ListsController extends Controller
         //var_dump($oldPos);die();
         $lm->edit($list,$pos,$oldPos);
     }
+
+    public function add($id,$title)
+    {
+        $lm = new ListsManager();
+        //var_dump($oldPos);die();
+        $lm->add($id,$title);
+    }
+
+    public function deleteList($id,$pos,$board)
+    {
+        $lm = new ListsManager();
+        $lm->deleteList($id,$pos,$board);
+    }
 }

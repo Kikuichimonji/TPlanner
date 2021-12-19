@@ -7,11 +7,13 @@ let newListButton = null;
 function init(){
 
     cards = document.querySelectorAll(".card");
-    lists = document.querySelectorAll(".list");
-    board = document.querySelector("main").id;
+    lists = document.querySelectorAll(".list");;
+    board = document.querySelector(".board");
+    board.hiddenId = board.id;
+    board.removeAttribute("id");
     document.querySelector("main").removeAttribute("id");
-    newListButton = document.querySelector(".board div:last-child");
 
+    newListButton = document.getElementById("addList");
 
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
         item.hiddenId = item.id;
@@ -21,11 +23,16 @@ function init(){
     lists.forEach((item)=>{
         item.hiddenId = item.id;
         item.previousElementSibling.hiddenId = item.id;
+        item.parentNode.hiddenId = item.hiddenId;
         item.removeAttribute('id');
         item.nextElementSibling.hiddenId = item.hiddenId;
         item.nextElementSibling.addEventListener("click", (ev) =>
         {
-            addNewCard(ev.target);
+            addNewEl(ev.target);
+        })
+        item.previousElementSibling.addEventListener("click", (ev) => {
+            //console.log(ev.target.parentNode.parentNode.parentNode)
+            deleteList(ev.target.parentNode.parentNode.parentNode);
         })
     });
 
@@ -41,13 +48,19 @@ function init(){
             deleteCard(ev.target.parentNode.parentNode);
         }
     }));
+    newListButton.addEventListener("click", (ev) =>
+    {
+        ev.target.hiddenId = board.hiddenId 
+        addNewEl(ev.target);
+    });
+    
 }
 
-function addNewCard(el)
+function addNewEl(el)
 {
     let newBox = document.createElement("input");
     newBox.setAttribute("type","text");
-    newBox.setAttribute("placeholder","Enter card title here");
+    newBox.setAttribute("placeholder","Enter a title here");
 
     let newButton = document.createElement("button");
     newButton.innerHTML = "Confirm";
@@ -59,12 +72,12 @@ function addNewCard(el)
     parent.appendChild(newBox);
     parent.appendChild(newButton);
     newButton.addEventListener("click", ev =>{
-        let card = ev.target.previousElementSibling
-        let cardText = card.value;
-        let args = {"type" : "newCard","card" : card};
+        let el = ev.target.previousElementSibling
+        let elText = el.value;
 
-        if(cardText !== ""){
-            //console.log(ev.target.hiddenId)
+        let args = el.previousElementSibling.classList.contains("list") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
+        if(elText !== ""){
+            //console.log(el.hiddenId)
             goFetch(args)
         }else{
             console.log("Please enter a name")
@@ -79,10 +92,26 @@ function deleteCard(el){
     let list = el.parentNode.querySelectorAll(".card");
     listArray = [... list];
     pos = listArray.indexOf(el);
+    console.log(list)
     let args = {"type" : "deleteCard",
                 "el" : card,
                 "pos"  : pos,
                 "list" : el.parentNode.hiddenId};
+    goFetch(args)
+}
+
+function deleteList(el){
+
+    let list = el.parentNode.querySelectorAll(".listContainer");
+    //console.log(list)
+    listArray = [... list];
+    pos = listArray.indexOf(el);
+    let args = {"type" : "deleteList",
+                "el" : el,
+                "pos"  : pos,
+                "board" : el.parentNode.hiddenId};
+
+    //console.log(args);
     goFetch(args)
 }
 
@@ -99,8 +128,12 @@ function goFetch(args)
     if(args["type"]){
         switch(args['type']) {
             case "newCard" :
-                let el = args['card']
+                el = args['card']
                 link = "board.php?act=" + args['type'] + "&list=" + el.hiddenId + "&text="+el.value; //the link for a new card
+                break
+            case "newList" :
+                el = args['list']
+                link = "board.php?act=" + args['type'] + "&board="+ el.hiddenId + "&text="+el.value; //the link for a new list
                 break
             case "moveList" :
                 link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ; //the link for moving lists
@@ -110,6 +143,9 @@ function goFetch(args)
                 break
             case "deleteCard" :
                 link = "board.php?act=" + args['type'] + "&card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for moving cards
+                break
+            case "deleteList" :
+                link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for moving cards
                 break
             default:
                 link = null;
@@ -128,8 +164,8 @@ function goFetch(args)
                 console.log("Problème de paramètres")
             else{
                 console.log("good doggy")
-                if(args["type"] == "newCard" || args["type"] == "deleteCard"){
-                    let link2 = "board.php?act=reload&id=" + board; 
+                if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){
+                    let link2 = "board.php?act=reload&id=" + board.hiddenId; 
                     //console.log(link2)
                     let contentRefresh = new Request(link2,myInit);
                     fetch(contentRefresh).then((response) =>{
@@ -364,13 +400,16 @@ function events(){
             }else if(draggedElement.classList.contains("listHeader")){
                 elClass = "list"
             }
+            el = draggedElement.classList.contains("listHeader") ? draggedElement.nextElementSibling : draggedElement
+            type = draggedElement.classList.contains("listHeader") ? "moveList" : "moveCard" 
+
             list = target.querySelectorAll("."+elClass);
             listArray = [... list];
-            pos = listArray.indexOf(draggedElement.nextElementSibling);
+            pos = listArray.indexOf(el);
             
-            type = draggedElement.classList.contains("listHeader") ? "moveList" : "moveCard" 
-    
-            let args = {"type" : type,"el" : draggedElement.nextElementSibling, "pos" : pos};
+            
+            
+            let args = {"type" : type,"el" : el, "pos" : pos};
             //console.log(args)
             goFetch(args);
                 
