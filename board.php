@@ -18,30 +18,47 @@ $cardController = new CardController();
 
 // Call Controller method
 
-if(!isset($_GET["list"]) && !isset($_GET["listEl"])){
+if(!isset($_GET["act"])){
     $boardController->index($_GET['id']);
 }else{
-    
-    if(isset($_GET["list"]) && isset($_GET["pos"]) && isset($_GET["card"]) && isset($_GET['oldList']))
-    {
-        if($_GET["list"] == "undefined" or $_GET["pos"] == -1){
+
+    switch($_GET["act"]){
+        case "moveCard" :
+            if(isset($_GET["list"]) && isset($_GET["pos"]) && isset($_GET["card"]) && isset($_GET['oldList']))
+            {
+                if($_GET["list"] == "undefined" or $_GET["pos"] == -1 or $_GET["card"] == "undefined" or $_GET['oldList'] == "undefined" ){
+                    echo "false";
+                }else{
+                    $listsController->editCards($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos']);
+                }
+            }else{
+                echo "false";
+            }
+            break;
+        case "moveList" :
+            if(isset($_GET["list"]) && isset($_GET["listPos"])){
+                if($_GET["list"] == "undefined" or $_GET["listPos"] ==-1){
+                    echo "false";
+                }else{
+                    $listsController->edit($_GET['list'],$_GET['listPos']);
+                }  
+            }else{
+                echo "false";
+            }
+            break;
+        case "newCard" :
+            if(isset($_GET["list"]) && isset($_GET["text"])){
+                if($_GET["list"] == "undefined"){
+                    echo "false";
+                }else{
+                    $cardController->add($_GET['list'],$_GET['text']);
+                }
+            }else{
+                echo "false";
+            }
+            break;
+        default :
             echo "false";
-        }else{
-            $listsController->editCards($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos']);
-        }
-    }else if(isset($_GET["listEl"]) && isset($_GET["listPos"])){
-        if($_GET["listEl"] == "undefined" or $_GET["listPos"] ==-1){
-            var_dump($_GET);die();
-            echo "false";
-        }else{
-            //var_dump($_GET);die();
-            $listsController->edit($_GET['listEl'],$_GET['listPos']);
-        }
-        
-    }else if(isset($_GET["list"]) && isset($_GET["text"])){
-        $cardController->add($_GET['list'],$_GET['text']);
-    }else{
-        echo "false";
     }
     //var_dump($_GET);die();
 }

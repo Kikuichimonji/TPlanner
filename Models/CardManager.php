@@ -72,7 +72,8 @@
                     $sql = "UPDATE card 
                     SET positions = positions-1
                     WHERE positions > :oldPosition
-                    AND positions <= :position;
+                    AND positions <= :position
+                    AND id_list = :list;
                     UPDATE card
                     SET positions = :position ,
                     id_list = :list
@@ -86,7 +87,8 @@
                     $sql = "UPDATE card 
                     SET positions = positions+1
                     WHERE positions >= :position
-                    AND positions < :oldPosition;
+                    AND positions < :oldPosition
+                    AND id_list = :list;
                     UPDATE card
                     SET positions = :position ,
                     id_list = :list
@@ -100,6 +102,8 @@
                     "oldList" => $oldList,
                     "card" => $card];
 
+            //var_dump($sql);
+            //var_dump($card,$list,$oldList,$pos,$oldPos);
             return self::update($sql,$arg);
         }
 

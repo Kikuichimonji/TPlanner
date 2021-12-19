@@ -1,5 +1,6 @@
 let cards = document.querySelectorAll(".card");
 let lists = document.querySelectorAll(".list");
+let draggedElement = null;
 
 cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
     item.hiddenId = item.id;
@@ -34,10 +35,11 @@ function addNewCard(el)
     newButton.addEventListener("click", ev =>{
         let card = ev.target.previousElementSibling
         let cardText = card.value;
-
+        let args = {"type" : "newCard","card" : card};
+ 
         if(cardText !== ""){
             //console.log(ev.target.hiddenId)
-            goFetch(card)
+            goFetch(args)
         }else{
             console.log("Please enter a name")
         }
@@ -46,18 +48,38 @@ function addNewCard(el)
     })
 }
 
-function goFetch(el)
+function goFetch(args)
 {
+
+
     myHeaders = new Headers(); //If we want custom headers
 
-    var myInit = { method: 'GET', //Fetch settings
+    let myInit = { method: 'GET', //Fetch settings
             headers: myHeaders,
             mode: 'cors',
             cache: 'default' };
 
-    link = "board.php?list=" + el.hiddenId + "&text="+el.value; //the link for a new card
-
-
+    if(args["type"]){
+        switch(args['type']) {
+            case "newCard" :
+                let el = args['card']
+                link = "board.php?act=" + args['type'] + "&list=" + el.hiddenId + "&text="+el.value; //the link for a new card
+                break
+            case "moveList" :
+                link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ; //the link for moving lists
+                break
+            case "moveCard" :
+                link = "board.php?act=" + args['type'] + "&list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; //the link for moving cards
+                break
+            default:
+                link = null;
+        }
+    }else{
+        link = null;
+        console.log("goFetch need a type to operate")
+    }
+    
+    console.log(link)
     let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
     fetch(myRequest).then((response) => { //We fetch the result
         response.text().then(response => {
@@ -65,8 +87,8 @@ function goFetch(el)
             if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
                 console.log("Problème de paramètres")
             else{
-                console.log("tout est ok")
-                location.reload();
+                console.log("good doggy")
+                //location.reload();
             }
                 
         })
@@ -298,37 +320,15 @@ document.addEventListener("drop", function(ev) {
         }
         
 
-        myHeaders = new Headers(); //If we want custom headers
-
-        var myInit = { method: 'GET', //Fetch settings
-                headers: myHeaders,
-                mode: 'cors',
-                cache: 'default' };
-
-        
+        let type = null;
         list = target.querySelectorAll("."+draggedElement.className);
         listArray = [... list];
         pos = listArray.indexOf(draggedElement);
-
-        if(draggedElement.classList.contains("list")){
-            move = "board.php?listEl=" + draggedElement.hiddenId + "&listPos=" + pos ; //the link for moving lists
-        }else{
-            move = "board.php?list=" + draggedElement.parentNode.hiddenId + "&pos=" + pos + "&card=" + draggedElement.hiddenId + "&oldList="+draggedElement.oldList; //the link for moving cards
-        }
-
         
-        var myRequest = new Request(move,myInit); //We prepare the fetch request with settings and our link destination
-        fetch(myRequest).then((response) => { //We fetch the result
-            response.text().then(response => {
-                console.log(response) //My check of the controler response
-                if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
-                    console.log("Problème de paramètres")
-                else
-                    console.log("tout est ok")
-            })
-            if(!response.ok) { // If fetch failed somehow , maybe permission? dunno
-                console.log("Mauvaise réponse du réseau")
-            }
-        })
+        type = draggedElement.classList.contains("list") ? "moveList" : "moveCard" 
+
+        let args = {"type" : type,"el" : draggedElement, "pos" : pos};
+        goFetch(args);
+
     }
 }); 
