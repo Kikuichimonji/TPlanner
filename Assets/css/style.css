@@ -49,13 +49,12 @@ DASHBOARD
     min-height: 200px;
     width: 200px;
     border:5px solid black;
-    margin-right: 1em;
 }
 
 .card{
     background-color: gray;
     height: 100px;
-    width: 90%;
+    width: 100%;
     border: 1px solid yellow;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -63,11 +62,12 @@ DASHBOARD
     position: relative;
 }
 
-.card img{
+.delete img{
     height: 25px;
     width: 25px;
     position: absolute;
     right:0;
+    top:0;
     cursor: pointer;
 }
 .card.active{
@@ -81,4 +81,24 @@ DASHBOARD
     opacity: 0;
     background-color: #2c2a2a;
 }
-
+.listContainer{
+    position: relative;
+    margin-right: 1em;
+}
+.listContainer ul{
+    margin: 0;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    list-style: none;
+}
+.listContainer .listHeader{
+    background-color: lightcoral;
+    cursor: pointer;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+.listContainer div:last-child {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background: lightcyan;
+}

@@ -2,6 +2,7 @@ let cards = null
 let lists = null
 let board = null
 let draggedElement = null;
+let newListButton = null;
 
 function init(){
 
@@ -9,6 +10,8 @@ function init(){
     lists = document.querySelectorAll(".list");
     board = document.querySelector("main").id;
     document.querySelector("main").removeAttribute("id");
+    newListButton = document.querySelector(".board div:last-child");
+
 
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
         item.hiddenId = item.id;
@@ -17,6 +20,7 @@ function init(){
 
     lists.forEach((item)=>{
         item.hiddenId = item.id;
+        item.previousElementSibling.hiddenId = item.id;
         item.removeAttribute('id');
         item.nextElementSibling.hiddenId = item.hiddenId;
         item.nextElementSibling.addEventListener("click", (ev) =>
@@ -147,16 +151,17 @@ function goFetch(args)
 
 function events(){
     document.addEventListener("dragstart", function(ev) { //Event start when we start dragging
-        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL")) //If we drag something && we drag a card || we drag a list
+        if(ev.target && (ev.target.classList.contains('listHeader') || ev.target.nodeName == "LI")) //If we drag something && we drag a card || we drag a list
         {
             draggedElement = ev.target; //For better clarity
-            draggedElement.style.backgroundColor = "#444";
             
             if(draggedElement.nodeName =="LI"){
+                draggedElement.style.backgroundColor = "#444";
                 draggedElement.oldList = draggedElement.parentNode.hiddenId //We save the old list position
                 ev.dataTransfer.setDragImage(draggedElement, -10, -10);
-            }else if(draggedElement.nodeName == "UL"){ //Nothing to do in it for now
-    
+            }else if(draggedElement.classList.contains('listHeader')){ //Nothing to do in it for now
+                draggedElement.style.backgroundColor = "coral";
+                ev.dataTransfer.setDragImage(draggedElement.parentNode,0,0);
             }
             
         }else{
@@ -165,12 +170,12 @@ function events(){
     });
 
     document.addEventListener("dragenter", function(ev) { //Even start when the dragged target enter an element
-        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL") && draggedElement) //If we drag into something && we drag into a card || we drag into a list
+        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName =="UL" || ev.target.classList.contains('listHeader')) && draggedElement) //If we drag into something && we drag into a card || we drag into a list
         {
             draggedInto = ev.target;
             if(draggedInto.classList.contains("list")) //if we drag into a list
             {
-                if(!draggedElement.classList.contains("list")){ //if we drag something else than a list (can only be a card)
+                if(!draggedElement.classList.contains("listHeader")){ //if we drag something else than a list (can only be a card)
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
                 draggedInto.addEventListener("dragleave", function(leftEl) { //if we leave an element
@@ -246,7 +251,7 @@ function events(){
                 }
             }*/
     
-            if (draggedInto !== draggedElement  && !draggedElement.classList.contains("list") && draggedInto.classList.contains("card")) { //D&D code for card dragging
+            if (draggedInto !== draggedElement  && !draggedElement.classList.contains("listHeader")  && draggedInto.classList.contains("card")) { //D&D code for card dragging
                 let ep = draggedInto.previousElementSibling;
                 let en = draggedInto.nextElementSibling;
                 let dp = draggedElement.previousElementSibling;
@@ -274,12 +279,11 @@ function events(){
                 }
             }
     
-            if (draggedInto !== draggedElement  && draggedElement.classList.contains("list") && draggedInto.classList.contains("list")) { //D&D code for list dragging
+            if (draggedInto !== draggedElement  && draggedElement.classList.contains("listHeader") && (draggedInto.classList.contains("list") || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
     
-    
-                draggedInto.classList.contains("card") ? draggedIntoContainer = draggedInto.parentNode.parentNode : draggedIntoContainer = draggedInto.parentNode;
+                draggedIntoContainer = draggedInto.classList.contains("card") ?  draggedInto.parentNode.parentNode :  draggedInto.parentNode;
                 draggedParent = draggedElement.parentNode;
-    
+                
                 let dip = draggedIntoContainer.previousElementSibling;
                 let din = draggedIntoContainer.nextElementSibling;
                 let dpp = draggedParent.previousElementSibling;
@@ -330,7 +334,7 @@ function events(){
             return ; 
         }
         draggedElement.style.backgroundColor = "";
-        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board"))){ //we make sure to limit where we can drop items
+        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board") || ev.target.classList.contains("listHeader"))){ //we make sure to limit where we can drop items
             ev.preventDefault();
             
             if(draggedElement.classList.contains("card") && (!ev.target.classList.contains("card") && !ev.target.classList.contains("list"))){ //if we drag a card into a board we stop the code (nothing happens)
@@ -344,7 +348,7 @@ function events(){
             }
     
             if(draggedElement.classList.contains("card")){
-                if(ev.target.parentNode.classList.contains("list")){ //We verify if the card is drop inside another card or indide a list
+                if(ev.target.parentNode.classList.contains("list")){ //We verify that the card is dropped inside another card or a list
                     target = ev.target.parentNode 
                 }else if(ev.target.classList.contains("list")){
                     target = ev.target 
@@ -357,18 +361,17 @@ function events(){
             let type = null;
             if(draggedElement.classList.contains("card")){
                 elClass = "card"
-            }else if(draggedElement.classList.contains("list")){
+            }else if(draggedElement.classList.contains("listHeader")){
                 elClass = "list"
             }
             list = target.querySelectorAll("."+elClass);
             listArray = [... list];
-            pos = listArray.indexOf(draggedElement);
+            pos = listArray.indexOf(draggedElement.nextElementSibling);
             
-            //console.log(draggedElement)
-            type = draggedElement.classList.contains("list") ? "moveList" : "moveCard" 
+            type = draggedElement.classList.contains("listHeader") ? "moveList" : "moveCard" 
     
-            let args = {"type" : type,"el" : draggedElement, "pos" : pos};
-
+            let args = {"type" : type,"el" : draggedElement.nextElementSibling, "pos" : pos};
+            //console.log(args)
             goFetch(args);
                 
     
