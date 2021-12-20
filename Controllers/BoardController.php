@@ -2,9 +2,9 @@
 
 namespace Controllers;
 
-use Models\BoardManager;
+use Models\BoardsManager;
 use Models\UsersManager;
-use Models\CardManager;
+use Models\CardsManager;
 
 
 class BoardController extends Controller
@@ -28,7 +28,7 @@ class BoardController extends Controller
     $user = $um->getOneById($_SESSION['user']->getId());
     if($idBoard){
       
-      $bm = new BoardManager();
+      $bm = new BoardsManager();
       $board = $bm->getOneById($idBoard);
       
       $this->view('board.php', [
@@ -46,7 +46,7 @@ class BoardController extends Controller
   {
     $um = new UsersManager();
     $user = $um->getOneById($_SESSION['user']->getId());
-    $bm = new BoardManager();
+    $bm = new BoardsManager();
     $board = $bm->getOneById($id);
 
     $this->view('boardContent.php', [

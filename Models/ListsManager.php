@@ -34,7 +34,7 @@
 
         public function getCards($id){
 
-            $sql = "SELECT * FROM card c
+            $sql = "SELECT * FROM cards c
                     WHERE c.id_list = :id
                     ORDER BY c.positions";
             $arg= ["id" => $id];   
@@ -143,7 +143,7 @@
                     "board"=> $board];
 
             $cardSql = " DELETE
-            FROM card
+            FROM cards
             WHERE id IN(";
 
             $cards = $this->getCards($id);

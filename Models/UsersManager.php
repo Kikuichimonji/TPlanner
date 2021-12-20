@@ -4,7 +4,7 @@
 
     class UsersManager extends AbstractManager
     {
-        private static $classname = "Models\Users";
+        private static $classname = "Models\User";
 
         public function __construct(){
             self::connect(self::$classname);
@@ -47,7 +47,7 @@
 
         public function getBoards($id){
 
-            $sql = "SELECT b.id,b.label FROM board b
+            $sql = "SELECT b.id,b.label FROM boards b
                     INNER JOIN usersboard ub ON ub.id_board = b.id
                     INNER JOIN users u ON u.id = ub.id_user
                     WHERE u.id = :id";

@@ -2,7 +2,7 @@
     namespace Models;
     use App\AbstractManager;
 
-    class CardManager extends AbstractManager
+    class CardsManager extends AbstractManager
     {
         private static $classname = "Models\Card";
 
@@ -13,7 +13,7 @@
         public function getOneById($id){
 
             $sql = "SELECT *
-            FROM card
+            FROM cards
             WHERE id = :id";
             $arg= ["id" => $id];     
 
@@ -25,7 +25,7 @@
         public function getPos($id){
 
             $sql = "SELECT positions
-            FROM card
+            FROM cards
             WHERE id = :id";
             $arg= ["id" => $id];     
 
@@ -50,15 +50,15 @@
                 *  2) On descend les anciennes cartes d'un cran
                 *  3) On attribue la position a la nouvelle carte
                 */ 
-                $sql = "UPDATE card 
+                $sql = "UPDATE cards
                     SET positions = positions+1 
                     WHERE positions >= :position
                     AND id_list = :list;
-                    UPDATE card 
+                    UPDATE cards
                     SET positions = positions-1
                     WHERE positions >= :oldPosition
                     AND id_list = :oldList;
-                    UPDATE card
+                    UPDATE cards
                     SET positions = :position ,
                     id_list = :list
                     WHERE id = :card";
@@ -69,12 +69,12 @@
                     *  1) On descend les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
                     *  2) On attribue la position a la nouvelle carte
                     */ 
-                    $sql = "UPDATE card 
+                    $sql = "UPDATE cards
                     SET positions = positions-1
                     WHERE positions > :oldPosition
                     AND positions <= :position
                     AND id_list = :list;
-                    UPDATE card
+                    UPDATE cards
                     SET positions = :position ,
                     id_list = :list
                     WHERE id = :card";
@@ -84,12 +84,12 @@
                     *  1) On monte les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
                     *  2) On attribue la position a la nouvelle carte
                     */ 
-                    $sql = "UPDATE card 
+                    $sql = "UPDATE cards
                     SET positions = positions+1
                     WHERE positions >= :position
                     AND positions < :oldPosition
                     AND id_list = :list;
-                    UPDATE card
+                    UPDATE cards
                     SET positions = :position ,
                     id_list = :list
                     WHERE id = :card";
@@ -110,7 +110,7 @@
         public function getMaxPos($id){
 
             $sql = "SELECT MAX(positions) as max
-            FROM card
+            FROM cards
             WHERE id_list = :id";
             $arg= ["id" => $id];     
 
@@ -123,7 +123,7 @@
 
 
             $pos = isset($this->getMaxPos($id)['max'])? $this->getMaxPos($id)['max']+1 : 0;
-            $sql= "INSERT INTO card(title,positions,id_list) 
+            $sql= "INSERT INTO cards(title,positions,id_list) 
                    VALUES (:title,:positions,:id_list)";
 
             $arg= ["title" => $title,
@@ -137,12 +137,12 @@
 
         public function deleteCard($id,$pos,$list){
 
-            $sql = "UPDATE card 
+            $sql = "UPDATE cards
                     SET positions = positions -1
                     WHERE positions > :pos
                     AND id_list = :list;
                     DELETE
-                    FROM card
+                    FROM cards
                     WHERE id = :id ";
 
             $arg=  ["id" => $id,

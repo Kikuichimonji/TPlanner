@@ -2,14 +2,14 @@
 
 namespace Models;
 use App\AbstractEntity;
-use Models\BoardManager;
+use Models\BoardsManager;
 
 class Board extends AbstractEntity
 {
     /**
      * @inheritdoc
      */
-    protected $table = 'board';
+    protected $table = 'boards';
 
     private $id;
     private $label;
@@ -18,7 +18,7 @@ class Board extends AbstractEntity
     public function __construct($data)
     {
         parent::hydrate($data,$this);
-        $bm = new BoardManager();
+        $bm = new BoardsManager();
         $this->listLists = $bm->getLists($this->id);
     }
     

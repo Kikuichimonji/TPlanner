@@ -2,7 +2,7 @@
     namespace Models;
     use App\AbstractManager;
 
-    class BoardManager extends AbstractManager
+    class BoardsManager extends AbstractManager
     {
         private static $classname = "Models\Board";
 
@@ -13,7 +13,7 @@
         public function getOneById($id){
 
             $sql = "SELECT *
-            FROM board
+            FROM boards
             WHERE id = :id";
             $arg= ["id" => $id];     
 
@@ -24,7 +24,7 @@
         }
 
         public function findAll(){
-            $sql = "SELECT * FROM board";
+            $sql = "SELECT * FROM boards";
 
             return self::getResults(
                 self::select($sql, null, true),

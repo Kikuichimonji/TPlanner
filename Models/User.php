@@ -4,7 +4,7 @@ namespace Models;
 use App\AbstractEntity;
 use Models\UsersManager;
 
-class Users extends AbstractEntity
+class User extends AbstractEntity
 {
   /**
    * @inheritdoc

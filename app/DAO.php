@@ -11,7 +11,7 @@
 
         public static function connect(){
             try{
-                self::$link = new \PDO("mysql:host=".self::DB_HOST.";
+                self::$link = new \PDO("mysql:host=".self::DB_HOST.";port=3306;
                                         dbname=".self::DB_NAME,
                                         self::DB_USER,
                                         self::DB_PASS,

@@ -3,7 +3,7 @@
 namespace Controllers;
 
 use Models\ListsManager;
-use Models\CardManager;
+use Models\CardsManager;
 
 
 class ListsController extends Controller
@@ -27,7 +27,7 @@ class ListsController extends Controller
 
     public function editCards($card,$list,$oldList,$pos)
     {
-        $cm = new CardManager();
+        $cm = new CardsManager();
         $oldPos = $cm->getPos($card)['positions'];
         //$isChanging = $list != $oldList;
         //var_dump($isChanging);die();

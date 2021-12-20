@@ -3,7 +3,7 @@
 namespace Controllers;
 
 
-use Models\CardManager;
+use Models\CardsManager;
 
 
 class CardController extends Controller
@@ -28,7 +28,7 @@ class CardController extends Controller
 
     public function add($id,$title)
     {
-        $cm = new CardManager();
+        $cm = new CardsManager();
         //var_dump($oldPos);die();
         $cm->add($id,$title);
     }
@@ -40,7 +40,7 @@ class CardController extends Controller
 
     public function deleteCard($id,$pos,$list)
     {
-        $cm = new CardManager();
+        $cm = new CardsManager();
         $cm->deleteCard($id,$pos,$list);
     }
 }
