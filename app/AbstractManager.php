@@ -9,6 +9,10 @@
             self::$connection = DAO::connect();
         }
 
+        protected static function disconnect(){
+            self::$connection = DAO::disconnect();
+        }
+
         protected static function getOneOrNullResult($row, $class){
             
             if($row != null){
@@ -51,7 +55,7 @@
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
-                die();  // meurt
+                //die();  // meurt
             }
 
         }
@@ -64,7 +68,7 @@
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
-                die();  // meurt
+                //die();  // meurt
             }
         }
 
@@ -77,7 +81,7 @@
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
-                die();  // meurt
+                //die();  // meurt
             }
         }
 
@@ -92,7 +96,7 @@
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
-                die();  // meurt
+                //die();  // meurt
             }
         }
 
@@ -106,14 +110,14 @@
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Affichage d'une erreur
-                die();  // meurt
+                //die();  // meurt
             }
         }
 
         protected static function setChange(){
-            $sql = "UPDATE lastChange
-                        SET lastChange = :date
-                        WHERE id = 1";
+            $sql =  "UPDATE lastChange".
+                    " SET lastChange = :date".
+                    " WHERE id = 1";
             $params= ["date" => date("Y-m-d H:i:s")];
 
             $stmt = self::$connection->prepare($sql);

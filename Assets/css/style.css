@@ -1,6 +1,23 @@
 :root
 {
     box-sizing: border-box;
+    --main-color: #2C233F;
+    --secondary-color : #AC98D6;
+    --third-color : #594D6C;
+}
+body
+{
+    margin: 0;
+    font-family: "Berlin Sans FB";
+    color:var(--main-color);
+}
+.bauhaus
+{
+    font-family: "Bauhaus 93";
+}
+main
+{
+
 }
 
 /*************************
@@ -9,96 +26,263 @@ NAVBAR
 nav{
     display: flex;
     justify-content: space-between;
+    background-color: var(--main-color);
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+nav a{
+    height: 0;
+}
+nav img{
+    height: 45px;
+    filter: invert(100%) sepia(15%) saturate(2%) hue-rotate(352deg) brightness(112%) contrast(100%);
 }
 #headerContainer{
     position: relative;
 }
 #popUpProfile{
+    display: none;
     position: absolute;
     right: 100%;
     width: 200px;
     border: 1px solid black;
     background-color: lightgray;
+    
 }
 .icon{
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .icon span{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 2.5em;
-    width: 2.5em;
+    height: 35px;
+    width: 35px;
     border-radius: 50px;
     font-weight: bold;
+    border: 5px solid var(--secondary-color);
 }
 /*************************
 DASHBOARD
 *************************/
+
+/*************************
+BOARD
+*************************/
+#boardHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60px;
+    box-shadow: 0 0 6px lightgray;
+}
+#boardHeader div{
+    display: flex;
+    flex-direction: row;
+}
+#boardHeader #rightside{
+    margin-right: 1em;
+    align-items: center;
+}
+#boardHeader #rightside div{
+    margin-right: 1em;
+    align-items: center;
+}
+#boardHeader #leftside{
+    margin-left: 1em;
+    align-items: center;
+}
+#boardHeader #leftside div{
+    margin-left: 1em;
+    align-items: center;
+}
+#boardHeader #listUser div span{
+    font-size: 2em;
+    margin-right: 5px;
+}
+#boardHeader #leftside div:first-child{
+    min-width: 100px;
+    border-right: 1px solid black;
+    height: 80%;
+    font-size: 20px;
+}
+#boardHeader .icon{
+    /*box-shadow: 0 3px 6px lightgray;*/
+}
+#boardHeader .icon span{
+    font-size: 0.9em ;
+    height: 30px;
+    width: 30px;
+    border: 4px solid var(--secondary-color);
+}
+#listUser {
+    height: 100%;
+}
+#listUser div{
+    background-color: var(--main-color);
+    color: white;
+    height: 40px;
+    font-size: 20px;
+    min-width: 160px;
+    justify-content: center;
+}
+#rightside div{
+    /*border: 5px solid var(--secondary-color);*/
+    border-radius: 2px;
+    height: 40px;
+    padding-left: 1em;
+    padding-right: 1em;
+    box-shadow: 0 0 6px lightgray;
+}
+#rightside div:last-child{
+    flex-direction: column;
+}
+#rightside div:last-child span{
+    height: 20%;
+    font-weight:bold
+}
+
+
+
 .board{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    border: 1px solid red;
+    height: calc(100vh - (60px + 61px));
+    background:center no-repeat url("../img/T_logo_white.svg") var(--third-color);
+    background-size: 40%;
 }
 
-.list {
+.listContainer, #addList{
     position: relative;
-    background-color: black;
-    min-height: 200px;
-    width: 200px;
-    border:5px solid black;
-}
-
-.card{
-    background-color: gray;
-    height: 100px;
-    width: 100%;
-    border: 1px solid yellow;
+    margin-left: 1em;
     margin-top: 1em;
-    margin-bottom: 1em;
-    z-index: 1;
-    position: relative;
-}
-
-.delete img{
-    height: 25px;
-    width: 25px;
-    position: absolute;
-    right:0;
-    top:0;
-    cursor: pointer;
-}
-.card.active{
-    background-color: lightgray;
-}
-.placeholder{
-    margin:0;
-    position: absolute;
-    z-index: 1;
-    transform: translate(0,-50%);
-    opacity: 0;
-    background-color: #2c2a2a;
-}
-.listContainer{
-    position: relative;
-    margin-right: 1em;
 }
 .listContainer ul{
     margin: 0;
     padding-left: 0.5em;
     padding-right: 0.5em;
     list-style: none;
+    width: 200px;
+    border: 1px solid black;
 }
-.listContainer .listHeader{
-    background-color: lightcoral;
+.listHeader{
+    background-color: white;
     cursor: pointer;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 20px;
+    border: 1px solid black;
+    border-bottom: 0;
+    justify-content: space-between;
+}
+.listHeader span:first-child:not(.listHeader span span:first-child){
+    display: flex;
+    align-items: center;
+}
+.listHeader span span:first-child{
+    height: 25px;
+    width: 25px;
+    border: 1px solid black;
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: 0.25em;
+    border-radius: 3px;
 }
 .listContainer div:last-child {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    background: lightcyan;
+    height: 40px;
+    background: white;
+    border: 1px solid black;
+    border-top: 0;
+    padding-left: 1em;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.list {
+    position: relative;
+    background-color: white;
+    min-height: 100px;
+    border:1px solid black;
+}
+
+.card{
+    background-color: white;
+    height: 100px;
+    width: 100%;
+    border: 1px solid black;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    z-index: 1;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 0 6px lightgray;
+}
+.card .cardHeader{
+    display: flex;
+    border-bottom: 1px solid black;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+}
+.card .cardHeader span:first-child{
+    padding-left: 1em;
+}
+
+.delete img{ 
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    margin-top: 1px;
+    margin-right: 1px;
+}
+.card.active{
+    background-color: lightgray;
+}
+#addList{
+    margin-left: 1em;
+    margin-top: 1em;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    height: 80px;
+    width: 200px;
+    border: 1px solid black;
+    opacity: 0.5;
+}
+#addList:hover{
+    opacity: 1;
+}
+#addList span{
+    padding-left: 1em;
+    display: inline-block;
+    background-color: white;
+    height: 40px;
+    width: 200px;
+    font-size: 20px;
+}
+#addList span:first-child{
+    height: 20px;
+    padding: 10px 1em;
+    border-bottom:1px solid black;
+    cursor: pointer;
+}
+
+
+/*************************
+FOOTER
+*************************/
+
+footer{
+    position: fixed;
+    bottom: 0;
+    right:50%;
+    background-color: white;
+    padding: 0.5em 1em;
+    border-radius: 5px;
 }

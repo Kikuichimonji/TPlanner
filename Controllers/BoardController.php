@@ -48,7 +48,7 @@ class BoardController extends Controller
     $user = $um->getOneById($_SESSION['user']->getId());
     $bm = new BoardsManager();
     $board = $bm->getOneById($id);
-
+    
     $this->view('boardContent.php', [
       'user' => $user,
       'board' => $board,

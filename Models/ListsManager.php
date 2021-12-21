@@ -7,7 +7,7 @@
         private static $classname = "Models\Lists";
 
         public function __construct(){
-            self::connect(self::$classname);
+            self::connect();
         }
 
         public function getOneById($id){
@@ -123,7 +123,7 @@
                     "id_list" => $id,
                     "positions" => $pos];
 
-            //var_dump($pos);die();
+            //var_dump($sql);die();
 
             return self::insert($sql,$arg);
         }

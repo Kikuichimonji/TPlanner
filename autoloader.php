@@ -38,9 +38,11 @@ abstract class Autoloader{
     }
 }
 
+define('APP_ENV', 'dev');
+
 define("DS",DIRECTORY_SEPARATOR);
 define("ROOT",".".DS);
-define('PUBLIC_PATH', ROOT.'assets'.DS);
+define('PUBLIC_PATH', ROOT.'Assets'.DS);
 define('CSS_PATH', PUBLIC_PATH.'css'.DS);
 define('IMG_PATH', PUBLIC_PATH.'img'.DS);
 

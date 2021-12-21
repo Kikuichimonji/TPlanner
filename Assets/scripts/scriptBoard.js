@@ -6,12 +6,16 @@ let newListButton = null;
 
 function init(){
 
+    popupMenu = document.getElementById("popUpProfile")
     cards = document.querySelectorAll(".card");
     lists = document.querySelectorAll(".list");;
     board = document.querySelector(".board");
     board.hiddenId = board.id;
     board.removeAttribute("id");
-    document.querySelector("main").removeAttribute("id");
+    document.querySelector("main").removeAttribute("id")
+    document.querySelector("#headerContainer .icon").addEventListener("click",(ev) => {
+        popupMenu.style.display = popupMenu.style.display == "block" ? "none" : "block"
+    })
 
     newListButton = document.getElementById("addList");
 
@@ -197,11 +201,12 @@ function events(){
             draggedElement = ev.target; //For better clarity
             
             if(draggedElement.nodeName =="LI"){
-                draggedElement.style.backgroundColor = "#444";
+                draggedElement.style.backgroundColor = "lightgray";
                 draggedElement.oldList = draggedElement.parentNode.hiddenId //We save the old list position
                 ev.dataTransfer.setDragImage(draggedElement, -10, -10);
             }else if(draggedElement.classList.contains('listHeader')){ //Nothing to do in it for now
-                draggedElement.style.backgroundColor = "coral";
+                draggedElement.style.backgroundColor = "#2C233F";
+                draggedElement.style.color = "white";
                 ev.dataTransfer.setDragImage(draggedElement.parentNode,0,0);
             }
             
@@ -219,21 +224,21 @@ function events(){
                 if(!draggedElement.classList.contains("listHeader")){ //if we drag something else than a list (can only be a card)
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
-                draggedInto.addEventListener("dragleave", function(leftEl) { //if we leave an element
+                /*draggedInto.addEventListener("dragleave", function(leftEl) { //if we leave an element
                     leftEl.preventDefault();
                     if(leftEl.target.classList.contains("list")){ //if we leave a list
-                        leftEl.target.style.cssText = "border:5px solid black;"; //we remove the indication border
+                        leftEl.target.style.cssText = "border:1px solid black;"; //we remove the indication border
                     }
-                });
+                });*/
             }
     
-            if(draggedElement.classList.contains("card")){ //We put a border to help see where we can drop the element
+            /*if(draggedElement.classList.contains("card")){ //We put a border to help see where we can drop the element
                 if(draggedInto.classList.contains("list")){
-                    draggedInto.style.cssText = "border:5px solid green;";
+                    draggedInto.style.cssText = "border:1px dotted green;";
                 }else if(draggedInto.parentNode.className == "list"){ //if we drag into a card we have to still color the list green
-                    draggedInto.parentNode.style.cssText = "border:5px solid green;";
+                    draggedInto.parentNode.style.cssText = "border:1px dotted green;";
                 }
-            }
+            }*/
             /*
             *
             * i'm trying to not repeat code, but it makes it way more complex because i have to check eveyrtime the targets and dragged element T_T
@@ -375,6 +380,7 @@ function events(){
             return ; 
         }
         draggedElement.style.backgroundColor = "";
+        draggedElement.style.color = "#2C233F";
         if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board") || ev.target.classList.contains("listHeader"))){ //we make sure to limit where we can drop items
             ev.preventDefault();
             
@@ -382,11 +388,11 @@ function events(){
                 return ;
             }
     
-            if(ev.target.classList.contains("list")){  //more border shenanigans
-                ev.target.style.cssText = "border:5px solid black;";
+            /*if(ev.target.classList.contains("list")){  //more border shenanigans
+                ev.target.style.cssText = "border:1px solid black;";
             }else if(ev.target.parentNode.classList.contains("list")){
-                ev.target.parentNode.style.cssText = "border:5px solid black;";
-            }
+                ev.target.parentNode.style.cssText = "border:1px solid black;";
+            }*/
     
             if(draggedElement.classList.contains("card")){
                 if(ev.target.parentNode.classList.contains("list")){ //We verify that the card is dropped inside another card or a list

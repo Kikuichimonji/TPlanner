@@ -7,14 +7,14 @@
         private static $classname = "Models\Board";
 
         public function __construct(){
-            self::connect(self::$classname);
+            self::connect();
         }
 
         public function getOneById($id){
 
-            $sql = "SELECT *
-            FROM boards
-            WHERE id = :id";
+            $sql =   "SELECT *".
+                    " FROM boards".
+                    " WHERE id = :id";
             $arg= ["id" => $id];     
 
             return self::getOneOrNullResult(
@@ -34,9 +34,9 @@
 
         public function getLists($id){
 
-            $sql = "SELECT * FROM lists l
-                    WHERE l.id_board = :id
-                    ORDER BY l.listPosition";
+            $sql =   "SELECT * FROM lists l".
+                    " WHERE l.id_board = :id".
+                    " ORDER BY l.listPosition";
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),

@@ -1,5 +1,5 @@
 <nav>
-  <a href="index.php">LOGO</a>
+  <a href="index.php"><img src="<?= IMG_PATH?>TPlanner_logo.svg" alt=""></a>
   <?php 
     if(isset($_SESSION)){
       if(isset($_SESSION['user'])){

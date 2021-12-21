@@ -7,14 +7,14 @@
         private static $classname = "Models\Card";
 
         public function __construct(){
-            self::connect(self::$classname);
+            self::connect();
         }
 
         public function getOneById($id){
 
-            $sql = "SELECT *
-            FROM cards
-            WHERE id = :id";
+            $sql =   "SELECT *".
+                    " FROM cards".
+                    " WHERE id = :id";
             $arg= ["id" => $id];     
 
             return self::getOneOrNullResult(
@@ -24,9 +24,9 @@
         }
         public function getPos($id){
 
-            $sql = "SELECT positions
-            FROM cards
-            WHERE id = :id";
+            $sql =   "SELECT positions".
+                    " FROM cards".
+                    " WHERE id = :id";
             $arg= ["id" => $id];     
 
             return self::getValue(
