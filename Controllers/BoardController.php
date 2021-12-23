@@ -42,6 +42,12 @@ class BoardController extends Controller
     }
   }
 
+  public function updateTitle($id,$text)
+  {
+    $bm = new BoardsManager();
+    $bm->updateTitle($id,$text);
+  }
+
   public function reload($id)
   {
     $um = new UsersManager();

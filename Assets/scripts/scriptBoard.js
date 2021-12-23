@@ -3,6 +3,8 @@ let lists = null
 let board = null
 let draggedElement = null;
 let newListButton = null;
+let popupMenu = null;
+let boardTitle = null;
 
 function init(){
 
@@ -16,6 +18,29 @@ function init(){
     document.querySelector("#headerContainer .icon").addEventListener("click",(ev) => {
         popupMenu.style.display = popupMenu.style.display == "block" ? "none" : "block"
     })
+    boardTitle = document.querySelector("#leftside div:first-child");
+    boardTitle.addEventListener("click", function handler(ev){
+
+        let newBox = document.createElement("input");
+        newBox.setAttribute("type","text");
+        newBox.value = ev.target.textContent
+
+        let newButton = document.createElement("button");
+        newButton.innerHTML = "Valider";
+        newBox.hiddenId = board.hiddenId;
+        newButton.hiddenId = board.hiddenId;
+
+        ev.target.innerHTML = ""
+        ev.target.appendChild(newBox)
+        ev.target.appendChild(newButton)
+        newBox.focus();
+        ev.target.removeEventListener("click",handler);
+        newButton.addEventListener("click", (ev) => {
+            args = {"type" : "changeBoard", 'board' : ev.target, 'text' : newBox.value};
+            goFetch(args)
+            ev.target.parentNode.innerHTML = newBox.value;
+        });
+    });
 
     newListButton = document.getElementById("addList");
 
@@ -151,47 +176,55 @@ function goFetch(args)
                 link = "board.php?act=" + args['type'] + "&list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; //the link for moving cards
                 break
             case "deleteCard" :
-                link = "board.php?act=" + args['type'] + "&card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for moving cards
+                link = "board.php?act=" + args['type'] + "&card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for deleting a card
                 break
             case "deleteList" :
-                link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for moving cards
+                link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for Deleting a list
+                break
+            case "changeBoard" :
+                link = "board.php?act=" + args['type'] + "&board=" + args["board"].hiddenId + "&text=" + args["text"] ; //the link for changing the board title
                 break
             default:
                 link = null;
         }
     }else{
         link = null;
-        console.log("goFetch need a type to operate")
+        console.log("goFetch need a type to operate");
     }
     
     //console.log(link)
-    let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
-    fetch(myRequest).then((response) => { //We fetch the result
-        response.text().then(response => {
-            console.log(response) //My check of the controler response
-            if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
-                console.log("Problème de paramètres")
-            else{
-                console.log("good doggy")
-                if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){
-                    let link2 = "board.php?act=reload&id=" + board.hiddenId; 
-                    //console.log(link2)
-                    let contentRefresh = new Request(link2,myInit);
-                    fetch(contentRefresh).then((response) =>{
-                        response.text().then((response) =>{
-                            //console.log(response);
-                            document.getElementsByTagName("main")[0].outerHTML = response;
-                            init();
+    if(link){
+        let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
+        fetch(myRequest).then((response) => { //We fetch the result
+            response.text().then(response => {
+                console.log(response) //My check of the controler response
+                if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
+                    console.log("Problème de paramètres")
+                else{
+                    console.log("good doggy")
+                    if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){
+                        let link2 = "board.php?act=reload&id=" + board.hiddenId; 
+                        //console.log(link2)
+                        let contentRefresh = new Request(link2,myInit);
+                        fetch(contentRefresh).then((response) =>{
+                            response.text().then((response) =>{
+                                //console.log(response);
+                                document.getElementsByTagName("main")[0].outerHTML = response;
+                                init();
+                            })
                         })
-                    })
-                    //location.reload();
+                        //location.reload();
+                    }
                 }
+            })
+            if(!response.ok) { // If fetch failed somehow , maybe permission? dunno
+                console.log("Mauvaise réponse du réseau")
             }
         })
-        if(!response.ok) { // If fetch failed somehow , maybe permission? dunno
-            console.log("Mauvaise réponse du réseau")
-        }
-    })
+    }else{
+        console.log("Link null")
+    }
+    
 }
 
 function events(){

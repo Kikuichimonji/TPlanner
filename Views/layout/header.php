@@ -16,9 +16,9 @@
                 </div>
               </div>";
       }else{
-        echo  "<div>
-                <a href='' id=''>S'inscrire</a>
-                <a href='login.php' id=''>Se connecter</a>
+        echo  "<div id='headerConnection'>
+                <a href='' class='whiteBorder'>S'inscrire</a>
+                <a href='login.php' class='purpleBorder'>Se connecter</a>
               </div>";
       }
     }

@@ -94,6 +94,13 @@ if(!isset($_GET["act"])){
                 echo "false";
             }
             break;
+        case "changeBoard" :
+            if(isset($_GET["text"]) && isset($_GET['board'])){
+                    $boardController->updateTitle($_GET['board'],$_GET['text']);
+            }else{
+                echo "false";
+            }
+            break;
         case "reload" :
             if(isset($_GET["id"])){
                 if($_GET["id"] == "undefined"){

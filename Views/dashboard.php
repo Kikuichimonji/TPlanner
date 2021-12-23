@@ -21,7 +21,7 @@
       foreach($user->getListBoards() as $board)
       {
           echo "<span>{$board->getLabel()}</span>
-          <div class='board' id='{$board->getId()}'>
+          <div class='' id='{$board->getId()}'>
             <a href='board.php?id={$board->getId()}'>Voir Listes</a>
           </div>";
       }

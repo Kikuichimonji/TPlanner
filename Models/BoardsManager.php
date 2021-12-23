@@ -43,6 +43,19 @@
                 "Models\lists"
             );
         }
+
+        public function updateTitle($id,$text){
+            
+            $sql = "UPDATE boards
+            SET label = :text
+            WHERE id = :id";
+            
+            $arg= ["text" => $text,
+                    "id" => $id,
+                ];
+                //echo $sql2;
+            return self::update($sql,$arg);
+        }
     }
 
 ?>

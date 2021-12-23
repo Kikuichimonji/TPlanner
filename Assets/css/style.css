@@ -15,11 +15,14 @@ body
 {
     font-family: "Bauhaus 93";
 }
-main
-{
-
+.purpleBorder{
+    border: 5px solid var(--secondary-color);
+    border-radius: 7px;
 }
-
+.whiteBorder{
+    border: 5px solid white;
+    border-radius: 7px;
+}
 /*************************
 NAVBAR
 *************************/
@@ -27,8 +30,8 @@ nav{
     display: flex;
     justify-content: space-between;
     background-color: var(--main-color);
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    height: 60px;
+    align-items: center;
 }
 nav a{
     height: 0;
@@ -36,6 +39,7 @@ nav a{
 nav img{
     height: 45px;
     filter: invert(100%) sepia(15%) saturate(2%) hue-rotate(352deg) brightness(112%) contrast(100%);
+    transform: translate(-0,-50%);
 }
 #headerContainer{
     position: relative;
@@ -63,6 +67,26 @@ nav img{
     border-radius: 50px;
     font-weight: bold;
     border: 5px solid var(--secondary-color);
+}
+#headerConnection{
+    display: flex;
+    flex-direction: row;
+}
+#headerConnection a{
+    width: 105px;
+    height: 30px;
+    text-decoration: none;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1em;
+}
+#headerConnection a:first-child{
+    color: white;
+}
+#headerConnection a:last-child{
+    background-color: white;
 }
 /*************************
 DASHBOARD
@@ -107,6 +131,26 @@ BOARD
     border-right: 1px solid black;
     height: 80%;
     font-size: 20px;
+    padding-right: 1em;
+}
+#leftside div:first-child button{
+    height: 40px;
+    background-color: var(--main-color);
+    color: white;
+    font-family:"Berlin Sans FB";
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-right: 1em;
+}
+#leftside div:first-child input{
+    font-size: 20px;
+    height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0;
+    box-shadow: 0 0 6px lightgray;
+    font-family:"Berlin Sans FB";
+    outline: none;
 }
 #boardHeader .icon{
     /*box-shadow: 0 3px 6px lightgray;*/
