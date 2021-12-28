@@ -3,50 +3,81 @@ let lists = null
 let board = null
 let draggedElement = null;
 let newListButton = null;
-let popupMenu = null;
 let boardTitle = null;
+let okayToClose = false;
+let options = null;
+let cardOptions = null;
+let target = null;
+const stripHTML = (unsafe) => {
+    return unsafe.replace(/(<([^>]+)>)/gi, "");
+
+}
 
 function init(){
 
-    popupMenu = document.getElementById("popUpProfile")
     cards = document.querySelectorAll(".card");
     lists = document.querySelectorAll(".list");;
     board = document.querySelector(".board");
     board.hiddenId = board.id;
     board.removeAttribute("id");
     document.querySelector("main").removeAttribute("id")
-    document.querySelector("#headerContainer .icon").addEventListener("click",(ev) => {
-        popupMenu.style.display = popupMenu.style.display == "block" ? "none" : "block"
-    })
-    boardTitle = document.querySelector("#leftside div:first-child");
-    boardTitle.addEventListener("click", function handler(ev){
+    options = document.getElementById("cardMenu").getElementsByTagName("li")
+    for(let item of options){
+        
+        item.hiddenFunc = item.className;
+        item.removeAttribute("class")
+    }
+    cardOptions = document.getElementById("cardDetail").getElementsByTagName("li")
+    for(let item of cardOptions){
+        item.hiddenFunc = item.getAttribute("func");
+        item.removeAttribute("func")
+    }
 
+    newListButton = document.getElementById("addList");
+    boardTitle = document.querySelector("#leftside div div:first-child");
+
+    /*document.addEventListener("click", (ev) =>{
+        //console.log(document.contains(ev.target))
+    })*/
+
+    handler = function (ev){
+        
         let newBox = document.createElement("input");
         newBox.setAttribute("type","text");
         newBox.value = ev.target.textContent
+        newBox.classList.add("instantInput");
 
         let newButton = document.createElement("button");
         newButton.innerHTML = "Valider";
         newBox.hiddenId = board.hiddenId;
         newButton.hiddenId = board.hiddenId;
+        newButton.classList.add("confirmButton");
 
-        ev.target.innerHTML = ""
-        ev.target.appendChild(newBox)
-        ev.target.appendChild(newButton)
+        
+        ev.target.parentNode.appendChild(newBox)
+        ev.target.parentNode.appendChild(newButton)
+        ev.target.outerHTML = ""
         newBox.focus();
         ev.target.removeEventListener("click",handler);
         newButton.addEventListener("click", (ev) => {
             args = {"type" : "changeBoard", 'board' : ev.target, 'text' : newBox.value};
             goFetch(args)
-            ev.target.parentNode.innerHTML = newBox.value;
+            myDiv = document.createElement("div")
+            myDiv.innerHTML = newBox.value;
+            ev.target.parentNode.innerHTML = myDiv.outerHTML
+            boardTitle = document.querySelector("#leftside div div:first-child");
+            boardTitle.addEventListener("click", handler);
         });
-    });
+    };
 
-    newListButton = document.getElementById("addList");
+    boardTitle.addEventListener("click", handler);
+    
+
 
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
         item.hiddenId = item.id;
         item.removeAttribute('id');
+        item.querySelector(".menu").hiddenClass = "menu"
     });
 
     lists.forEach((item)=>{
@@ -57,61 +88,124 @@ function init(){
         item.nextElementSibling.hiddenId = item.hiddenId;
         item.nextElementSibling.addEventListener("click", (ev) =>
         {
-            addNewEl(ev.target);
+            ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode);
         })
         item.previousElementSibling.addEventListener("click", (ev) => {
-            //console.log(ev.target.parentNode.parentNode.parentNode)
-            deleteList(ev.target.parentNode.parentNode.parentNode);
+            if(ev.target.nodeName=="IMG"){
+                deleteList(ev.target.parentNode.parentNode.parentNode);
+            }
+            
         })
     });
 
     cards.forEach(item => item.addEventListener("click", (ev) => //Event for when we're gonna click on the cards
     {
-        if(ev.target.classList.contains("card")){
-            cards.forEach((item) => {
+        if(ev.target.classList.contains("cardBody")){
+            openEditor(item);
+            /*cards.forEach((item) => {
                 item.className = "card";
             })
-            ev.target.className = "card active";
-        }else if(ev.target.nodeName= "SPAN"){
-            //console.log(ev.target.parentNode.parentNode.hiddenId)
-            deleteCard(ev.target.parentNode.parentNode);
+            ev.target.parentNode.className = "card active";*/
+
+
+        }else if(ev.target.classList.contains("menu") && ev.target.hiddenClass == "menu"){
+            let menu = document.getElementById("cardMenu");
+            let card = ev.target.parentNode.parentNode;
+
+            if(menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != card.hiddenId))
+            {
+                menu.style.display = "block";
+                menu.hiddenId = card.hiddenId
+                let rect = ev.target.getBoundingClientRect();
+                menu.style.left = rect.x + 20 +"px";
+                menu.style.top = rect.y + 20 +"px";
+                menu.firstElementChild.innerHTML = "Paramètres "+ ev.target.previousElementSibling.innerHTML
+                for(let item of options)
+                {
+                    item.addEventListener("click", ev => {
+                        console.log("pouet")
+                        //item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null;
+                        ev.stopImmediatePropagation();
+                    })
+                };
+            }else{
+                menu.style.display = "none";
+            }
+            
+            //console.log(ev.target.parentNode.parentNode.parentNode)
+            //
         }
     }));
     newListButton.addEventListener("click", (ev) =>
     {
-        ev.target.hiddenId = board.hiddenId 
-        addNewEl(ev.target);
+        ev.target.parentNode.hiddenId = board.hiddenId 
+        //console.log(ev.target)
+        addNewEl(ev.target.parentNode);
     });
     
 }
 
+function openEditor(el)
+{
+    let modal = document.getElementById("cardDetail");
+    modal.style.display = "block";
+    textarea = modal.querySelector("#cardDescription")
+    textarea.value = el.querySelector(".cardBody").textContent
+    for(let item of cardOptions)
+    {
+        item.addEventListener("click", ev => {
+            console.log(ev.target)
+            ev.stopImmediatePropagation();
+        })
+    }
+    modal.querySelector("button").addEventListener("click", ev => {
+        args = {"type" : "editCardDesc", 'card' : el, "text" :textarea.value};
+        ev.stopImmediatePropagation();
+        //console.log(args)
+        goFetch(args);
+        el.querySelector(".cardBody").textContent = stripHTML(textarea.value);
+        modal.style.display = "none";
+    })
+}
+
 function addNewEl(el)
 {
+
     let newBox = document.createElement("input");
     newBox.setAttribute("type","text");
     newBox.setAttribute("placeholder","Enter a title here");
+    newBox.classList.add("instantInput");
 
     let newButton = document.createElement("button");
     newButton.innerHTML = "Confirm";
     newBox.hiddenId = el.hiddenId;
     newButton.hiddenId = el.hiddenId;
+    newButton.classList.add("confirmButton");
 
-    let parent = el.parentNode;
-    parent.removeChild(el);
-    parent.appendChild(newBox);
-    parent.appendChild(newButton);
+    el.firstChild.parentNode.oldText = el.firstChild.parentNode.innerHTML
+    el.firstChild.innerHTML = "" ;
+    el.firstChild.appendChild(newBox);
+    el.firstChild.appendChild(newButton);
+    newBox.focus();
+
+    newButton.parentNode.classList.add("inputOpen")
+    newButton.parentNode.hiddenStatus = "inputOpen"
+
+    
+    el.style.opacity = 1;
     newButton.addEventListener("click", ev =>{
         let el = ev.target.previousElementSibling
         let elText = el.value;
-
-        if(el.previousElementSibling){
-            args = el.previousElementSibling.classList.contains("list") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
+        
+        if(el.parentNode.parentNode){
+            
+            args = el.parentNode.parentNode.classList.contains("addCard") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
         }else{
             args = {"type" : "newList", 'list' : el};
         }
             
         if(elText !== ""){
-            //console.log(el.hiddenId)
+            //console.log(args)
             goFetch(args)
         }else{
             console.log("Please enter a name")
@@ -153,11 +247,8 @@ function goFetch(args)
 {
 
     myHeaders = new Headers(); //If we want custom headers
-
-    let myInit = { method: 'GET', //Fetch settings
-            headers: myHeaders,
-            mode: 'cors',
-            cache: 'default' };
+    let formData = new FormData();
+    
 
     if(args["type"]){
         switch(args['type']) {
@@ -182,7 +273,12 @@ function goFetch(args)
                 link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for Deleting a list
                 break
             case "changeBoard" :
-                link = "board.php?act=" + args['type'] + "&board=" + args["board"].hiddenId + "&text=" + args["text"] ; //the link for changing the board title
+                formData.append("text",args['text'])
+                link = "board.php?act=" + args['type'] + "&board=" + args["board"].hiddenId ; //the link for changing the board title
+                break
+            case "editCardDesc" :
+                formData.append("text",args['text'])
+                link = "board.php?act=" + args['type'] + "&card=" + args["card"].hiddenId ; //the link for changing the board title
                 break
             default:
                 link = null;
@@ -192,7 +288,13 @@ function goFetch(args)
         console.log("goFetch need a type to operate");
     }
     
-    //console.log(link)
+    let myInit = { method: 'POST', //Fetch settings
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default',
+            body:  formData};
+
+    //console.log(formData)
     if(link){
         let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
         fetch(myRequest).then((response) => { //We fetch the result
@@ -414,11 +516,13 @@ function events(){
         }
         draggedElement.style.backgroundColor = "";
         draggedElement.style.color = "#2C233F";
-        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName == "UL" || ev.target.classList.contains("board") || ev.target.classList.contains("listHeader"))){ //we make sure to limit where we can drop items
+   
+        if(ev.target && (ev.target.classList.contains("cardHeader") || ev.target.classList.contains("cardBody") || ev.target.classList.contains("board") || ev.target.classList.contains("listHeader"))){ //we make sure to limit where we can drop items
             ev.preventDefault();
-            
-            if(draggedElement.classList.contains("card") && (!ev.target.classList.contains("card") && !ev.target.classList.contains("list"))){ //if we drag a card into a board we stop the code (nothing happens)
-                return ;
+            if(draggedElement.classList.contains("card")){ //if we drag a card into a board we stop the code (nothing happens)
+                if(!ev.target.classList.contains("cardBody") && !ev.target.classList.contains("list") &&!ev.target.classList.contains("cardHeader")){
+                    return ;
+                }
             }
     
             /*if(ev.target.classList.contains("list")){  //more border shenanigans
@@ -426,10 +530,10 @@ function events(){
             }else if(ev.target.parentNode.classList.contains("list")){
                 ev.target.parentNode.style.cssText = "border:1px solid black;";
             }*/
-    
+            
             if(draggedElement.classList.contains("card")){
-                if(ev.target.parentNode.classList.contains("list")){ //We verify that the card is dropped inside another card or a list
-                    target = ev.target.parentNode 
+                if(ev.target.parentNode.parentNode.classList.contains("list")){ //We verify that the card is dropped inside another card or a list
+                    target = ev.target.parentNode.parentNode 
                 }else if(ev.target.classList.contains("list")){
                     target = ev.target 
                 }
@@ -455,11 +559,41 @@ function events(){
             
             let args = {"type" : type,"el" : el, "pos" : pos};
             //console.log(args)
-            goFetch(args);
-                
-    
+            goFetch(args);       
         }
     }); 
+
+    document.addEventListener("click", ev => {
+        let elList = document.getElementsByClassName("inputOpen")
+        
+        if(elList.length > 0){
+
+            let el = ev.target;
+            let toClose = null;
+            toClose = el.closest("#addList") ? el.closest("#addList") : toClose;
+            toClose = el.closest(".addCard") ? el.closest(".addCard") : toClose;
+            
+            if(!toClose){
+                for (let item of elList)
+                {
+                    item.parentNode.innerHTML = item.parentNode.oldText;
+                }
+                
+            }
+            //console.log(el)
+        }
+        let menu = document.getElementById("cardMenu");
+        if(!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu") && board.contains(ev.target)){
+            menu.style.display = "none";
+        }
+
+        menu = document.getElementById("cardDetail");
+        if(!ev.target.classList.contains("modalMenu") && ev.target.id == "cardDetail"){
+            menu.style.display = "none";
+        }
+
+        
+    });
 }
 init();
 events();

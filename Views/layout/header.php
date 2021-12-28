@@ -7,11 +7,13 @@
                 <span class='icon'>
                   <span style='background-color:".$_SESSION['user']->getColor()."'>".strtoupper(substr($_SESSION['user']->getUsername(),0,2))."</span>
                 </span>
-                <div id='popUpProfile'>
+                <div id='popUpProfile' class='modalMenu'>
+                  <p>Compte</p>
                   <ul>
-                    <li><a href='user.php'>Voir Profil</a></li>
                     <li><a href='dashboard.php'>DashBoard</a></li>
-                    <li><a href='login.php?act=logout'>Se deconnecter</a></li>
+                    <li><a href='user.php'>Profil</a></li>
+                    <li><a href=''>Paramètres</a></li>
+                    <li><a href='login.php?act=logout'>Se Déconnecter</a></li>
                   </ul>
                 </div>
               </div>";

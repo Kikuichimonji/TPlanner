@@ -16,5 +16,6 @@
     <?php isset($data) ? var_dump($data) : null; ?>
   </main>
   <?php require_once 'layout/footer.php'; ?>
+  <script src="./Assets/scripts/global.js"></script>
 </body>
 </html>

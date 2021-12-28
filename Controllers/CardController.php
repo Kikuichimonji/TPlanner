@@ -32,10 +32,12 @@ class CardController extends Controller
         //var_dump($oldPos);die();
         $cm->add($id,$title);
     }
-    public function edit($list,$pos)
+    public function editCardDesc($id,$text)
     {
-        //var_dump($oldPos);die();
-        
+        //var_dump($id,$text);die();
+        $f_text= trim(filter_var($text,FILTER_SANITIZE_STRING));
+        $cm = new CardsManager();
+        $cm->editCardDesc($id,$f_text);
     }
 
     public function deleteCard($id,$pos,$list)

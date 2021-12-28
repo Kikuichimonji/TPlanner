@@ -95,8 +95,15 @@ if(!isset($_GET["act"])){
             }
             break;
         case "changeBoard" :
-            if(isset($_GET["text"]) && isset($_GET['board'])){
-                    $boardController->updateTitle($_GET['board'],$_GET['text']);
+            if(isset($_POST["text"]) && isset($_GET['board'])){
+                $boardController->updateTitle($_GET['board'],$_POST['text']);
+            }else{
+                echo "false";
+            }
+            break;
+        case "editCardDesc" :
+            if(isset($_GET["card"]) && isset($_POST['text'])){
+                $cardController->editCardDesc($_GET['card'],$_POST['text']);
             }else{
                 echo "false";
             }

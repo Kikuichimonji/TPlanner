@@ -50,7 +50,8 @@
                 *  2) On descend les anciennes cartes d'un cran
                 *  3) On attribue la position a la nouvelle carte
                 */ 
-                $sql = "UPDATE cards
+                $sql = <<<END
+                    UPDATE cards
                     SET positions = positions+1 
                     WHERE positions >= :position
                     AND id_list = :list;
@@ -61,7 +62,8 @@
                     UPDATE cards
                     SET positions = :position ,
                     id_list = :list
-                    WHERE id = :card";
+                    WHERE id = :card;
+                    END;
 
             }else{
                 if($pos>$oldPos){
@@ -69,7 +71,8 @@
                     *  1) On descend les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
                     *  2) On attribue la position a la nouvelle carte
                     */ 
-                    $sql = "UPDATE cards
+                    $sql = <<<END
+                    UPDATE cards
                     SET positions = positions-1
                     WHERE positions > :oldPosition
                     AND positions <= :position
@@ -77,14 +80,15 @@
                     UPDATE cards
                     SET positions = :position ,
                     id_list = :list
-                    WHERE id = :card";
-                    
+                    WHERE id = :card;
+                    END;
                 }else{
                     /* Si on place la carte plus haut dans la liste (visuellement)
                     *  1) On monte les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
                     *  2) On attribue la position a la nouvelle carte
                     */ 
-                    $sql = "UPDATE cards
+                    $sql = <<<END
+                    UPDATE cards
                     SET positions = positions+1
                     WHERE positions >= :position
                     AND positions < :oldPosition
@@ -92,7 +96,8 @@
                     UPDATE cards
                     SET positions = :position ,
                     id_list = :list
-                    WHERE id = :card";
+                    WHERE id = :card
+                    END;
                 }
             }
             
@@ -109,9 +114,9 @@
 
         public function getMaxPos($id){
 
-            $sql = "SELECT MAX(positions) as max
-            FROM cards
-            WHERE id_list = :id";
+            $sql = "SELECT MAX(positions) as max".
+            " FROM cards".
+            " WHERE id_list = :id";
             $arg= ["id" => $id];     
 
             return self::getValue(
@@ -123,8 +128,8 @@
 
 
             $pos = isset($this->getMaxPos($id)['max'])? $this->getMaxPos($id)['max']+1 : 0;
-            $sql= "INSERT INTO cards(title,positions,id_list) 
-                   VALUES (:title,:positions,:id_list)";
+            $sql= "INSERT INTO cards(title,positions,id_list)".
+                    " VALUES (:title,:positions,:id_list)";
 
             $arg= ["title" => $title,
                     "id_list" => $id,
@@ -137,13 +142,15 @@
 
         public function deleteCard($id,$pos,$list){
 
-            $sql = "UPDATE cards
-                    SET positions = positions -1
-                    WHERE positions > :pos
-                    AND id_list = :list;
-                    DELETE
-                    FROM cards
-                    WHERE id = :id ";
+            $sql = <<<END
+            UPDATE cards
+            SET positions = positions -1
+            WHERE positions > :pos
+            AND id_list = :list;
+            DELETE
+            FROM cards
+            WHERE id = :id 
+            END;
 
             $arg=  ["id" => $id,
                     "pos" => $pos,
@@ -152,6 +159,20 @@
             //var_dump($pos);die();
 
             return self::delete($sql,$arg);
+        }
+
+        public function editCardDesc($id,$text){
+            
+            $sql = "UPDATE cards
+            SET description = :text
+            WHERE id = :id";
+            
+            $arg= ["text" => $text,
+                    "id" => $id,
+                ];
+                //echo $sql2;
+            //var_dump($text);
+            return self::update($sql,$arg);
         }
     }
 
