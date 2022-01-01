@@ -300,6 +300,7 @@ BOARD
     box-shadow: var(--box-shadow);
     cursor: pointer;
     min-height: 100px;
+    word-break: break-all;
 }
 
 .card .cardBody{

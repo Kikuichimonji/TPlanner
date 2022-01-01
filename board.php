@@ -18,7 +18,7 @@ $cardController = new CardController();
 
 // Call Controller method
 
-if(!isset($_GET["act"])){
+if(!isset($_POST["act"])){
     if(isset($_GET['id'])){
         $boardController->index($_GET['id']);
     }else{
@@ -27,14 +27,14 @@ if(!isset($_GET["act"])){
     
 }else{
 
-    switch($_GET["act"]){
+    switch($_POST["act"]){
         case "moveCard" :
             if(isset($_GET["list"]) && isset($_GET["pos"]) && isset($_GET["card"]) && isset($_GET['oldList']))
             {
                 if($_GET["list"] == "undefined" or $_GET["pos"] == -1 or $_GET["card"] == "undefined" or $_GET['oldList'] == "undefined" ){
                     echo "false";
                 }else{
-                    $listsController->editCards($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos']);
+                    $listsController->editCardsPosition($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos']);
                 }
             }else{
                 echo "false";
@@ -45,18 +45,19 @@ if(!isset($_GET["act"])){
                 if($_GET["list"] == "undefined" || $_GET["listPos"] ==-1){
                     echo "false";
                 }else{
-                    $listsController->edit($_GET['list'],$_GET['listPos']);
+                    $listsController->editPosition($_GET['list'],$_GET['listPos']);
                 }  
             }else{
                 echo "false";
             }
             break;
         case "newCard" :
-            if(isset($_GET["list"]) && isset($_GET["text"])){
+            if(isset($_GET["list"]) && isset($_POST["text"])){
                 if($_GET["list"] == "undefined"){
                     echo "false";
                 }else{
-                    $cardController->add($_GET['list'],$_GET['text']);
+                    //var_dump($_GET["list"]);die();
+                    $cardController->add($_GET['list'],$_POST['text']);
                 }
             }else{
                 echo "false";
@@ -70,13 +71,12 @@ if(!isset($_GET["act"])){
                     $cardController->deleteCard($_GET["card"],$_GET["pos"],$_GET["list"]);
                 }
             }else{
-                var_dump($_GET);
                 echo "false";
             }
             break;
         case "newList" :
-            if(isset($_GET["text"]) && isset($_GET['board'])){
-                    $listsController->add($_GET['board'],$_GET['text']);
+            if(isset($_POST["text"]) && isset($_GET['board'])){
+                    $listsController->add($_GET['board'],$_POST['text']);
             }else{
                 echo "false";
             }
@@ -97,6 +97,13 @@ if(!isset($_GET["act"])){
         case "changeBoard" :
             if(isset($_POST["text"]) && isset($_GET['board'])){
                 $boardController->updateTitle($_GET['board'],$_POST['text']);
+            }else{
+                echo "false";
+            }
+            break;
+        case "changeList" :
+            if(isset($_POST["text"]) && isset($_GET['list'])){
+                $listsController->updateListTitle($_GET['list'],$_POST['text']);
             }else{
                 echo "false";
             }

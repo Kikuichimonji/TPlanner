@@ -135,7 +135,7 @@
                     "id_list" => $id,
                     "positions" => $pos];
 
-            //var_dump($pos);die();
+            //var_dump($arg);die();
 
             return self::insert($sql,$arg);
         }

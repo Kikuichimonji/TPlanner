@@ -24,8 +24,8 @@ function init(){
     options = document.getElementById("cardMenu").getElementsByTagName("li")
     for(let item of options){
         
-        item.hiddenFunc = item.className;
-        item.removeAttribute("class")
+        item.hiddenFunc = item.getAttribute("func");
+        item.removeAttribute("func")
     }
     cardOptions = document.getElementById("cardDetail").getElementsByTagName("li")
     for(let item of cardOptions){
@@ -49,7 +49,6 @@ function init(){
 
         let newButton = document.createElement("button");
         newButton.innerHTML = "Valider";
-        newBox.hiddenId = board.hiddenId;
         newButton.hiddenId = board.hiddenId;
         newButton.classList.add("confirmButton");
 
@@ -76,16 +75,66 @@ function init(){
 
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
         item.hiddenId = item.id;
+        item.hiddenType = "card";
         item.removeAttribute('id');
         item.querySelector(".menu").hiddenClass = "menu"
+        item.childNodes.forEach(child => {
+            child.hiddenType = "card";
+            child.childNodes.forEach(child => {
+                child.hiddenType = "card";
+            })
+        })
     });
 
     lists.forEach((item)=>{
         item.hiddenId = item.id;
+        item.hiddenType = "list";
         item.previousElementSibling.hiddenId = item.id;
+        item.previousElementSibling.hiddenType = "list";
+        item.previousElementSibling.childNodes.forEach(el => {
+            el.hiddenType = "list";
+            el.childNodes.forEach(el => {
+                el.hiddenType = "list";
+            })
+        })
+
+        listTitle = item.previousElementSibling.querySelector("#picto").nextElementSibling
+
+        handlerList = function (ev){
+            let newBox = document.createElement("input");
+            newBox.setAttribute("type","text");
+            newBox.value = ev.target.textContent
+            newBox.classList.add("instantInput");
+
+            let newButton = document.createElement("button");
+            newButton.innerHTML = "Valider";
+            newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
+            newButton.classList.add("confirmButton");
+
+            ev.target.parentNode.appendChild(newBox)
+            ev.target.parentNode.appendChild(newButton)
+            ev.target.outerHTML = ""
+            newBox.focus();
+            ev.target.removeEventListener("click",handlerList);
+            newButton.addEventListener("click", (ev) => {
+                args = {"type" : "changeList", 'list' : ev.target.hiddenId, 'text' : newBox.value};
+                goFetch(args)
+                mySpan = document.createElement("span")
+                mySpan.innerHTML = newBox.value;
+                ev.target.parentNode.appendChild(mySpan)
+                ev.target.previousElementSibling.outerHTML = "";
+                ev.target.outerHTML = "";
+                mySpan.addEventListener("click", handlerList);
+            });
+        }
+
+        listTitle.addEventListener("click", handlerList)
+        
+
         item.parentNode.hiddenId = item.hiddenId;
         item.removeAttribute('id');
         item.nextElementSibling.hiddenId = item.hiddenId;
+        item.nextElementSibling.hiddenType = "list";
         item.nextElementSibling.addEventListener("click", (ev) =>
         {
             ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode);
@@ -111,7 +160,7 @@ function init(){
         }else if(ev.target.classList.contains("menu") && ev.target.hiddenClass == "menu"){
             let menu = document.getElementById("cardMenu");
             let card = ev.target.parentNode.parentNode;
-
+            
             if(menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != card.hiddenId))
             {
                 menu.style.display = "block";
@@ -122,11 +171,14 @@ function init(){
                 menu.firstElementChild.innerHTML = "Paramètres "+ ev.target.previousElementSibling.innerHTML
                 for(let item of options)
                 {
+                    item.card = card
                     item.addEventListener("click", ev => {
-                        console.log("pouet")
-                        //item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null;
+                        let card = ev.currentTarget.card
+                        item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null;
+                        item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(card),menu.style.display = "none") : null : null;
                         ev.stopImmediatePropagation();
                     })
+                    
                 };
             }else{
                 menu.style.display = "none";
@@ -144,11 +196,13 @@ function init(){
     });
     
 }
-
 function openEditor(el)
 {
     let modal = document.getElementById("cardDetail");
+    //console.log(el)
+    modal.querySelector(".modalMenu").firstElementChild.textContent = el.querySelector(".cardHeader").firstElementChild.textContent
     modal.style.display = "block";
+    modal.el = el
     textarea = modal.querySelector("#cardDescription")
     textarea.value = el.querySelector(".cardBody").textContent
     for(let item of cardOptions)
@@ -159,11 +213,11 @@ function openEditor(el)
         })
     }
     modal.querySelector("button").addEventListener("click", ev => {
-        args = {"type" : "editCardDesc", 'card' : el, "text" :textarea.value};
+        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value};
         ev.stopImmediatePropagation();
-        //console.log(args)
+        //console.log(modal.el)
         goFetch(args);
-        el.querySelector(".cardBody").textContent = stripHTML(textarea.value);
+        modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value);
         modal.style.display = "none";
     })
 }
@@ -251,34 +305,41 @@ function goFetch(args)
     
 
     if(args["type"]){
+        formData.append('act',args['type'])
         switch(args['type']) {
             case "newCard" :
                 el = args['card']
-                link = "board.php?act=" + args['type'] + "&list=" + el.hiddenId + "&text="+el.value; //the link for a new card
+                formData.append('text',el.value)
+                link = "board.php?list=" + el.hiddenId; //the link for a new card
                 break
             case "newList" :
                 el = args['list']
-                link = "board.php?act=" + args['type'] + "&board="+ el.hiddenId + "&text="+el.value; //the link for a new list
+                formData.append('text',el.value)
+                link = "board.php?board="+ el.hiddenId; //the link for a new list
                 break
             case "moveList" :
-                link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ; //the link for moving lists
+                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ; //the link for moving lists
                 break
             case "moveCard" :
-                link = "board.php?act=" + args['type'] + "&list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; //the link for moving cards
+                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; //the link for moving cards
                 break
             case "deleteCard" :
-                link = "board.php?act=" + args['type'] + "&card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for deleting a card
+                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for deleting a card
                 break
             case "deleteList" :
-                link = "board.php?act=" + args['type'] + "&list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for Deleting a list
+                link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for Deleting a list
                 break
             case "changeBoard" :
                 formData.append("text",args['text'])
-                link = "board.php?act=" + args['type'] + "&board=" + args["board"].hiddenId ; //the link for changing the board title
+                link = "board.php?board=" + args["board"].hiddenId ; //the link for changing the board title
+                break
+            case "changeList" :
+                formData.append("text",args['text'])
+                link = "board.php?list=" + args["list"] ; //the link for changing the board title
                 break
             case "editCardDesc" :
                 formData.append("text",args['text'])
-                link = "board.php?act=" + args['type'] + "&card=" + args["card"].hiddenId ; //the link for changing the board title
+                link = "board.php?card=" + args["card"].hiddenId ; //the link for changing the board title
                 break
             default:
                 link = null;
@@ -294,7 +355,7 @@ function goFetch(args)
             cache: 'default',
             body:  formData};
 
-    //console.log(formData)
+    //console.log(link)
     if(link){
         let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
         fetch(myRequest).then((response) => { //We fetch the result
@@ -305,8 +366,15 @@ function goFetch(args)
                 else{
                     console.log("good doggy")
                     if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){
-                        let link2 = "board.php?act=reload&id=" + board.hiddenId; 
+                        let link2 = "board.php?act=reload&id=" + board.hiddenId;
                         //console.log(link2)
+                        formData = new FormData();
+                        formData.append('act','reload')
+                        myInit = { method: 'POST', //Fetch settings
+                                    headers: myHeaders,
+                                    mode: 'cors',
+                                    cache: 'default',
+                                    body:  formData};
                         let contentRefresh = new Request(link2,myInit);
                         fetch(contentRefresh).then((response) =>{
                             response.text().then((response) =>{
@@ -327,6 +395,22 @@ function goFetch(args)
         console.log("Link null")
     }
     
+}
+
+function findParentList(el){
+    let target = null
+    if(el){
+        if(el.hiddenType || el.classList.contains("list")){
+            if(el.hiddenType == "card"){
+                if(el.parentNode){
+                    target = findParentList(el.parentNode)
+                }
+            }else{
+                target = el
+            }
+        }
+    }
+    return target
 }
 
 function events(){
@@ -367,13 +451,6 @@ function events(){
                 });*/
             }
     
-            /*if(draggedElement.classList.contains("card")){ //We put a border to help see where we can drop the element
-                if(draggedInto.classList.contains("list")){
-                    draggedInto.style.cssText = "border:1px dotted green;";
-                }else if(draggedInto.parentNode.className == "list"){ //if we drag into a card we have to still color the list green
-                    draggedInto.parentNode.style.cssText = "border:1px dotted green;";
-                }
-            }*/
             /*
             *
             * i'm trying to not repeat code, but it makes it way more complex because i have to check eveyrtime the targets and dragged element T_T
@@ -516,27 +593,16 @@ function events(){
         }
         draggedElement.style.backgroundColor = "";
         draggedElement.style.color = "#2C233F";
-   
-        if(ev.target && (ev.target.classList.contains("cardHeader") || ev.target.classList.contains("cardBody") || ev.target.classList.contains("board") || ev.target.classList.contains("listHeader"))){ //we make sure to limit where we can drop items
+        if(ev.target && (ev.target.hiddenType == "card" || ev.target.classList.contains("board") || ev.target.hiddenType == "list")){ //we make sure to limit where we can drop items
             ev.preventDefault();
             if(draggedElement.classList.contains("card")){ //if we drag a card into a board we stop the code (nothing happens)
-                if(!ev.target.classList.contains("cardBody") && !ev.target.classList.contains("list") &&!ev.target.classList.contains("cardHeader")){
+                if(ev.target.hiddenType != "card" && !ev.target.classList.contains("list") && !ev.target.classList.contains("cardHeader")){
                     return ;
                 }
             }
-    
-            /*if(ev.target.classList.contains("list")){  //more border shenanigans
-                ev.target.style.cssText = "border:1px solid black;";
-            }else if(ev.target.parentNode.classList.contains("list")){
-                ev.target.parentNode.style.cssText = "border:1px solid black;";
-            }*/
             
             if(draggedElement.classList.contains("card")){
-                if(ev.target.parentNode.parentNode.classList.contains("list")){ //We verify that the card is dropped inside another card or a list
-                    target = ev.target.parentNode.parentNode 
-                }else if(ev.target.classList.contains("list")){
-                    target = ev.target 
-                }
+                target = findParentList(ev.target);
             }else{
                 target = document.querySelector(".board") //if the list is dragged , we only have one board
             }
@@ -548,6 +614,7 @@ function events(){
             }else if(draggedElement.classList.contains("listHeader")){
                 elClass = "list"
             }
+
             el = draggedElement.classList.contains("listHeader") ? draggedElement.nextElementSibling : draggedElement
             type = draggedElement.classList.contains("listHeader") ? "moveList" : "moveCard" 
 

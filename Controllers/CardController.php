@@ -29,8 +29,9 @@ class CardController extends Controller
     public function add($id,$title)
     {
         $cm = new CardsManager();
-        //var_dump($oldPos);die();
-        $cm->add($id,$title);
+        $f_text= trim(filter_var($title,FILTER_SANITIZE_STRING));
+        //var_dump($title);die();
+        $cm->add($id,$f_text);
     }
     public function editCardDesc($id,$text)
     {

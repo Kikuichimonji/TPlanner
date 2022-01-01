@@ -64,6 +64,7 @@
             try{
                 $stmt = self::$connection->prepare($sql);
                 self::setChange();
+                //var_dump($sql, $params);die();
                 return $stmt->execute($params);
             }
             catch(\PDOException $e) {

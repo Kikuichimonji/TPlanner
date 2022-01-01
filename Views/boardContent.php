@@ -40,9 +40,9 @@
 <div class="modalMenu" id="cardMenu">
     <p>Paramètres</p>
     <ul>
-        <li class='update'>Modifier</li>
-        <li class='move'>Déplacer</a></li>
-        <li class='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
+        <li func='edit'><span>Modifier</span></li>
+        <li func='move'><span>Déplacer</span></a></li>
+        <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
     </ul>
 </div>
 <div  id="cardDetail">

@@ -162,6 +162,20 @@
                 
             return self::delete($sql,$arg);
         }
+
+        public function updateTitle($id,$text){
+            
+            $sql = "UPDATE lists
+            SET label = :text
+            WHERE id = :id";
+            
+            $arg= ["text" => $text,
+                    "id" => $id,
+                ];
+                
+            return self::update($sql,$arg);
+        }
+
     }
 
 ?>
