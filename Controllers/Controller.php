@@ -39,9 +39,11 @@ class Controller
   protected function view(string $fileName, array $data = []): void
   {
     $filePath = ROOT . self::VIEW_PATH . $fileName;
-
+    
     if (file_exists($filePath)) {
       require $filePath; // Importe/Charge le code php de la vue
+    }else{
+      var_dump($filePath);die();
     }
   }
 

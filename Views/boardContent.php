@@ -25,7 +25,7 @@
     <?php
         foreach($board->getListLists() as $list)
         {
-            echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span id='picto'></span><span>{$list->getLabel()}</span></span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
+            echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
             echo "<ul class='list' id='{$list->getId()}'>";
             foreach($list->getListCards() as $card)
             {

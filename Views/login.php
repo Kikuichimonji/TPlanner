@@ -11,18 +11,20 @@
     <?php require_once 'layout/header.php'; ?>
   </header>
 
-  <main>
+  <main id="login">
     <h4>LOGIN</h4>
-    <?php isset($data) ? var_dump($data) : null;
-      if(isset($_GET['err'])){
-        if($_GET['err']== 1){
-          echo '<p> Vous devez être connecté pour voir cette page<p/>';
+    <p>
+    <?php
+      if(isset($data)){
+        if(isset($data["error"])){
+          echo $data["error"];
         }
       }
     ?>
+    </p>
     <form action="login.php?act=submit" method="post">
-      <label for="pseudo">Pseudo</label>
-      <input type="text" name="pseudo" id="pseudo">
+      <label for="mail">Email</label>
+      <input type="text" name="mail" id="mail">
       <label for="password">Password</label>
       <input type="password" name="password" id="password">
       <button type="submit">Connection</button>

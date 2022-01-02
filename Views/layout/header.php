@@ -19,10 +19,15 @@
               </div>";
       }else{
         echo  "<div id='headerConnection'>
-                <a href='' class='whiteBorder'>S'inscrire</a>
+                <a href='register.php' class='whiteBorder'>S'inscrire</a>
                 <a href='login.php' class='purpleBorder'>Se connecter</a>
               </div>";
       }
+    }else{
+      echo  "<div id='headerConnection'>
+              <a href='register.php' class='whiteBorder'>S'inscrire</a>
+              <a href='login.php' class='purpleBorder'>Se connecter</a>
+            </div>";
     }
   ?>
 </nav>

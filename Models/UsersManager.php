@@ -23,6 +23,19 @@
             );
         }
 
+        public function getOneByMail($mail){
+
+            $sql = "SELECT *
+            FROM users
+            WHERE LOWER(mail) = :mail";
+            $arg= ["mail" => $mail];     
+
+            return self::getOneOrNullResult(
+                self::select($sql,$arg, false),
+                self::$classname
+            );
+        }
+
         public function getOneById($id){
 
             $sql = "SELECT *
@@ -56,6 +69,19 @@
                 self::select($sql,$arg, true),
                 "Models\Board"
             );
+        }
+
+        public function newUser($username,$password,$mail)
+        {
+            $sql = "INSERT INTO users(username,password,mail,dateCreation)".
+                    "VALUES (:pseudo,:pass,:mail,:date)";
+            
+            $arg= ["pseudo" => $username,
+                    "pass" => $password,
+                    "mail" => $mail,
+                    "date" => date("Y-m-d")];
+
+            return self::insert($sql,$arg);
         }
     }
 

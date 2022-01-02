@@ -98,7 +98,7 @@ function init(){
             })
         })
 
-        listTitle = item.previousElementSibling.querySelector("#picto").nextElementSibling
+        listTitle = item.previousElementSibling.querySelector(".picto").nextElementSibling
 
         handlerList = function (ev){
             let newBox = document.createElement("input");
@@ -111,6 +111,7 @@ function init(){
             newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
             newButton.classList.add("confirmButton");
 
+            ev.target.parentNode.nextElementSibling.style.display= 'none';
             ev.target.parentNode.appendChild(newBox)
             ev.target.parentNode.appendChild(newButton)
             ev.target.outerHTML = ""
@@ -125,6 +126,7 @@ function init(){
                 ev.target.previousElementSibling.outerHTML = "";
                 ev.target.outerHTML = "";
                 mySpan.addEventListener("click", handlerList);
+                mySpan.parentNode.nextElementSibling.style.display= 'block';
             });
         }
 

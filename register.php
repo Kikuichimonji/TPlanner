@@ -11,12 +11,10 @@ $controller = new Controllers\LoginController();
 
 // Call Controller method
 if(!isset($_GET["act"])){ //What happen when we appear on the page normaly
-    $controller->index();
+    $controller->showRegister();
 }else{
     if($_GET["act"]== "submit"){ // Comming from the login form
-        $controller->login($_POST);
-    }else if($_GET["act"]== "logout"){ // Comming from the login form
-        $controller->logout();
+        $controller->register($_POST);
     }else{ //If the user type a random attribute in get
         $controller->index();
     }

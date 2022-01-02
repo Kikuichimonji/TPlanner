@@ -32,6 +32,8 @@ body
     padding-left: 1em;
     padding-right: 1em;
     margin-right: 1em;
+    max-height: 2em;
+    word-break: normal;
 }
 .instantInput{
     padding-top: 0;
@@ -104,6 +106,14 @@ nav img{
 #headerConnection a:last-child{
     background-color: white;
 }
+/*************************
+LOGIN
+*************************/
+#login p,#register p{
+    color: red;
+    font-style: italic;
+}
+
 /*************************
 DASHBOARD
 *************************/
@@ -224,8 +234,8 @@ BOARD
     margin-left: 0.5em;
     margin-right: 0.5em;
     margin-top: 1em;
-    min-width: 250px;
-    max-width: 350px;
+    width: 250px;
+   
 }
 .listContainer ul{
     margin: 0;
@@ -240,19 +250,20 @@ BOARD
     cursor: pointer;
     display: flex;
     align-items: center;
-    height: 40px;
+    min-height: 40px;
     font-size: 20px;
     border: 1px solid black;
     border-bottom: 0;
     justify-content: space-between;
+    word-break: break-all;
 }
 .listHeader span:first-child:not(.listHeader span span:first-child){
     display: flex;
     align-items: center;
 }
-.listHeader span span:first-child{
+.listHeader .picto{
     height: 25px;
-    width: 25px;
+    min-width: 25px;
     border: 1px solid black;
     display: inline-block;
     margin-left: 0.5em;
