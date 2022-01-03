@@ -29,14 +29,14 @@ class CardController extends Controller
     public function add($id,$title)
     {
         $cm = new CardsManager();
-        $f_text= trim(filter_var($title,FILTER_SANITIZE_STRING));
+        $f_text= trim(filter_var($title,FILTER_SANITIZE_SPECIAL_CHARS));
         //var_dump($title);die();
         $cm->add($id,$f_text);
     }
     public function editCardDesc($id,$text)
     {
         //var_dump($id,$text);die();
-        $f_text= trim(filter_var($text,FILTER_SANITIZE_STRING));
+        $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS));
         $cm = new CardsManager();
         $cm->editCardDesc($id,$f_text);
     }

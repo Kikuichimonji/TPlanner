@@ -13,72 +13,66 @@ const stripHTML = (unsafe) => {
 
 }
 
-function init(){
+function init(){ //Initialisation of all the basic elements, necessary to make the board page work, can be recalled when the page is fetched
 
-    cards = document.querySelectorAll(".card");
-    lists = document.querySelectorAll(".list");;
-    board = document.querySelector(".board");
-    board.hiddenId = board.id;
+    cards = document.querySelectorAll(".card"); //all the cards in the page
+    lists = document.querySelectorAll(".list"); //all the lists in the page
+    board = document.querySelector(".board");   //The board
+    board.hiddenId = board.id;  //We hide the id inside a JS parameter so it cannot be tempered with
     board.removeAttribute("id");
     document.querySelector("main").removeAttribute("id")
-    options = document.getElementById("cardMenu").getElementsByTagName("li")
+    options = document.getElementById("cardMenu").getElementsByTagName("li") //we put a hidden value for each card menu option (small menu)
     for(let item of options){
-        
         item.hiddenFunc = item.getAttribute("func");
         item.removeAttribute("func")
     }
-    cardOptions = document.getElementById("cardDetail").getElementsByTagName("li")
+    cardOptions = document.getElementById("cardDetail").getElementsByTagName("li") //we put a hidden value for each card menu option (detailed menu)
     for(let item of cardOptions){
         item.hiddenFunc = item.getAttribute("func");
         item.removeAttribute("func")
     }
 
     newListButton = document.getElementById("addList");
-    boardTitle = document.querySelector("#leftside div div:first-child");
+    boardTitle = document.querySelector("#leftside div div:first-child"); 
 
-    /*document.addEventListener("click", (ev) =>{
-        //console.log(document.contains(ev.target))
-    })*/
 
-    handler = function (ev){
+    handler = function (ev){ //The function that change the board title into an input, then change it back into a clickable title
         
-        let newBox = document.createElement("input");
+        let newBox = document.createElement("input"); //we create a new text input
         newBox.setAttribute("type","text");
         newBox.value = ev.target.textContent
         newBox.classList.add("instantInput");
 
-        let newButton = document.createElement("button");
+        let newButton = document.createElement("button"); //we create the confirm button
         newButton.innerHTML = "Valider";
         newButton.hiddenId = board.hiddenId;
         newButton.classList.add("confirmButton");
 
         
         ev.target.parentNode.appendChild(newBox)
-        ev.target.parentNode.appendChild(newButton)
-        ev.target.outerHTML = ""
+        ev.target.parentNode.appendChild(newButton) //We append the input and the button 
+        ev.target.outerHTML = ""    //we remove the title
         newBox.focus();
-        ev.target.removeEventListener("click",handler);
-        newButton.addEventListener("click", (ev) => {
-            args = {"type" : "changeBoard", 'board' : ev.target, 'text' : newBox.value};
-            goFetch(args)
-            myDiv = document.createElement("div")
-            myDiv.innerHTML = newBox.value;
+        //ev.target.removeEventListener("click",handler);
+        newButton.addEventListener("click", (ev) => { //the click function to confirm the new title value
+            args = {"type" : "changeBoard", 'board' : ev.target, 'text' : newBox.value}; //the argument list for the fetch
+            goFetch(args);  //we fetch the sql to save the value
+            myDiv = document.createElement("div"); //we recreate the title
+            myDiv.textContent = newBox.value;
             ev.target.parentNode.innerHTML = myDiv.outerHTML
             boardTitle = document.querySelector("#leftside div div:first-child");
-            boardTitle.addEventListener("click", handler);
+            boardTitle.addEventListener("click", handler); // we reatach the click event on the new title 
         });
     };
 
     boardTitle.addEventListener("click", handler);
     
-
-
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
-        item.hiddenId = item.id;
-        item.hiddenType = "card";
+        item.hiddenId = item.id; //We hide the id inside a JS parameter
+        item.hiddenType = "card"; //This attribute is used for drag and drop purpose, to detect what part of the element it is
         item.removeAttribute('id');
         item.querySelector(".menu").hiddenClass = "menu"
-        item.childNodes.forEach(child => {
+        item.childNodes.forEach(child => { //we put the attribute on all cards childrens
             child.hiddenType = "card";
             child.childNodes.forEach(child => {
                 child.hiddenType = "card";
@@ -86,64 +80,63 @@ function init(){
         })
     });
 
-    lists.forEach((item)=>{
+    lists.forEach((item)=>{ //Same as cards, we hide id
         item.hiddenId = item.id;
-        item.hiddenType = "list";
+        item.hiddenType = "list"; //This attribute is used for drag and drop purpose, to detect what part of the element it is
         item.previousElementSibling.hiddenId = item.id;
         item.previousElementSibling.hiddenType = "list";
-        item.previousElementSibling.childNodes.forEach(el => {
+        item.previousElementSibling.childNodes.forEach(el => {  //we put the attribute on all lists childrens
             el.hiddenType = "list";
             el.childNodes.forEach(el => {
                 el.hiddenType = "list";
             })
         })
 
-        listTitle = item.previousElementSibling.querySelector(".picto").nextElementSibling
+        listTitle = item.previousElementSibling.querySelector(".picto").nextElementSibling; //We look for the title of each lists
 
-        handlerList = function (ev){
-            let newBox = document.createElement("input");
+        handlerList = function (ev){ //The function that change the list title into an input, then change it back into a clickable title
+            let newBox = document.createElement("input"); //we create a new input
             newBox.setAttribute("type","text");
             newBox.value = ev.target.textContent
             newBox.classList.add("instantInput");
 
-            let newButton = document.createElement("button");
+            let newButton = document.createElement("button"); //we create the confirm button
             newButton.innerHTML = "Valider";
             newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
             newButton.classList.add("confirmButton");
 
-            ev.target.parentNode.nextElementSibling.style.display= 'none';
-            ev.target.parentNode.appendChild(newBox)
-            ev.target.parentNode.appendChild(newButton)
-            ev.target.outerHTML = ""
+            ev.target.parentNode.nextElementSibling.style.display= 'none'; //we hide the menu icon to gain some space
+            ev.target.parentNode.appendChild(newBox);
+            ev.target.parentNode.appendChild(newButton);
+            ev.target.outerHTML = ""; //we remove the title
             newBox.focus();
-            ev.target.removeEventListener("click",handlerList);
-            newButton.addEventListener("click", (ev) => {
-                args = {"type" : "changeList", 'list' : ev.target.hiddenId, 'text' : newBox.value};
-                goFetch(args)
-                mySpan = document.createElement("span")
+            //ev.target.removeEventListener("click",handlerList);
+            newButton.addEventListener("click", (ev) => { 
+                args = {"type" : "changeList", 'list' : ev.target.hiddenId, 'text' : newBox.value}; //The arg list for the fetch
+                goFetch(args); //we fetch the SQL to save
+                mySpan = document.createElement("span");
                 mySpan.innerHTML = newBox.value;
-                ev.target.parentNode.appendChild(mySpan)
-                ev.target.previousElementSibling.outerHTML = "";
-                ev.target.outerHTML = "";
-                mySpan.addEventListener("click", handlerList);
-                mySpan.parentNode.nextElementSibling.style.display= 'block';
+                ev.target.parentNode.appendChild(mySpan); //we re create a new title and append it again
+                ev.target.previousElementSibling.outerHTML = ""; //we remove the input
+                ev.target.outerHTML = ""; //we remove the button
+                mySpan.addEventListener("click", handlerList); //we attach again the click event on the new title
+                mySpan.parentNode.nextElementSibling.style.display= 'block'; //the menu icon comes back
             });
         }
 
         listTitle.addEventListener("click", handlerList)
         
-
         item.parentNode.hiddenId = item.hiddenId;
         item.removeAttribute('id');
         item.nextElementSibling.hiddenId = item.hiddenId;
         item.nextElementSibling.hiddenType = "list";
-        item.nextElementSibling.addEventListener("click", (ev) =>
+        item.nextElementSibling.addEventListener("click", (ev) => //When we click in the "add card" area
         {
-            ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode);
+            ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode); //if we click on the text or the box itself
         })
-        item.previousElementSibling.addEventListener("click", (ev) => {
-            if(ev.target.nodeName=="IMG"){
-                deleteList(ev.target.parentNode.parentNode.parentNode);
+        item.previousElementSibling.addEventListener("click", (ev) => { //if we click on the list menu
+            if(ev.target.nodeName=="IMG"){ //The list menu doesn't exist for now, it's only the delete button
+                deleteList(ev.target.parentNode.parentNode.parentNode); //we delete without a warning
             }
             
         })
@@ -151,19 +144,14 @@ function init(){
 
     cards.forEach(item => item.addEventListener("click", (ev) => //Event for when we're gonna click on the cards
     {
-        if(ev.target.classList.contains("cardBody")){
+        if(ev.target.classList.contains("cardBody")){ // When we click on the body, we open the editor
             openEditor(item);
-            /*cards.forEach((item) => {
-                item.className = "card";
-            })
-            ev.target.parentNode.className = "card active";*/
 
-
-        }else if(ev.target.classList.contains("menu") && ev.target.hiddenClass == "menu"){
+        }else if(ev.target.classList.contains("menu") && ev.target.hiddenClass == "menu"){ //if we click on the card menu button
             let menu = document.getElementById("cardMenu");
-            let card = ev.target.parentNode.parentNode;
+            let card = ev.target.parentNode.parentNode; 
             
-            if(menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != card.hiddenId))
+            if(menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != card.hiddenId)) //if the menu is hidden or is open at another place
             {
                 menu.style.display = "block";
                 menu.hiddenId = card.hiddenId

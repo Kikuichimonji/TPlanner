@@ -10,7 +10,7 @@
                 if(isset($fieldArray[1]) && $fieldArray[1] === "id") //if we find a foreigner key (we have to end it with _id)
                 {
                     $classname= "Models\\".ucfirst($fieldArray[0])."Manager"; //we call the corresponding manager
-                    $manager = new $classname;
+                    $manager = new $classname();
                     $value = $manager->findOneById($value); //we look for the object associated with the foreigner key , then hydrate it too
                 }
                 $method = "set".ucfirst($field); //we call the setter for each data

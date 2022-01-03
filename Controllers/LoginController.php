@@ -83,12 +83,12 @@ class LoginController extends Controller
   {
     $token = hash_hmac("sha256","tralala",$this->getToken());
     if(isset($data)){
-      var_dump($data);
+      //var_dump($data);
       if(!$this->csrfCheck($data['token'])){
         header("Location:index.php");
         die();
       }
-      $f_username= trim(filter_var($data["pseudo"],FILTER_SANITIZE_STRING));
+      $f_username= trim(filter_var($data["pseudo"],FILTER_SANITIZE_SPECIAL_CHARS));
       $f_mail = trim(filter_var($data['mail'],FILTER_SANITIZE_EMAIL)); 
       $f_password1 = filter_var($data["password"], FILTER_VALIDATE_REGEXP, [
           "options" => array("regexp"=>'/[A-Za-z0-9]{4,32}/')
