@@ -154,23 +154,23 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             if(menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != card.hiddenId)) //if the menu is hidden or is open at another place
             {
                 menu.style.display = "block";
-                menu.hiddenId = card.hiddenId
-                let rect = ev.target.getBoundingClientRect();
+                menu.hiddenId = card.hiddenId; //we attach the card id to the menu (passing the arg to the listener)
+                let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the card
                 menu.style.left = rect.x + 20 +"px";
                 menu.style.top = rect.y + 20 +"px";
-                menu.firstElementChild.innerHTML = "Paramètres "+ ev.target.previousElementSibling.innerHTML
-                for(let item of options)
+                menu.firstElementChild.textContent = "Paramètres "+ ev.target.previousElementSibling.textContent //We change the title according to the card
+                for(let item of options) //we put an event listener on each menu link
                 {
-                    item.card = card
-                    item.addEventListener("click", ev => {
+                    item.card = card; //we attach the card to the links for the listener
+                    item.addEventListener("click", ev => { 
                         let card = ev.currentTarget.card
-                        item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null;
-                        item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(card),menu.style.display = "none") : null : null;
+                        item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
+                        item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(card),menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
                         ev.stopImmediatePropagation();
                     })
                     
                 };
-            }else{
+            }else{ //if the menu is shown and click again on the card menu button
                 menu.style.display = "none";
             }
             
@@ -180,21 +180,20 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
     }));
     newListButton.addEventListener("click", (ev) =>
     {
-        ev.target.parentNode.hiddenId = board.hiddenId 
-        //console.log(ev.target)
-        addNewEl(ev.target.parentNode);
+        ev.target.parentNode.hiddenId = board.hiddenId; // we pass the id to the target to then pass it to the new elements 
+        addNewEl(ev.target.parentNode); //function that replace the text element by an input and a button, then we can save the datas
     });
     
 }
-function openEditor(el)
+function openEditor(el)// Function that open the card editor
 {
     let modal = document.getElementById("cardDetail");
-    //console.log(el)
-    modal.querySelector(".modalMenu").firstElementChild.textContent = el.querySelector(".cardHeader").firstElementChild.textContent
+
+    modal.querySelector(".modalMenu").firstElementChild.textContent = el.querySelector(".cardHeader").firstElementChild.textContent //e change the menu title to match the card title
     modal.style.display = "block";
-    modal.el = el
-    textarea = modal.querySelector("#cardDescription")
-    textarea.value = el.querySelector(".cardBody").textContent
+    modal.el = el //again we pass the el here to grab it again in the listeners
+    textarea = modal.querySelector("#cardDescription");
+    textarea.value = el.querySelector(".cardBody").textContent;
     for(let item of cardOptions)
     {
         item.addEventListener("click", ev => {
