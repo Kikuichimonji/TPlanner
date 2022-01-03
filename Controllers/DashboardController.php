@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Models\BoardsManager;
 
 class DashboardController extends Controller
 {
@@ -28,4 +29,11 @@ class DashboardController extends Controller
     ]);
   }
 
+  public function add($text,$id)
+  {
+    $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS));
+    $bm = new BoardsManager();
+    $id = $bm->addBoard($f_text,$id);
+    return $id;
+  }
 }

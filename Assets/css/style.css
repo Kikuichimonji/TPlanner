@@ -117,6 +117,30 @@ LOGIN
 /*************************
 DASHBOARD
 *************************/
+#dashboardTop{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+#dashboardTop div:first-child{
+    background-color: var(--main-color);
+    color: white;
+    padding-left: 1em;
+    padding-right: 1em;
+    height: 40px;
+    display:flex;
+    align-items: center;
+    cursor: pointer;
+}
+#dashboardTop div:first-child:hover{
+    box-shadow: var(--box-shadow);
+}
+#dashboardTop span{
+    margin-right: 0.5em;
+}
+
+
 
 /*************************
 BOARD

@@ -56,6 +56,28 @@
                 //echo $sql2;
             return self::update($sql,$arg);
         }
+
+        public function addBoard($text,$id)
+        {
+            $sql= "INSERT INTO boards(label,id_user)".
+                " VALUES (:label,:id)";
+
+            $arg= ["label" => $text,
+                    "id" => $id];
+
+            //var_dump($arg);die();
+            $idBoard = self::insertReturn($sql,$arg);
+
+            $sql= "INSERT INTO usersboard(id_user,id_board)".
+            " VALUES (:idu,:idb)";
+
+            $arg= ["idu" => $id,
+                    "idb" => $idBoard];
+
+            self::insert($sql,$arg);
+
+            return $idBoard;
+        }
     }
 
 ?>

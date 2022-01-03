@@ -14,9 +14,12 @@
     ?>
   </header>
 
-  <main>
-    <h4>Dashboard</h4>
+  <main id="dashboard">
     <p>Bienvenue <?= $user->getUsername() ?></p>
+    <div id="dashboardTop">
+      <div><div user="<?= $user->getId() ?>"><span>+</span>Nouveau Tableau</div></div>
+      <div>Trier et tout ↓</div>
+    </div>
     <?php 
       foreach($user->getListBoards() as $board)
       {
@@ -30,6 +33,6 @@
   </main>
 
   <?php require_once 'layout/footer.php'; ?>
-  <script src="./Assets/scripts/global.js"></script>
+  <script src="./Assets/scripts/dashboard.js"></script>
 </body>
 </html>

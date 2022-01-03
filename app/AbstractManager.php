@@ -72,12 +72,24 @@
             }
         }
 
+        protected static function insertNoChange($sql, $params){ // The general INSERT function
+            try{
+                $stmt = self::$connection->prepare($sql);
+                return $stmt->execute($params);
+            }
+            catch(\PDOException $e) {
+                echo $e->getMessage();  //Basic error shown
+                //die();  // meurt
+            }
+        }
+
         protected static function insertReturn($sql, $params){ //The other INSERT function, insert and return the last ID inserted
             try{
                 $stmt = self::$connection->prepare($sql);
                 $stmt->execute($params);
-                self::setChange();
-                return self::$connection->lastInsertId();
+                $id = self::$connection->lastInsertId();
+
+                return $id;
             }
             catch(\PDOException $e) {
                 echo $e->getMessage();  //Basic error shown

@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `boards` (
   KEY `id_user` (`id_user`),
   CONSTRAINT `boards_ibfk_1` FOREIGN KEY (`id_environnement`) REFERENCES `environnements` (`id_environnement`),
   CONSTRAINT `boards_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tplanner.boards: ~2 rows (approximately)
+-- Dumping data for table tplanner.boards: ~3 rows (approximately)
 /*!40000 ALTER TABLE `boards` DISABLE KEYS */;
 INSERT INTO `boards` (`id`, `label`, `id_environnement`, `id_user`) VALUES
 	(1, 'My first board', NULL, 1),
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `lastchange` (
 -- Dumping data for table tplanner.lastchange: ~0 rows (approximately)
 /*!40000 ALTER TABLE `lastchange` DISABLE KEYS */;
 INSERT INTO `lastchange` (`id`, `lastChange`) VALUES
-	(1, '2022-01-02 16:15:41');
+	(1, '2022-01-03 21:15:42');
 /*!40000 ALTER TABLE `lastchange` ENABLE KEYS */;
 
 -- Dumping structure for table tplanner.lists
@@ -172,10 +172,10 @@ CREATE TABLE IF NOT EXISTS `usersboard` (
   PRIMARY KEY (`id_user`,`id_board`),
   KEY `id_board` (`id_board`),
   CONSTRAINT `usersboard_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  CONSTRAINT `usersboard_ibfk_2` FOREIGN KEY (`id_board`) REFERENCES `boards` (`id`)
+  CONSTRAINT `usersboard_ibfk_2` FOREIGN KEY (`id_board`) REFERENCES `boards` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tplanner.usersboard: ~2 rows (approximately)
+-- Dumping data for table tplanner.usersboard: ~3 rows (approximately)
 /*!40000 ALTER TABLE `usersboard` DISABLE KEYS */;
 INSERT INTO `usersboard` (`id_user`, `id_board`) VALUES
 	(1, 1),
