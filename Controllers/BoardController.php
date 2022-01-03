@@ -44,7 +44,8 @@ class BoardController extends Controller
 
   public function updateTitle($id,$text)
   {
-    $f_text= trim(filter_var($text,FILTER_SANITIZE_STRING));
+    $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS ));
+    //var_dump($f_text);die();
     $bm = new BoardsManager();
     $bm->updateTitle($id,$f_text);
   }
