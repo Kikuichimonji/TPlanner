@@ -202,52 +202,50 @@ function openEditor(el)// Function that open the card editor
         })
     }
     modal.querySelector("button").addEventListener("click", ev => {
-        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value};
+        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value}; //the args for the fetch
         ev.stopImmediatePropagation();
-        //console.log(modal.el)
-        goFetch(args);
-        modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value);
+        goFetch(args); //we fetch the SQL to save
+        modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value); //we put the new description back into the card body
         modal.style.display = "none";
     })
 }
 
-function addNewEl(el)
+function addNewEl(el) // Function that add a new list or card
 {
 
-    let newBox = document.createElement("input");
-    newBox.setAttribute("type","text");
+    let newBox = document.createElement("input"); //new input 
+    newBox.setAttribute("type","text"); 
     newBox.setAttribute("placeholder","Enter a title here");
     newBox.classList.add("instantInput");
 
-    let newButton = document.createElement("button");
+    let newButton = document.createElement("button");//new button
     newButton.innerHTML = "Confirm";
     newBox.hiddenId = el.hiddenId;
-    newButton.hiddenId = el.hiddenId;
+    newButton.hiddenId = el.hiddenId; // we attach the id to get it back in the listener
     newButton.classList.add("confirmButton");
 
-    el.firstChild.parentNode.oldText = el.firstChild.parentNode.innerHTML
+    el.firstChild.parentNode.oldText = el.firstChild.parentNode.innerHTML //we save the text if we close it by clicking away
     el.firstChild.innerHTML = "" ;
-    el.firstChild.appendChild(newBox);
+    el.firstChild.appendChild(newBox); // we append the input and the button
     el.firstChild.appendChild(newButton);
     newBox.focus();
 
-    newButton.parentNode.classList.add("inputOpen")
-    newButton.parentNode.hiddenStatus = "inputOpen"
+    newButton.parentNode.classList.add("inputOpen") 
+    //newButton.parentNode.hiddenStatus = "inputOpen"
 
     
     el.style.opacity = 1;
-    newButton.addEventListener("click", ev =>{
+    newButton.addEventListener("click", ev =>{ //when we click on the button we look at the class to see if it's a card or a list, then we fetch to save and reload
         let el = ev.target.previousElementSibling
         let elText = el.value;
         
         if(el.parentNode.parentNode){
-            
             args = el.parentNode.parentNode.classList.contains("addCard") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
         }else{
             args = {"type" : "newList", 'list' : el};
         }
             
-        if(elText !== ""){
+        if(elText !== ""){ //if the text is empty we don't save
             //console.log(args)
             goFetch(args)
         }else{
@@ -258,12 +256,11 @@ function addNewEl(el)
     })
 }
 
-function deleteCard(el){
+function deleteCard(el){ //Function to delete a card
     let card = el
     let list = el.parentNode.querySelectorAll(".card");
     listArray = [... list];
-    pos = listArray.indexOf(el);
-    //console.log(list)
+    pos = listArray.indexOf(el); //we transform the htmlCollection into an array to use indexOf to get the position of the item in the list
     let args = {"type" : "deleteCard",
                 "el" : card,
                 "pos"  : pos,
