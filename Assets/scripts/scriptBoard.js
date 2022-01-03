@@ -193,8 +193,8 @@ function openEditor(el)// Function that open the card editor
     modal.style.display = "block";
     modal.el = el //again we pass the el here to grab it again in the listeners
     textarea = modal.querySelector("#cardDescription");
-    textarea.value = el.querySelector(".cardBody").textContent;
-    for(let item of cardOptions)
+    textarea.value = el.querySelector(".cardBody").textContent; // we put the text from the description into the textarea
+    for(let item of cardOptions) //We put a listener on each editor link 
     {
         item.addEventListener("click", ev => {
             console.log(ev.target)
