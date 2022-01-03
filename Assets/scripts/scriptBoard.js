@@ -268,52 +268,46 @@ function deleteCard(el){ //Function to delete a card
     goFetch(args)
 }
 
-function deleteList(el){
+function deleteList(el){ // Function to delete a list 
 
     let list = el.parentNode.querySelectorAll(".listContainer");
-    //console.log(list)
     listArray = [... list];
-    pos = listArray.indexOf(el);
+    pos = listArray.indexOf(el); //we transform the htmlCollection into an array to use indexOf to get the position of the list in the board
     let args = {"type" : "deleteList",
                 "el" : el,
                 "pos"  : pos,
                 "board" : el.parentNode.hiddenId};
-
-    //console.log(args);
     goFetch(args)
 }
 
-function goFetch(args)
+function goFetch(args) // function that fetch the board content depending on the args
 {
 
     myHeaders = new Headers(); //If we want custom headers
-    let formData = new FormData();
+    let formData = new FormData(); //We append the POST data here
     
 
     if(args["type"]){
-        formData.append('act',args['type'])
+        formData.append('act',args['type']) //The action is saved in POST so nobody can mess by typing directly the link
         switch(args['type']) {
             case "newCard" :
-                el = args['card']
-                formData.append('text',el.value)
-                link = "board.php?list=" + el.hiddenId; //the link for a new card
+                formData.append('text',args['card'].value) //We pass all the users inputs in POST
+                link = "board.php?list=" + args['card'].hiddenId; 
                 break
             case "newList" :
-                el = args['list']
-                formData.append('text',el.value)
-                link = "board.php?board="+ el.hiddenId; //the link for a new list
+                formData.append('text',args['list'].value)
+                link = "board.php?board="+ args['list'].hiddenId;
                 break
             case "moveList" :
-                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ; //the link for moving lists
+                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ;
                 break
             case "moveCard" :
-                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; //the link for moving cards
+                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; 
                 break
             case "deleteCard" :
-                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for deleting a card
-                break
+                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ;
             case "deleteList" :
-                link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for Deleting a list
+                link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ;
                 break
             case "changeBoard" :
                 formData.append("text",args['text'])
@@ -325,7 +319,7 @@ function goFetch(args)
                 break
             case "editCardDesc" :
                 formData.append("text",args['text'])
-                link = "board.php?card=" + args["card"].hiddenId ; //the link for changing the board title
+                link = "board.php?card=" + args["card"].hiddenId ; //the link for changing the card description
                 break
             default:
                 link = null;
