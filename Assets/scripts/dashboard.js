@@ -20,7 +20,7 @@ newBoard.addEventListener("click", ev =>{
     ev.stopImmediatePropagation();
     newButton.addEventListener("click", (ev) => { //the click function to confirm the new title value
         args = {"type" : "newBoard", 'text' : newBox.value, "id" : ev.target.hiddenId}; //the argument list for the fetch
-        if(newBox.value){
+        if(newBox.value.trim()){
             goFetch(args);  //we fetch the sql to save the value
         }
         
