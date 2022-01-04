@@ -14,7 +14,7 @@ abstract class Autoloader{
         /*var_dump($class);
         die();*/
         $parts = preg_split('#\\\#', $class);
-			//$parts = ['Model', 'Managers', 'VehiculeManager']
+			//$parts = ['Controllers', 'BoardController']
 
 			// on extrait le dernier element 
 			$className = array_pop($parts);

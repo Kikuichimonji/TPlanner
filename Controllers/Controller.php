@@ -60,6 +60,12 @@ class Controller
     }
   }
 
+  protected function isAuthorised()
+  {
+    var_dump($this->getCurrentUserRole());die();
+    return true;
+  }
+
   /**
    * Détermine si l'utilisateur est authentifié via les données de sessions.
    *
@@ -77,9 +83,15 @@ class Controller
    */
   protected function getCurrentUserId()
   {
-    /*var_dump('controler');
-    var_dump($this->session());die();*/
     return $this->session()['id'] ?? null;
+  }
+
+  /**
+   * @return int|string|null
+   */
+  protected function getCurrentUserRole()
+  {
+    return $this->session()['role'] ?? null;
   }
 
   /**

@@ -284,7 +284,7 @@ function deleteList(el){ // Function to delete a list
                 "el" : el,
                 "pos"  : pos,
                 "board" : el.parentNode.hiddenId};
-    //goFetch(args)
+    goFetch(args)
 }
 
 function goFetch(args) // function that fetch the board content depending on the args
@@ -359,6 +359,7 @@ function goFetch(args) // function that fetch the board content depending on the
                 else{
                     if(args["type"] == "reload"){ //if we called the reload
                         document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
+                        init();
                     }
                     console.log("good doggy") //if everything went okay and we got no errors
                     if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){ //we reload in thoses cases
@@ -410,7 +411,7 @@ function findParentList(el) //Function made to find the list starting from a chi
     }
     return target
 }
-function getDraggedParent(el)
+function getDraggedParent(el) //Function to get the parent of the element dragged into
 {
     let target = null
     if(el){

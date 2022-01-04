@@ -73,15 +73,17 @@
 
         public function newUser($username,$password,$mail)
         {
-            $sql = "INSERT INTO users(username,password,mail,dateCreation)".
-                    "VALUES (:pseudo,:pass,:mail,:date)";
+            $sql = "INSERT INTO users(username,password,mail,role,dateCreation)".
+                    "VALUES (:pseudo,:pass,:mail,:role,:date)";
             
+            $role = json_encode(['user']);
             $arg= ["pseudo" => $username,
                     "pass" => $password,
                     "mail" => $mail,
-                    "date" => date("Y-m-d")];
+                    "date" => date("Y-m-d"),
+                    "role" => $role];
 
-            return self::insert($sql,$arg);
+            return self::insertNoChange($sql,$arg);
         }
     }
 

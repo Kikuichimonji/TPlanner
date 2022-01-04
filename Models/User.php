@@ -23,8 +23,7 @@ class User extends AbstractEntity
   public function __construct($data)
   {
     parent::hydrate($data,$this);
-    $um = new UsersManager();
-    $this->listBoards = $um->getBoards($this->id);
+    $this->getListBoards();
   }
   
   public function __toString()
@@ -157,6 +156,8 @@ class User extends AbstractEntity
    */ 
   public function getListBoards()
   {
+    $um = new UsersManager();
+    $this->listBoards = $um->getBoards($this->id);
     return $this->listBoards;
   }
 

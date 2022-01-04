@@ -16,6 +16,7 @@ class BoardController extends Controller
   {
     // Vérifie si l'utilisateur est connecté sinon redirection
     $this->authRequired();
+    $this->isAuthorised();
   }
 
   /**

@@ -34,5 +34,6 @@
 
   <?php require_once 'layout/footer.php'; ?>
   <script src="./Assets/scripts/dashboard.js"></script>
+  <script src="./Assets/scripts/global.js"></script>
 </body>
 </html>
