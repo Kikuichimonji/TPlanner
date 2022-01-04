@@ -84,7 +84,9 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
     });
 
     lists.forEach((item)=>{ //Same as cards, we hide id
+        
         item.hiddenId = item.id;
+        //console.log(item.hiddenId)
         item.hiddenType = "list"; //This attribute is used for drag and drop purpose, to detect what part of the element it is
         item.previousElementSibling.hiddenId = item.id;
         item.previousElementSibling.hiddenType = "list";
@@ -130,21 +132,23 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         }
 
         listTitle.addEventListener("click", handlerList)
+        if(item.nextElementSibling){
+            item.parentNode.hiddenId = item.hiddenId;
+            item.removeAttribute('id');
+            item.nextElementSibling.hiddenId = item.hiddenId;
+            item.nextElementSibling.hiddenType = "list";
+            item.nextElementSibling.addEventListener("click", (ev) => //When we click in the "add card" area
+            {
+                ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode); //if we click on the text or the box itself
+            })
+            item.previousElementSibling.addEventListener("click", (ev) => { //if we click on the list menu
+                if(ev.target.nodeName=="IMG"){ //The list menu doesn't exist for now, it's only the delete button
+                    deleteList(ev.target.parentNode.parentNode.parentNode); //we delete without a warning
+                }
+                
+            })
+        }
         
-        item.parentNode.hiddenId = item.hiddenId;
-        item.removeAttribute('id');
-        item.nextElementSibling.hiddenId = item.hiddenId;
-        item.nextElementSibling.hiddenType = "list";
-        item.nextElementSibling.addEventListener("click", (ev) => //When we click in the "add card" area
-        {
-            ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode); //if we click on the text or the box itself
-        })
-        item.previousElementSibling.addEventListener("click", (ev) => { //if we click on the list menu
-            if(ev.target.nodeName=="IMG"){ //The list menu doesn't exist for now, it's only the delete button
-                deleteList(ev.target.parentNode.parentNode.parentNode); //we delete without a warning
-            }
-            
-        })
     });
 
     cards.forEach(item => item.addEventListener("click", (ev) => //Event for when we're gonna click on the cards
@@ -490,8 +494,8 @@ function events(){ //all my general events
                 }
             }
     
-            if (draggedInto.hiddenId !== draggedElement.hiddenId  && draggedElement.classList.contains("listHeader") && (draggedInto.hiddenType == "list" || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
-    
+            if (draggedInto.hiddenId !== draggedElement.hiddenId && draggedInto.hiddenId != -1 && draggedElement.classList.contains("listHeader") && (draggedInto.hiddenType == "list" || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
+
                 draggedIntoContainer = draggedInto.classList.contains("card") ?  draggedInto.parentNode.parentNode :  draggedInto.parentNode;
                 draggedParent = draggedElement.parentNode;
                 

@@ -258,8 +258,15 @@ BOARD
     margin-left: 0.5em;
     margin-right: 0.5em;
     margin-top: 1em;
-    width: 250px;
+    min-width: 250px;
    
+}
+.listContainer .listContainer{
+    min-width: 50%;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    margin-left: 1em;
+    border-bottom: 1px solid var(--main-color);
 }
 .listContainer ul{
     margin: 0;

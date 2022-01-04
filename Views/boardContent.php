@@ -1,15 +1,17 @@
-<main id="<?=$_GET['id'] ?>">
-<?php 
-    if(isset($data)){
+<main id="<?= $_GET['id'] ?>">
+    <?php
+    if (isset($data)) {
         $user = $data['user'];
         $board = $data['board'];
-    }?>
+    } ?>
     <div id="boardHeader">
         <div id="leftside">
-            <div><div><?= $board->getLabel() ?></div></div>
+            <div>
+                <div><?= $board->getLabel() ?></div>
+            </div>
             <div id="listUser">
                 <span class='icon'>
-                    <?= "<span style='background-color:".$_SESSION['user']->getColor()."'>".strtoupper(substr($_SESSION['user']->getUsername(),0,2))."</span>" ?>
+                    <?= "<span style='background-color:" . $_SESSION['user']->getColor() . "'>" . strtoupper(substr($_SESSION['user']->getUsername(), 0, 2)) . "</span>" ?>
                 </span>
                 <div><span>+</span>Inviter</div>
             </div>
@@ -20,21 +22,39 @@
             <div><span>.</span><span>.</span><span>.</span></div>
         </div>
     </div>
-    
+
     <div class='board' id='<?= $board->getId(); ?>'>
-    <?php
-        foreach($board->getListLists() as $list)
-        {
+        <?php
+        foreach ($board->getListLists() as $list) {
             echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
             echo "<ul class='list' id='{$list->getId()}'>";
-            foreach($list->getListCards() as $card)
-            {
+            foreach ($list->getListCards() as $card) {
                 echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
             }
             echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
         }
-    ?>
-    <div id="addList"><span>+ Add a list</span><span></span></div>
+        ?>
+        <div id="addList"><span>+ Add a list</span><span></span></div>
+        <div class="listContainer">
+            <div class='listHeader'>
+                <span>
+                    <span class='picto'></span>
+                    <span>Elements archivé</span>
+                </span>
+            </div>
+            <ul class="list" id="-1">
+            <?php 
+                foreach($board->getCardsArchived() as $card){
+                    echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+                }
+                foreach($board->getListsArchived() as $list){
+                    echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
+                }
+            ?>
+            </ul>
+        </div>
+        
+
     </div>
 </main>
 <div class="modalMenu" id="cardMenu">
@@ -45,7 +65,7 @@
         <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
     </ul>
 </div>
-<div  id="cardDetail">
+<div id="cardDetail">
     <div class="modalMenu">
         <p>Placeholder</p>
         <div>
