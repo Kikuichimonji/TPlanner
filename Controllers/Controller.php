@@ -62,8 +62,9 @@ class Controller
 
   protected function isAuthorised()
   {
-    var_dump($this->getCurrentUserRole());die();
-    return true;
+    return in_array("admin",$this->getCurrentUserRole());
+
+    //return true;
   }
 
   /**
@@ -87,11 +88,11 @@ class Controller
   }
 
   /**
-   * @return int|string|null
+   * @return array
    */
   protected function getCurrentUserRole()
   {
-    return $this->session()['role'] ?? null;
+    return json_decode($this->session()['user']->getRole()) ?? null;
   }
 
   /**

@@ -27,7 +27,7 @@ class BoardController extends Controller
   {
     $um = new UsersManager();
     $user = $um->getOneById($_SESSION['user']->getId());
-    if($idBoard !== null){
+    if($idBoard !== null && $this->isAuthorised()){
       
       $bm = new BoardsManager();
       $board = $bm->getOneById($idBoard);
