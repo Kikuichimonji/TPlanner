@@ -416,7 +416,7 @@ function getDraggedParent(el)
     if(el){
         if(el.isCard){
             target = el; 
-        }else if(el.classList && (el.classList.contains("list"))){
+        }else if(el.classList && (el.classList.contains("list") || el.classList.contains("listHeader") || el.classList.contains("addCard"))){
             target = el; 
         }else{
             target = getDraggedParent(el.parentNode)
@@ -452,9 +452,10 @@ function events(){ //all my general events
         if(ev.target && (ev.target.hiddenType =="card" || ev.target.hiddenType =="list" || ev.target.classList.contains('listHeader')) && draggedElement) //If we drag into something && we drag into a card || we drag into a list
         {
             draggedInto = getDraggedParent(ev.target);
+            //console.log(draggedInto)
             if(draggedInto.hiddenType == "list") //if we drag into a list
             {
-                if(!draggedElement.classList.contains("listHeader")){ //if we drag something else than a list (can only be a card)
+                if(!draggedElement.classList.contains("listHeader") && !draggedInto.classList.contains("listHeader") && !draggedInto.classList.contains("addCard")){ //if we drag something else than a list (can only be a card)
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
             }
