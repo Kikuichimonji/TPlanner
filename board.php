@@ -66,11 +66,13 @@ if(!isset($_POST["act"])){
         case "deleteCard" :
             if(isset($_GET["card"]) && isset($_GET["pos"]) && isset($_GET["list"])){
                 if($_GET["card"] == "undefined" || $_GET["pos"] == -1 || $_GET["list"] == "undefined"){
+                    
                     echo "false";
                 }else{
                     $cardController->deleteCard($_GET["card"],$_GET["pos"],$_GET["list"]);
                 }
             }else{
+                //var_dump($_GET);die();
                 echo "false";
             }
             break;
