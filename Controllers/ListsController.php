@@ -25,19 +25,19 @@ class ListsController extends Controller
     {
     }
 
-    public function editCardsPosition($card,$list,$oldList,$pos)
+    public function editCardsPosition($card,$list,$oldList,$pos,$idBoard)
     {
         $cm = new CardsManager();
         $oldPos = $cm->getPos($card)['positions'];
         //var_dump($isChanging);die();
-        $cm->edit($card,$list,$oldList,$pos,$oldPos);
+        $cm->edit($card,$list,$oldList,$pos,$oldPos,$idBoard);
     }
-    public function editPosition($list,$pos)
+    public function editPosition($list,$pos,$idBoard)
     {
         $lm = new ListsManager();
         $oldPos = $lm->getPos($list)['listPosition'];
         //var_dump($oldPos);die();
-        $lm->edit($list,$pos,$oldPos);
+        $lm->edit($list,$pos,$oldPos,$idBoard);
     }
 
     public function add($id,$title)
@@ -54,10 +54,10 @@ class ListsController extends Controller
         $lm->deleteList($id,$pos,$board);
     }
 
-    public function updateListTitle($id,$text)
+    public function updateListTitle($id,$text,$board)
     {
         $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS));
         $lm = new ListsManager();
-        $lm->updateTitle($id,$f_text);
+        $lm->updateTitle($id,$f_text,$board);
     }
 }

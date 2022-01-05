@@ -119,7 +119,7 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             newBox.focus();
             //ev.target.removeEventListener("click",handlerList);
             newButton.addEventListener("click", (ev) => { 
-                args = {"type" : "changeList", 'list' : ev.target.hiddenId, 'text' : newBox.value}; //The arg list for the fetch
+                args = {"type" : "changeList", 'list' : ev.target.hiddenId, 'text' : newBox.value, "idBoard" : board.hiddenId}; //The arg list for the fetch
                 goFetch(args); //we fetch the SQL to save
                 mySpan = document.createElement("span");
                 mySpan.innerHTML = newBox.value;
@@ -212,7 +212,7 @@ function openEditor(el)// Function that open the card editor
         })
     }
     modal.querySelector("button").addEventListener("click", ev => {
-        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value}; //the args for the fetch
+        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value, "idBoard" : board.hiddenId}; //the args for the fetch
         ev.stopImmediatePropagation();
         goFetch(args); //we fetch the SQL to save
         modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value); //we put the new description back into the card body
@@ -250,7 +250,7 @@ function addNewEl(el) // Function that add a new list or card
         let elText = el.value;
         
         if(el.parentNode.parentNode){
-            args = el.parentNode.parentNode.classList.contains("addCard") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
+            args = el.parentNode.parentNode.classList.contains("addCard") ? {"type" : "newCard", 'card' : el, "idBoard" : board.hiddenId} : {"type" : "newList", 'list' : el}
         }else{
             args = {"type" : "newList", 'list' : el};
         }
@@ -274,7 +274,8 @@ function deleteCard(el){ //Function to delete a card
     let args = {"type" : "deleteCard",
                 "el" : card,
                 "pos"  : pos,
-                "list" : el.parentNode.hiddenId};
+                "list" : el.parentNode.hiddenId,
+                "idBoard" : board.hiddenId};
     //console.log(args)
     goFetch(args)
 }
@@ -303,20 +304,20 @@ function goFetch(args) // function that fetch the board content depending on the
         switch(args['type']) {
             case "newCard" :
                 formData.append('text',args['card'].value) //We pass all the users inputs in POST
-                link = "board.php?list=" + args['card'].hiddenId; 
+                link = "board.php?list=" + args['card'].hiddenId + "&board=" + args["idBoard"]; 
                 break
             case "newList" :
                 formData.append('text',args['list'].value)
                 link = "board.php?board="+ args['list'].hiddenId;
                 break
             case "moveList" :
-                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ;
+                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] + "&board=" + args["idBoard"];
                 break
             case "moveCard" :
-                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; 
+                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList + "&board=" + args["idBoard"]; 
                 break
             case "deleteCard" :
-                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ;
+                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] + "&board=" + args["idBoard"];
                 break;
             case "deleteList" :
                 link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ;
@@ -327,11 +328,11 @@ function goFetch(args) // function that fetch the board content depending on the
                 break
             case "changeList" :
                 formData.append("text",args['text'])
-                link = "board.php?list=" + args["list"] ; //the link for changing the board title
+                link = "board.php?list=" + args["list"] + "&board=" + args["idBoard"]; //the link for changing the board title
                 break
             case "editCardDesc" :
                 formData.append("text",args['text'])
-                link = "board.php?card=" + args["card"].hiddenId ; //the link for changing the card description
+                link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"]; //the link for changing the card description
                 break
             case "reload" :
                 link = "board.php?id=" +  args["board"];
@@ -364,8 +365,11 @@ function goFetch(args) // function that fetch the board content depending on the
                     if(args["type"] == "reload"){ //if we called the reload
                         document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
                         init();
+                        console.log("good reload")
+                    }else{
+                        console.log("good doggy")
                     }
-                    console.log("good doggy") //if everything went okay and we got no errors
+                     //if everything went okay and we got no errors
                     if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){ //we reload in thoses cases
                         args = {"type" : "reload", 'board' : board.hiddenId};
                         goFetch(args);
@@ -574,6 +578,7 @@ function events(){ //all my general events
 
             el = draggedElement.classList.contains("listHeader") ? draggedElement.nextElementSibling : draggedElement
             type = draggedElement.classList.contains("listHeader") ? "moveList" : "moveCard" 
+            
 
             list = target.querySelectorAll("."+elClass);
             listArray = [... list];
@@ -581,7 +586,7 @@ function events(){ //all my general events
             
             
             
-            let args = {"type" : type,"el" : el, "pos" : pos};
+            let args = {"type" : type,"el" : el, "pos" : pos, "idBoard" : board.hiddenId};
             //console.log(args)
             goFetch(args);       
         }

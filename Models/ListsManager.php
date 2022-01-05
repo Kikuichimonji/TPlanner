@@ -56,7 +56,7 @@
             );
         }
 
-        public function edit($list,$pos,$oldPos){
+        public function edit($list,$pos,$oldPos,$idBoard){
             
             if($pos>$oldPos){
                 /* Si on place la carte plus bas dans la liste (visuellement)
@@ -84,20 +84,20 @@
                 SET listPosition = :position
                 WHERE id = :list";
             }
-            $sql2 = "UPDATE lists 
+            /*$sql2 = "UPDATE lists 
             SET listPosition = listPosition+1
             WHERE listPosition >= ".$pos."
             AND listPosition < ".$oldPos.";
             UPDATE lists
             SET listPosition = ".$pos."
             WHERE id = :list";
-            
+            */
             $arg= ["position" => $pos,
                     "oldPosition" => $oldPos,
                     "list" => $list,
                 ];
                 //echo $sql2;
-            return self::update($sql,$arg);
+            return self::update($sql,$arg,$idBoard);
         }
 
         public function getMaxPos($id){
@@ -117,10 +117,10 @@
 
             $pos = $this->getMaxPos($id)['max']? $this->getMaxPos($id)['max']+1 : 0;
             $sql= "INSERT INTO lists(label,listPosition,id_board) 
-                   VALUES (:title,:positions,:id_list)";
+                   VALUES (:title,:positions,:idBoard)";
 
             $arg= ["title" => $title,
-                    "id_list" => $id,
+                    "idBoard" => $id,
                     "positions" => $pos];
 
             //var_dump($sql);die();
@@ -133,14 +133,14 @@
             $sql = "UPDATE lists 
                     SET listPosition = listPosition -1
                     WHERE listPosition > :pos
-                    AND id_board = :board;
+                    AND id_board = :idBoard;
                     DELETE
                     FROM lists
                     WHERE id = :id ";
 
             $arg=  ["id" => $id,
                     "pos" => $pos,
-                    "board"=> $board];
+                    "idBoard"=> $board];
 
             $cardSql = " DELETE
             FROM cards
@@ -163,7 +163,7 @@
             return self::delete($sql,$arg);
         }
 
-        public function updateTitle($id,$text){
+        public function updateTitle($id,$text,$board){
             
             $sql = "UPDATE lists
             SET label = :text
@@ -173,7 +173,7 @@
                     "id" => $id,
                 ];
                 
-            return self::update($sql,$arg);
+            return self::update($sql,$arg,$board);
         }
 
     }

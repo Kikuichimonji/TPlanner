@@ -75,10 +75,10 @@
             
             $sql = "UPDATE boards
             SET label = :text
-            WHERE id = :id";
+            WHERE id = :idBoard";
             
             $arg= ["text" => $text,
-                    "id" => $id,
+                    "idBoard" => $id,
                 ];
                 //echo $sql2;
             return self::update($sql,$arg);
@@ -87,21 +87,21 @@
         public function addBoard($text,$id)
         {
             $sql= "INSERT INTO boards(label,id_user)".
-                " VALUES (:label,:id)";
+                " VALUES (:label,:idBoard)";
 
             $arg= ["label" => $text,
-                    "id" => $id];
+                    "idBoard" => $id];
 
             //var_dump($arg);die();
             $idBoard = self::insertReturn($sql,$arg);
 
             $sql= "INSERT INTO usersboard(id_user,id_board)".
-            " VALUES (:idu,:idb)";
+            " VALUES (:idu,:idBoard)";
 
             $arg= ["idu" => $id,
-                    "idb" => $idBoard];
+                    "idBoard" => $idBoard];
 
-            self::insert($sql,$arg);
+            self::insertNoChange($sql,$arg);
 
             return $idBoard;
         }

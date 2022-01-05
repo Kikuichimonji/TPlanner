@@ -60,10 +60,10 @@
 
         }
 
-        protected static function insert($sql, $params){ // The general INSERT function
+        protected static function insert($sql, $params, $idBoard = null){ // The general INSERT function
             try{
                 $stmt = self::$connection->prepare($sql);
-                self::setChange(); //this method is called to indicate a change has been made
+                self::setChange($idBoard? $idBoard : $params["idBoard"]); //this method is called to indicate a change has been made
                 return $stmt->execute($params);
             }
             catch(\PDOException $e) {
@@ -97,12 +97,12 @@
             }
         }
 
-        protected static function update($sql, $params){ // The general UPDATE function
+        protected static function update($sql, $params, $idBoard = null){ // The general UPDATE function
             try{
                 $stmt = self::$connection->prepare($sql);
                 $stmt = $stmt->execute($params);
 
-                self::setChange();
+                self::setChange($idBoard? $idBoard : $params["idBoard"]);
                 return $stmt;
             }
             catch(\PDOException $e) {
@@ -111,12 +111,12 @@
             }
         }
 
-        protected static function delete($sql, $params = null){ // The general DELETE function
+        protected static function delete($sql, $params = null, $idBoard = null){ // The general DELETE function
             try{
                 $stmt = self::$connection->prepare($sql);
                 $stmt = $stmt->execute($params);
 
-                self::setChange();
+                self::setChange($idBoard? $idBoard : $params["idBoard"]);
                 return $stmt;
             }
             catch(\PDOException $e) {
@@ -125,12 +125,13 @@
             }
         }
 
-        protected static function setChange(){//The function used to indicate a change has been made
-            $sql =  "UPDATE lastChange".
+        protected static function setChange($id){//The function used to indicate a change has been made
+            $sql =  "UPDATE boards".
                     " SET lastChange = :date".
-                    " WHERE id = 1";
-            $params= ["date" => date("Y-m-d H:i:s")];
-
+                    " WHERE id = :id";
+            $params= ["date" => date("Y-m-d H:i:s"),
+                        "id" => $id];
+            //var_dump($params);die();
             $stmt = self::$connection->prepare($sql);
             return $stmt->execute($params);
         }

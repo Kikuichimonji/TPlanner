@@ -43,7 +43,7 @@
             );
         }
 
-        public function edit($card,$list,$oldList,$pos,$oldPos){
+        public function edit($card,$list,$oldList,$pos,$oldPos,$idBoard){
             if($oldList != $list){ 
                 /* Si on change la carte de liste 
                 *  1) On monte toutes les cartes après la nouvelle d'un cran
@@ -51,19 +51,19 @@
                 *  3) On attribue la position a la nouvelle carte
                 */ 
                 $sql = <<<END
-                    UPDATE cards
-                    SET positions = positions+1 
-                    WHERE positions >= :position
-                    AND id_list = :list;
-                    UPDATE cards
-                    SET positions = positions-1
-                    WHERE positions >= :oldPosition
-                    AND id_list = :oldList;
-                    UPDATE cards
-                    SET positions = :position ,
-                    id_list = :list
-                    WHERE id = :card;
-                    END;
+                UPDATE cards
+                SET positions = positions+1 
+                WHERE positions >= :position
+                AND id_list = :list;
+                UPDATE cards
+                SET positions = positions-1
+                WHERE positions >= :oldPosition
+                AND id_list = :oldList;
+                UPDATE cards
+                SET positions = :position ,
+                id_list = :list
+                WHERE id = :card;
+                END;
 
             }else{
                 if($pos>$oldPos){
@@ -105,7 +105,8 @@
                     "oldPosition" => $oldPos,
                     "list" => $list,
                     "oldList" => $oldList,
-                    "card" => $card];
+                    "card" => $card,
+                    "idBoard" => $idBoard];
 
             //var_dump($sql);
             //var_dump($card,$list,$oldList,$pos,$oldPos);
@@ -124,7 +125,7 @@
             );
         }
 
-        public function add($id,$title){
+        public function add($id,$title,$idBoard){
 
 
             $pos = isset($this->getMaxPos($id)['max'])? $this->getMaxPos($id)['max']+1 : 0;
@@ -137,10 +138,10 @@
 
             //var_dump($arg);die();
 
-            return self::insert($sql,$arg);
+            return self::insert($sql,$arg,$idBoard);
         }
 
-        public function deleteCard($id,$pos,$list){
+        public function deleteCard($id,$pos,$list,$idBoard){
 
             $sql = <<<END
             UPDATE cards
@@ -158,10 +159,10 @@
 
             //var_dump($pos);die();
 
-            return self::delete($sql,$arg);
+            return self::delete($sql,$arg,$idBoard);
         }
 
-        public function editCardDesc($id,$text){
+        public function editCardDesc($id,$text,$idBoard){
             
             $sql = "UPDATE cards
             SET description = :text
@@ -172,7 +173,7 @@
                 ];
                 //echo $sql2;
             //var_dump($text);
-            return self::update($sql,$arg);
+            return self::update($sql,$arg,$idBoard);
         }
     }
 

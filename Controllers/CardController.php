@@ -26,24 +26,24 @@ class CardController extends Controller
 
     }
 
-    public function add($id,$title)
+    public function add($id,$title,$idBoard)
     {
         $cm = new CardsManager();
         $f_text= trim(filter_var($title,FILTER_SANITIZE_SPECIAL_CHARS));
         //var_dump($title);die();
-        $cm->add($id,$f_text);
+        $cm->add($id,$f_text,$idBoard);
     }
-    public function editCardDesc($id,$text)
+    public function editCardDesc($id,$text,$idBoard)
     {
         //var_dump($id,$text);die();
         $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS));
         $cm = new CardsManager();
-        $cm->editCardDesc($id,$f_text);
+        $cm->editCardDesc($id,$f_text,$idBoard);
     }
 
-    public function deleteCard($id,$pos,$list)
+    public function deleteCard($id,$pos,$list,$idBoard)
     {
         $cm = new CardsManager();
-        $cm->deleteCard($id,$pos,$list);
+        $cm->deleteCard($id,$pos,$list,$idBoard);
     }
 }
