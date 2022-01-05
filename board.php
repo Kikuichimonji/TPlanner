@@ -32,9 +32,11 @@ if(!isset($_POST["act"])){
             if(isset($_GET["list"]) && isset($_GET["pos"]) && isset($_GET["card"]) && isset($_GET['oldList']))
             {
                 if($_GET["list"] == "undefined" or $_GET["pos"] == -1 or $_GET["card"] == "undefined" or $_GET['oldList'] == "undefined" ){
+                    //var_dump($_POST);die();
                     echo "false";
                 }else{
-                    $listsController->editCardsPosition($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos'],$_GET["board"]);
+                    //var_dump($_POST);die();
+                    $listsController->editCardsPosition($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos'],$_GET["board"],$_POST["isArchive"]);
                 }
             }else{
                 echo "false";
@@ -45,7 +47,7 @@ if(!isset($_POST["act"])){
                 if($_GET["list"] == "undefined" || $_GET["listPos"] ==-1 || $_GET["board"] == "undefined"){
                     echo "false";
                 }else{
-                    $listsController->editPosition($_GET['list'],$_GET['listPos'],$_GET["board"]);
+                    $listsController->editPosition($_GET['list'],$_GET['listPos'],$_GET["board"],$_POST["isArchive"]);
                 }  
             }else{
                 echo "false";

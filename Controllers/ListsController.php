@@ -25,19 +25,19 @@ class ListsController extends Controller
     {
     }
 
-    public function editCardsPosition($card,$list,$oldList,$pos,$idBoard)
+    public function editCardsPosition($card,$list,$oldList,$pos,$idBoard,$isArchive)
     {
         $cm = new CardsManager();
         $oldPos = $cm->getPos($card)['positions'];
-        //var_dump($isChanging);die();
-        $cm->edit($card,$list,$oldList,$pos,$oldPos,$idBoard);
+        //var_dump($isArchive);die();
+        $cm->edit($card,$list,$oldList,$pos,$oldPos,$idBoard,$isArchive);
     }
-    public function editPosition($list,$pos,$idBoard)
+    public function editPosition($list,$pos,$idBoard,$isArchive)
     {
         $lm = new ListsManager();
         $oldPos = $lm->getPos($list)['listPosition'];
         //var_dump($oldPos);die();
-        $lm->edit($list,$pos,$oldPos,$idBoard);
+        $lm->edit($list,$pos,$oldPos,$idBoard,$isArchive);
     }
 
     public function add($id,$title)

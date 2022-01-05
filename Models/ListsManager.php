@@ -56,34 +56,58 @@
             );
         }
 
-        public function edit($list,$pos,$oldPos,$idBoard){
-            
-            if($pos>$oldPos){
-                /* Si on place la carte plus bas dans la liste (visuellement)
-                *  1) On descend les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
-                *  2) On attribue la position a la nouvelle carte
-                */ 
-                $sql = "UPDATE lists 
-                SET listPosition = listPosition-1
-                WHERE listPosition > :oldPosition
-                AND listPosition <= :position;
-                UPDATE lists
-                SET listPosition = :position
-                WHERE id = :list";
-                
+        public function edit($list,$pos,$oldPos,$idBoard,$isArchive){
+
+            $arg= ["position" => $pos,
+                    "oldPosition" => $oldPos,
+                    "list" => $list,
+                    "idBoard" => $idBoard,
+                    ];
+
+            if($isArchive === "true"){
+                $sql="UPDATE lists 
+                    SET listPosition = listPosition -1
+                    WHERE listPosition > :position
+                    AND id_board = :idBoard;
+                    UPDATE lists
+                    SET isArchived = 1
+                    WHERE id = :list";
+
+                $arg= ["position" => $pos,
+                        "list" => $list,
+                        "idBoard" => $idBoard,
+                        ];
             }else{
-                /* Si on place la carte plus haut dans la liste (visuellement)
-                *  1) On monte les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
-                *  2) On attribue la position a la nouvelle carte
-                */ 
-                $sql = "UPDATE lists 
-                SET listPosition = listPosition+1
-                WHERE listPosition >= :position
-                AND listPosition < :oldPosition;
-                UPDATE lists
-                SET listPosition = :position
-                WHERE id = :list";
+                if($pos>$oldPos){
+                    /* Si on place la carte plus bas dans la liste (visuellement)
+                    *  1) On descend les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
+                    *  2) On attribue la position a la nouvelle carte
+                    */ 
+                    $sql = "UPDATE lists 
+                    SET listPosition = listPosition-1
+                    WHERE listPosition > :oldPosition
+                    AND listPosition <= :position
+                    AND id_board = :idBoard;
+                    UPDATE lists
+                    SET listPosition = :position
+                    WHERE id = :list";
+                    
+                }else{
+                    /* Si on place la carte plus haut dans la liste (visuellement)
+                    *  1) On monte les anciennes cartes d'un cran entre l'ancienne position et la nouvelle (incluse pour libérer l'id pour la carte)
+                    *  2) On attribue la position a la nouvelle carte
+                    */ 
+                    $sql = "UPDATE lists 
+                    SET listPosition = listPosition+1
+                    WHERE listPosition >= :position
+                    AND listPosition < :oldPosition
+                    AND id_board = :idBoard;
+                    UPDATE lists
+                    SET listPosition = :position
+                    WHERE id = :list";
+                }
             }
+            
             /*$sql2 = "UPDATE lists 
             SET listPosition = listPosition+1
             WHERE listPosition >= ".$pos."
@@ -92,11 +116,9 @@
             SET listPosition = ".$pos."
             WHERE id = :list";
             */
-            $arg= ["position" => $pos,
-                    "oldPosition" => $oldPos,
-                    "list" => $list,
-                ];
+          
                 //echo $sql2;
+            //var_dump($isArchive);die();
             return self::update($sql,$arg,$idBoard);
         }
 

@@ -8,6 +8,7 @@ let okayToClose = false;
 let options = null;
 let cardOptions = null;
 let target = null;
+let listoptions = null
 const stripHTML = (unsafe) => {
     return unsafe.replace(/(<([^>]+)>)/gi, "");
 
@@ -31,9 +32,17 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         item.hiddenFunc = item.getAttribute("func");
         item.removeAttribute("func")
     }
+    listOptions = document.getElementById("listMenu").getElementsByTagName("li") //we put a hidden value for each card menu option (detailed menu)
+    for(let item of listOptions){
+        item.hiddenFunc = item.getAttribute("func");
+        item.removeAttribute("func")
+    }
 
     newListButton = document.getElementById("addList");
     boardTitle = document.querySelector("#leftside div div:first-child"); 
+    archive = document.getElementById("rightside").firstElementChild;
+    
+    
 
 
     handler = function (ev){ //The function that change the board title into an input, then change it back into a clickable title
@@ -86,7 +95,20 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
     lists.forEach((item)=>{ //Same as cards, we hide id
         
         item.hiddenId = item.id;
-        //console.log(item.hiddenId)
+        if(item.hasAttribute("archive")){
+            item.removeAttribute("archive");
+            item.hiddenFunc = "archive";
+            item.previousElementSibling.hiddenFunc = "archive";
+            item.previousElementSibling.childNodes.forEach(el => {  //we put the attribute on all lists childrens
+                el.hiddenFunc = "archive";
+                el.childNodes.forEach(el => {
+                    el.hiddenFunc = "archive";
+                })
+            })
+        }
+        if(item.previousElementSibling.querySelector(".menu")){
+            item.previousElementSibling.querySelector(".menu").hiddenClass = "menu"
+        }
         item.hiddenType = "list"; //This attribute is used for drag and drop purpose, to detect what part of the element it is
         item.previousElementSibling.hiddenId = item.id;
         item.previousElementSibling.hiddenType = "list";
@@ -131,7 +153,10 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             });
         }
 
-        listTitle.addEventListener("click", handlerList)
+        if(item.hiddenFunc != "archive"){
+            listTitle.addEventListener("click", handlerList);
+        }
+        
         if(item.nextElementSibling){
             item.parentNode.hiddenId = item.hiddenId;
             item.removeAttribute('id');
@@ -141,13 +166,32 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             {
                 ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode); //if we click on the text or the box itself
             })
-            item.previousElementSibling.addEventListener("click", (ev) => { //if we click on the list menu
-                if(ev.target.nodeName=="IMG"){ //The list menu doesn't exist for now, it's only the delete button
-                    deleteList(ev.target.parentNode.parentNode.parentNode); //we delete without a warning
-                }
-                
-            })
         }
+
+        item.previousElementSibling.addEventListener("click", ev =>{
+            if(ev.target.hiddenType =="list" && ev.target.hiddenClass == "menu"){
+                let menu = document.getElementById("listMenu");
+                let list = ev.target.parentNode.parentNode;
+                menu.style.display = "block";
+                menu.list = list; //we attach the list id to the menu (passing the arg to the listener)
+                let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the list
+                menu.style.left = rect.x + 20 +"px";
+                menu.style.top = rect.y + 20 +"px";
+                menu.firstElementChild.textContent = "Paramètres "+ ev.target.previousElementSibling.textContent //We change the title according to the list
+                for(let item of listOptions) //we put an event listener on each menu link
+                {
+                    item.list = list; 
+                    item.addEventListener("click", ev => { 
+                        let list = ev.currentTarget.list
+                        item.hiddenFunc == "archive" ? ev.target.nodeName=="SPAN" ? (archiveEl(list),menu.style.display = "none") : null : null;
+                        item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteList(list),menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
+                        item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(list),menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
+                        ev.stopImmediatePropagation();
+                    })
+                    
+                };
+            }
+        });
         
     });
 
@@ -156,7 +200,7 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         if(ev.target.classList.contains("cardBody")){ // When we click on the body, we open the editor
             openEditor(item);
 
-        }else if(ev.target.classList.contains("menu") && ev.target.hiddenClass == "menu"){ //if we click on the card menu button
+        }else if(ev.target.hiddenType=="card" && ev.target.hiddenClass == "menu"){ //if we click on the card menu button
             let menu = document.getElementById("cardMenu");
             let card = ev.target.parentNode.parentNode; 
             
@@ -174,6 +218,7 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
                     item.addEventListener("click", ev => { 
                         let card = ev.currentTarget.card
                         //console.log(item.hiddenFunc)
+                        item.hiddenFunc == "archive" ? ev.target.nodeName=="SPAN" ? (archiveEl(card),menu.style.display = "none") : null : null;
                         item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
                         item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(card),menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
                         ev.stopImmediatePropagation();
@@ -193,7 +238,10 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         ev.target.parentNode.hiddenId = board.hiddenId; // we pass the id to the target to then pass it to the new elements 
         addNewEl(ev.target.parentNode); //function that replace the text element by an input and a button, then we can save the datas
     });
-    
+    archive.addEventListener("click", ev =>{
+        arch = document.querySelector(".listContainer:last-child");
+        arch.style.display == "block" ? (arch.style.display = "none",ev.target.classList.remove("purpleBorder")) : (arch.style.display = "block",ev.target.classList.add("purpleBorder"))
+    });
 }
 function openEditor(el)// Function that open the card editor
 {
@@ -311,10 +359,19 @@ function goFetch(args) // function that fetch the board content depending on the
                 link = "board.php?board="+ args['list'].hiddenId;
                 break
             case "moveList" :
+                formData.append('isArchive',args["el"].hiddenFunc? true : false);
                 link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] + "&board=" + args["idBoard"];
                 break
             case "moveCard" :
-                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList + "&board=" + args["idBoard"]; 
+                if(!args["el"].oldList){ //Means that we click on 'Archiver'
+                    args["el"].oldList = args["el"].actualList;
+                    listId = args["el"].listId
+                    formData.append('isArchive',true);
+                }else{
+                    listId = args["el"].parentNode.hiddenId
+                    formData.append('isArchive',args["el"].parentNode.hiddenFunc? true : false); //if we drag a card into the Archive list
+                }
+                link = "board.php?list=" + listId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList + "&board=" + args["idBoard"]; 
                 break
             case "deleteCard" :
                 link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] + "&board=" + args["idBoard"];
@@ -370,25 +427,11 @@ function goFetch(args) // function that fetch the board content depending on the
                         console.log("good doggy")
                     }
                      //if everything went okay and we got no errors
-                    if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){ //we reload in thoses cases
+                    isArchive = args["el"] ? (args["el"].hiddenFunc == "archive" ? true : false) : false;
+
+                    if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive){ //we reload in thoses cases
                         args = {"type" : "reload", 'board' : board.hiddenId};
                         goFetch(args);
-                        /*let link2 = "board.php?act=reload&id=" + board.hiddenId;
-                        formData = new FormData(); //new POST datas for the reload link
-                        formData.append('act','reload')
-                        myInit = { method: 'POST', //Fetch settings
-                                    headers: myHeaders,
-                                    mode: 'cors',
-                                    cache: 'default',
-                                    body:  formData};
-                        let contentRefresh = new Request(link2,myInit);
-                        fetch(contentRefresh).then((response) =>{
-                            response.text().then((response) =>{ //we get the text response from the fetch
-                                //console.log(response);
-                                document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
-                                init();
-                            })
-                        })*/
                         //location.reload();
                     }
                 }
@@ -419,7 +462,7 @@ function findParentList(el) //Function made to find the list starting from a chi
     }
     return target
 }
-function getDraggedParent(el) //Function to get the parent of the element dragged into
+function getDraggedParent(el) //Function to get the parent of the element dragged into (for dragging limitation)
 {
     let target = null
     if(el){
@@ -434,16 +477,41 @@ function getDraggedParent(el) //Function to get the parent of the element dragge
     //console.log(target.isCard)
     return target;
 }
+function archiveEl(el){
+
+    if(el.firstChild.hiddenType == "list"){
+        type = "moveList";
+        item = el.parentNode.querySelectorAll(".listContainer");
+        target = document.querySelector(".board")
+        elem = el.querySelector(".list")
+    }else if(el.firstChild.hiddenType == "card"){
+        type = "moveCard";
+        target = el.parentNode;
+        el.actualList = el.parentNode.hiddenId;
+        elem = el;
+    }
+    el.hiddenFunc = "archive";
+    list = target.querySelectorAll("."+el.firstChild.hiddenType);
+    listArray = [... list];
+    pos = listArray.indexOf(elem);
+            
+    let args = {"type" : type,"el" : el, "pos" : pos, "idBoard" : board.hiddenId};
+    el.listId = document.querySelector(".listContainer:last-child").firstElementChild.hiddenId
+
+    //console.log(pos)
+    goFetch(args);   
+}
 function events(){ //all my general events
     document.addEventListener("dragstart", function(ev) { //Event trigger when we start dragging
         if(ev.target && (ev.target.hiddenType == "list" || ev.target.hiddenType == "card")) //If we drag something && we drag a card || we drag a list
         {
             
             draggedElement = ev.target; //For better clarity
-            
-            if(draggedElement.nodeName =="LI"){
+            //console.log(draggedElement)
+            if(draggedElement.hiddenType =="card"){
                 draggedElement.style.backgroundColor = "lightgray";
                 draggedElement.oldList = draggedElement.parentNode.hiddenId //We save the old list position
+                //console.log(draggedElement.oldList)
                 ev.dataTransfer.setDragImage(draggedElement, -10, -10);
             }else if(draggedElement.classList.contains('listHeader')){ //Nothing to do in it for now
                 draggedElement.style.backgroundColor = "#2C233F";
@@ -468,7 +536,7 @@ function events(){ //all my general events
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
             }
-
+            //console.log(draggedInto.hiddenFunc)
             if (draggedInto.hiddenId !== draggedElement.hiddenId  && !draggedElement.classList.contains("listHeader")  && draggedInto.hiddenType == "card") { //D&D code for card dragging
                 
                 let ep = draggedInto.previousElementSibling;
@@ -498,7 +566,7 @@ function events(){ //all my general events
                 }
             }
     
-            if (draggedInto.hiddenId !== draggedElement.hiddenId && draggedInto.hiddenId != -1 && draggedElement.classList.contains("listHeader") && (draggedInto.hiddenType == "list" || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
+            if (draggedInto.hiddenId !== draggedElement.hiddenId && draggedInto.hiddenFunc != "archive" && draggedElement.classList.contains("listHeader") && (draggedInto.hiddenType == "list" || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
 
                 draggedIntoContainer = draggedInto.classList.contains("card") ?  draggedInto.parentNode.parentNode :  draggedInto.parentNode;
                 draggedParent = draggedElement.parentNode;

@@ -26,12 +26,16 @@
     <div class='board' id='<?= $board->getId(); ?>'>
         <?php
         foreach ($board->getListLists() as $list) {
-            echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
-            echo "<ul class='list' id='{$list->getId()}'>";
-            foreach ($list->getListCards() as $card) {
-                echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+            if(!$list->getIsArchiveList() && !$list->getIsArchived()){
+                echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='menu'>...</span></div>";
+                echo "<ul class='list' id='{$list->getId()}'>";
+                foreach ($list->getListCards() as $card) {
+                    if(!$card->getIsArchived()){
+                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+                    } 
+                }
+                echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
             }
-            echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
         }
         ?>
         <div id="addList"><span>+ Add a list</span><span></span></div>
@@ -42,16 +46,28 @@
                     <span>Elements archivé</span>
                 </span>
             </div>
-            <ul class="list" id="-1">
             <?php 
-                foreach($board->getCardsArchived() as $card){
-                    echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+                foreach ($board->getListLists() as $list) {
+                    if($list->getIsArchiveList()){
+                        echo "<ul class='list Archive' id='{$list->getId()}' archive>";
+                        foreach($board->getCardsArchived() as $card){
+                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+                        }
+                        foreach($board->getListsArchived() as $list){
+                            echo "<div class='listContainer'>
+                                    <div class='listHeader' draggable='true'>
+                                        <span>
+                                            <span class='picto'></span>
+                                            <span>{$list->getLabel()}</span>
+                                        </span>
+                                        <span class='menu'>...</span>
+                                    </div>
+                                </div>";
+                        }
+                        echo "</ul>";
+                    }
                 }
-                foreach($board->getListsArchived() as $list){
-                    echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='delete'><img src='Assets/img/skull.png'></span></div>";
-                }
-            ?>
-            </ul>
+            ?>  
         </div>
         
 
@@ -61,7 +77,15 @@
     <p>Paramètres</p>
     <ul>
         <li func='edit'><span>Modifier</span></li>
-        <li func='move'><span>Déplacer</span></a></li>
+        <li func='archive'><span>Archiver</span></li>
+        <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
+    </ul>
+</div>
+<div class="modalMenu" id="listMenu">
+    <p>Paramètres</p>
+    <ul>
+        <li func='edit'><span>Modifier</span></li>
+        <li func='archive'><span>Archiver</span></li>
         <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
     </ul>
 </div>
@@ -77,7 +101,7 @@
                 <li func='color'>Couleur de l'en-tête</li>
                 <li func='tag'>étiquettes</li>
                 <li func='move'>Déplacer</li>
-                <li func='attribuer'>Attribuer</li>
+                <li func='assign'>Assigner</li>
                 <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
             </ul>
         </div>
