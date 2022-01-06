@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-use Controllers/IndexController;
+use Controllers\IndexController;
 // Load App
 require_once 'autoloader.php';
 Autoloader::register();
