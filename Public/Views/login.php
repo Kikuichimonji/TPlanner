@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./Assets/css/style.css">
+  <link rel="stylesheet" href="<?= CSS_PATH ?>/style.css">
   <title>LOGIN</title>
 </head>
 <body>
@@ -33,6 +33,6 @@
   </main>
 
   <?php require_once 'layout/footer.php'; ?>
-  <script src="./Assets/scripts/global.js"></script>
+  <script src="<?= JS_PATH ?>/global.js"></script>
 </body>
 </html>

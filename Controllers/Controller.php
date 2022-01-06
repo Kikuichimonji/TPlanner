@@ -7,7 +7,7 @@ class Controller
   /**
    * Chemin du dossier des vues à partir de la racine
    */
-  const VIEW_PATH = '/Views/';
+  const VIEW_PATH = '/Public/Views/';
 
   /**
    * Page de redirection si non connecté

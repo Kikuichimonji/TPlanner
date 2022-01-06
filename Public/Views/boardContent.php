@@ -60,7 +60,7 @@
                                             <span class='picto'></span>
                                             <span>{$list->getLabel()}</span>
                                         </span>
-                                        <span class='delete'><img src='Assets/img/skull.png'></span>
+                                        <span class='delete'><img src='".IMG_PATH."/skull.png'></span>
                                         <span class='menu'>...</span>
                                     </div>
                                 </div>";
@@ -79,7 +79,7 @@
     <ul>
         <li func='edit'><span>Modifier</span></li>
         <li func='archive'><span>Archiver</span></li>
-        <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
+        <li func='delete'><span class='delete'><img src='<?= IMG_PATH ?>/skull.png'></span></li>
     </ul>
 </div>
 <div class="modalMenu" id="listMenu">
@@ -87,7 +87,7 @@
     <ul>
         <li func='edit'><span>Modifier</span></li>
         <li func='archive'><span>Archiver</span></li>
-        <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
+        <li func='delete'><span class='delete'><img src='<?= IMG_PATH ?>/skull.png'></span></li>
     </ul>
 </div>
 <div id="cardDetail">
@@ -103,7 +103,7 @@
                 <li func='tag'>étiquettes</li>
                 <li func='move'>Déplacer</li>
                 <li func='assign'>Assigner</li>
-                <li func='delete'><span class='delete'><img src='Assets/img/skull.png'></span></li>
+                <li func='delete'><span class='delete'><img src='<?= IMG_PATH ?>/skull.png'></span></li>
             </ul>
         </div>
         <div>
