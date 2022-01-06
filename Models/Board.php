@@ -14,12 +14,16 @@ class Board extends AbstractEntity
     private $id;
     private $label;
     private $listLists;
+    private $listArchived; 
+    private $cardArchived;
 
     public function __construct($data)
     {
         parent::hydrate($data,$this);
         $bm = new BoardsManager();
         $this->listLists = $bm->getLists($this->id);
+        $this->listArchived = $bm->getListArchived($this->id);
+        $this->cardArchived = $bm->getCardArchived($this->id);
     }
     
     public function __toString()
@@ -64,6 +68,47 @@ class Board extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of listArchived
+     */ 
+    public function getListArchived()
+    {
+        return $this->listArchived;
+    }
+
+    /**
+     * Set the value of listArchived
+     *
+     * @return  self
+     */ 
+    public function setListArchived($listArchived)
+    {
+        $this->listArchived = $listArchived;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cardArchived
+     */ 
+    public function getCardArchived()
+    {
+        return $this->cardArchived;
+    }
+
+    /**
+     * Set the value of cardArchived
+     *
+     * @return  self
+     */ 
+    public function setCardArchived($cardArchived)
+    {
+        $this->cardArchived = $cardArchived;
 
         return $this;
     }

@@ -70,12 +70,15 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
         item.hiddenId = item.id; //We hide the id inside a JS parameter
         item.hiddenType = "card"; //This attribute is used for drag and drop purpose, to detect what part of the element it is
+        item.isCard = true;
         item.removeAttribute('id');
         item.querySelector(".menu").hiddenClass = "menu"
         item.childNodes.forEach(child => { //we put the attribute on all cards childrens
             child.hiddenType = "card";
+            child.hiddenId = child.parentNode.hiddenId;
             child.childNodes.forEach(child => {
                 child.hiddenType = "card";
+                child.hiddenId = child.parentNode.hiddenId;
             })
         })
     });
@@ -87,8 +90,10 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         item.previousElementSibling.hiddenType = "list";
         item.previousElementSibling.childNodes.forEach(el => {  //we put the attribute on all lists childrens
             el.hiddenType = "list";
+            el.hiddenId = el.parentNode.hiddenId;
             el.childNodes.forEach(el => {
                 el.hiddenType = "list";
+                el.hiddenId = el.parentNode.hiddenId;
             })
         })
 
@@ -126,20 +131,22 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
 
         listTitle.addEventListener("click", handlerList)
         
-        item.parentNode.hiddenId = item.hiddenId;
-        item.removeAttribute('id');
-        item.nextElementSibling.hiddenId = item.hiddenId;
-        item.nextElementSibling.hiddenType = "list";
-        item.nextElementSibling.addEventListener("click", (ev) => //When we click in the "add card" area
-        {
-            ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode); //if we click on the text or the box itself
-        })
-        item.previousElementSibling.addEventListener("click", (ev) => { //if we click on the list menu
-            if(ev.target.nodeName=="IMG"){ //The list menu doesn't exist for now, it's only the delete button
-                deleteList(ev.target.parentNode.parentNode.parentNode); //we delete without a warning
-            }
-            
-        })
+        if (item.nextElementSibling) {
+            item.parentNode.hiddenId = item.hiddenId;
+            item.removeAttribute('id');
+            item.nextElementSibling.hiddenId = item.hiddenId;
+            item.nextElementSibling.hiddenType = "list";
+            item.nextElementSibling.addEventListener("click", (ev) => //When we click in the "add card" area
+            {
+                ev.target.classList.contains("addCard") ? addNewEl(ev.target) : addNewEl(ev.target.parentNode); //if we click on the text or the box itself
+            })
+            item.previousElementSibling.addEventListener("click", (ev) => { //if we click on the list menu
+                if(ev.target.nodeName=="IMG"){ //The list menu doesn't exist for now, it's only the delete button
+                    deleteList(ev.target.parentNode.parentNode.parentNode); //we delete without a warning
+                }
+                
+            })
+        }
     });
 
     cards.forEach(item => item.addEventListener("click", (ev) => //Event for when we're gonna click on the cards
@@ -154,23 +161,24 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             if(menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != card.hiddenId)) //if the menu is hidden or is open at another place
             {
                 menu.style.display = "block";
-                menu.hiddenId = card.hiddenId
-                let rect = ev.target.getBoundingClientRect();
+                menu.hiddenId = card.hiddenId; //we attach the card id to the menu (passing the arg to the listener)
+                let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the card
                 menu.style.left = rect.x + 20 +"px";
                 menu.style.top = rect.y + 20 +"px";
-                menu.firstElementChild.innerHTML = "Paramètres "+ ev.target.previousElementSibling.innerHTML
-                for(let item of options)
+                menu.firstElementChild.textContent = "Paramètres "+ ev.target.previousElementSibling.textContent //We change the title according to the card
+                for(let item of options) //we put an event listener on each menu link
                 {
-                    item.card = card
-                    item.addEventListener("click", ev => {
+                    item.card = card; //we attach the card to the links for the listener
+                    item.addEventListener("click", ev => { 
                         let card = ev.currentTarget.card
-                        item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null;
-                        item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(card),menu.style.display = "none") : null : null;
+                        //console.log(item.hiddenFunc)
+                        item.hiddenFunc == "delete" ?  ev.target.nodeName=="IMG" ? (deleteCard(card),menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
+                        item.hiddenFunc == "edit" ?  ev.target.nodeName=="SPAN" ? (openEditor(card),menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
                         ev.stopImmediatePropagation();
                     })
                     
                 };
-            }else{
+            }else{ //if the menu is shown and click again on the card menu button
                 menu.style.display = "none";
             }
             
@@ -180,22 +188,21 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
     }));
     newListButton.addEventListener("click", (ev) =>
     {
-        ev.target.parentNode.hiddenId = board.hiddenId 
-        //console.log(ev.target)
-        addNewEl(ev.target.parentNode);
+        ev.target.parentNode.hiddenId = board.hiddenId; // we pass the id to the target to then pass it to the new elements 
+        addNewEl(ev.target.parentNode); //function that replace the text element by an input and a button, then we can save the datas
     });
     
 }
-function openEditor(el)
+function openEditor(el)// Function that open the card editor
 {
     let modal = document.getElementById("cardDetail");
-    //console.log(el)
-    modal.querySelector(".modalMenu").firstElementChild.textContent = el.querySelector(".cardHeader").firstElementChild.textContent
+
+    modal.querySelector(".modalMenu").firstElementChild.textContent = el.querySelector(".cardHeader").firstElementChild.textContent //e change the menu title to match the card title
     modal.style.display = "block";
-    modal.el = el
-    textarea = modal.querySelector("#cardDescription")
-    textarea.value = el.querySelector(".cardBody").textContent
-    for(let item of cardOptions)
+    modal.el = el //again we pass the el here to grab it again in the listeners
+    textarea = modal.querySelector("#cardDescription");
+    textarea.value = el.querySelector(".cardBody").textContent; // we put the text from the description into the textarea
+    for(let item of cardOptions) //We put a listener on each editor link 
     {
         item.addEventListener("click", ev => {
             console.log(ev.target)
@@ -203,52 +210,50 @@ function openEditor(el)
         })
     }
     modal.querySelector("button").addEventListener("click", ev => {
-        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value};
+        args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value}; //the args for the fetch
         ev.stopImmediatePropagation();
-        //console.log(modal.el)
-        goFetch(args);
-        modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value);
+        goFetch(args); //we fetch the SQL to save
+        modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value); //we put the new description back into the card body
         modal.style.display = "none";
     })
 }
 
-function addNewEl(el)
+function addNewEl(el) // Function that add a new list or card
 {
 
-    let newBox = document.createElement("input");
-    newBox.setAttribute("type","text");
+    let newBox = document.createElement("input"); //new input 
+    newBox.setAttribute("type","text"); 
     newBox.setAttribute("placeholder","Enter a title here");
     newBox.classList.add("instantInput");
 
-    let newButton = document.createElement("button");
+    let newButton = document.createElement("button");//new button
     newButton.innerHTML = "Confirm";
     newBox.hiddenId = el.hiddenId;
-    newButton.hiddenId = el.hiddenId;
+    newButton.hiddenId = el.hiddenId; // we attach the id to get it back in the listener
     newButton.classList.add("confirmButton");
 
-    el.firstChild.parentNode.oldText = el.firstChild.parentNode.innerHTML
+    el.firstChild.parentNode.oldText = el.firstChild.parentNode.innerHTML //we save the text if we close it by clicking away
     el.firstChild.innerHTML = "" ;
-    el.firstChild.appendChild(newBox);
+    el.firstChild.appendChild(newBox); // we append the input and the button
     el.firstChild.appendChild(newButton);
     newBox.focus();
 
-    newButton.parentNode.classList.add("inputOpen")
-    newButton.parentNode.hiddenStatus = "inputOpen"
+    newButton.parentNode.classList.add("inputOpen") 
+    //newButton.parentNode.hiddenStatus = "inputOpen"
 
     
     el.style.opacity = 1;
-    newButton.addEventListener("click", ev =>{
+    newButton.addEventListener("click", ev =>{ //when we click on the button we look at the class to see if it's a card or a list, then we fetch to save and reload
         let el = ev.target.previousElementSibling
         let elText = el.value;
         
         if(el.parentNode.parentNode){
-            
             args = el.parentNode.parentNode.classList.contains("addCard") ? {"type" : "newCard", 'card' : el} : {"type" : "newList", 'list' : el}
         }else{
             args = {"type" : "newList", 'list' : el};
         }
             
-        if(elText !== ""){
+        if(elText !== ""){ //if the text is empty we don't save
             //console.log(args)
             goFetch(args)
         }else{
@@ -259,65 +264,60 @@ function addNewEl(el)
     })
 }
 
-function deleteCard(el){
+function deleteCard(el){ //Function to delete a card
     let card = el
     let list = el.parentNode.querySelectorAll(".card");
     listArray = [... list];
-    pos = listArray.indexOf(el);
-    //console.log(list)
+    pos = listArray.indexOf(el); //we transform the htmlCollection into an array to use indexOf to get the position of the item in the list
     let args = {"type" : "deleteCard",
                 "el" : card,
                 "pos"  : pos,
                 "list" : el.parentNode.hiddenId};
+    //console.log(args)
     goFetch(args)
 }
 
-function deleteList(el){
+function deleteList(el){ // Function to delete a list 
 
     let list = el.parentNode.querySelectorAll(".listContainer");
-    //console.log(list)
     listArray = [... list];
-    pos = listArray.indexOf(el);
+    pos = listArray.indexOf(el); //we transform the htmlCollection into an array to use indexOf to get the position of the list in the board
     let args = {"type" : "deleteList",
                 "el" : el,
                 "pos"  : pos,
                 "board" : el.parentNode.hiddenId};
-
-    //console.log(args);
     goFetch(args)
 }
 
-function goFetch(args)
+function goFetch(args) // function that fetch the board content depending on the args
 {
 
     myHeaders = new Headers(); //If we want custom headers
-    let formData = new FormData();
+    let formData = new FormData(); //We append the POST data here
     
 
     if(args["type"]){
-        formData.append('act',args['type'])
+        formData.append('act',args['type']) //The action is saved in POST so nobody can mess by typing directly the link
         switch(args['type']) {
             case "newCard" :
-                el = args['card']
-                formData.append('text',el.value)
-                link = "board.php?list=" + el.hiddenId; //the link for a new card
+                formData.append('text',args['card'].value) //We pass all the users inputs in POST
+                link = "board.php?list=" + args['card'].hiddenId; 
                 break
             case "newList" :
-                el = args['list']
-                formData.append('text',el.value)
-                link = "board.php?board="+ el.hiddenId; //the link for a new list
+                formData.append('text',args['list'].value)
+                link = "board.php?board="+ args['list'].hiddenId;
                 break
             case "moveList" :
-                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ; //the link for moving lists
+                link = "board.php?list=" + args["el"].hiddenId + "&listPos=" + args["pos"] ;
                 break
             case "moveCard" :
-                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; //the link for moving cards
+                link = "board.php?list=" + args["el"].parentNode.hiddenId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList="+args["el"].oldList; 
                 break
             case "deleteCard" :
-                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ; //the link for deleting a card
-                break
+                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] ;
+                break;
             case "deleteList" :
-                link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ; //the link for Deleting a list
+                link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"] ;
                 break
             case "changeBoard" :
                 formData.append("text",args['text'])
@@ -329,7 +329,10 @@ function goFetch(args)
                 break
             case "editCardDesc" :
                 formData.append("text",args['text'])
-                link = "board.php?card=" + args["card"].hiddenId ; //the link for changing the board title
+                link = "board.php?card=" + args["card"].hiddenId ; //the link for changing the card description
+                break
+            case "reload" :
+                link = "board.php?id=" +  args["board"];
                 break
             default:
                 link = null;
@@ -350,15 +353,22 @@ function goFetch(args)
         let myRequest = new Request(link,myInit); //We prepare the fetch request with settings and our link destination
         fetch(myRequest).then((response) => { //We fetch the result
             response.text().then(response => {
-                console.log(response) //My check of the controler response
+                if(args["type"] != "reload"){ //if we reload we dn't show the whole thing in console
+                    console.log(response) //My check of the controler response
+                }
                 if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
                     console.log("Problème de paramètres")
                 else{
-                    console.log("good doggy")
-                    if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){
-                        let link2 = "board.php?act=reload&id=" + board.hiddenId;
-                        //console.log(link2)
-                        formData = new FormData();
+                    if(args["type"] == "reload"){ //if we called the reload
+                        document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
+                        init();
+                    }
+                    console.log("good doggy") //if everything went okay and we got no errors
+                    if(args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" ){ //we reload in thoses cases
+                        args = {"type" : "reload", 'board' : board.hiddenId};
+                        goFetch(args);
+                        /*let link2 = "board.php?act=reload&id=" + board.hiddenId;
+                        formData = new FormData(); //new POST datas for the reload link
                         formData.append('act','reload')
                         myInit = { method: 'POST', //Fetch settings
                                     headers: myHeaders,
@@ -367,12 +377,12 @@ function goFetch(args)
                                     body:  formData};
                         let contentRefresh = new Request(link2,myInit);
                         fetch(contentRefresh).then((response) =>{
-                            response.text().then((response) =>{
+                            response.text().then((response) =>{ //we get the text response from the fetch
                                 //console.log(response);
-                                document.getElementsByTagName("main")[0].outerHTML = response;
+                                document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
                                 init();
                             })
-                        })
+                        })*/
                         //location.reload();
                     }
                 }
@@ -387,10 +397,11 @@ function goFetch(args)
     
 }
 
-function findParentList(el){
+function findParentList(el) //Function made to find the list starting from a child (a card)
+{
     let target = null
     if(el){
-        if(el.hiddenType || el.classList.contains("list")){
+        if(el.hiddenType || el.classList.contains("list")){ //if the item got an hidden type corresponding to card, we go 1 parent higher
             if(el.hiddenType == "card"){
                 if(el.parentNode){
                     target = findParentList(el.parentNode)
@@ -402,11 +413,26 @@ function findParentList(el){
     }
     return target
 }
-
-function events(){
-    document.addEventListener("dragstart", function(ev) { //Event start when we start dragging
-        if(ev.target && (ev.target.classList.contains('listHeader') || ev.target.nodeName == "LI")) //If we drag something && we drag a card || we drag a list
+function getDraggedParent(el) //Function to get the parent of the element dragged into
+{
+    let target = null
+    if(el){
+        if(el.isCard){
+            target = el; 
+        }else if(el.classList && (el.classList.contains("list") || el.classList.contains("listHeader") || el.classList.contains("addCard"))){
+            target = el; 
+        }else{
+            target = getDraggedParent(el.parentNode)
+        }
+    }
+    //console.log(target.isCard)
+    return target;
+}
+function events(){ //all my general events
+    document.addEventListener("dragstart", function(ev) { //Event trigger when we start dragging
+        if(ev.target && (ev.target.hiddenType == "list" || ev.target.hiddenType == "card")) //If we drag something && we drag a card || we drag a list
         {
+            
             draggedElement = ev.target; //For better clarity
             
             if(draggedElement.nodeName =="LI"){
@@ -425,81 +451,20 @@ function events(){
     });
 
     document.addEventListener("dragenter", function(ev) { //Even start when the dragged target enter an element
-        if(ev.target && (ev.target.nodeName =="LI" || ev.target.nodeName =="UL" || ev.target.classList.contains('listHeader')) && draggedElement) //If we drag into something && we drag into a card || we drag into a list
+        //console.log(ev.target)
+        if(ev.target && (ev.target.hiddenType =="card" || ev.target.hiddenType =="list" || ev.target.classList.contains('listHeader')) && draggedElement) //If we drag into something && we drag into a card || we drag into a list
         {
-            draggedInto = ev.target;
-            if(draggedInto.classList.contains("list")) //if we drag into a list
+            draggedInto = getDraggedParent(ev.target);
+            //console.log(draggedInto)
+            if(draggedInto.hiddenType == "list") //if we drag into a list
             {
-                if(!draggedElement.classList.contains("listHeader")){ //if we drag something else than a list (can only be a card)
+                if(!draggedElement.classList.contains("listHeader") && !draggedInto.classList.contains("listHeader") && !draggedInto.classList.contains("addCard")){ //if we drag something else than a list (can only be a card)
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
-                /*draggedInto.addEventListener("dragleave", function(leftEl) { //if we leave an element
-                    leftEl.preventDefault();
-                    if(leftEl.target.classList.contains("list")){ //if we leave a list
-                        leftEl.target.style.cssText = "border:1px solid black;"; //we remove the indication border
-                    }
-                });*/
             }
-    
-            /*
-            *
-            * i'm trying to not repeat code, but it makes it way more complex because i have to check eveyrtime the targets and dragged element T_T
-            * 
-            */
-    
-            /*if (draggedInto !== draggedElement  && (draggedInto.classList.contains("card") || draggedInto.classList.contains("list"))) {
-    
-                if(draggedElement.classList.contains("list")){
-    
-                    draggedInto_ = draggedInto.classList.contains("card") ? draggedInto.parentNode.parentNode : draggedInto.parentNode;
-                    draggedElement_ = draggedElement.parentNode;
-    
-                    ep = draggedInto_.previousElementSibling;
-                    en = draggedInto_.nextElementSibling;
-                    dp = draggedElement_.previousElementSibling;
-                    dn = draggedElement_.nextElementSibling;
-                }else{
-                    draggedInto_ = draggedInto;
-                    draggedElement_ = draggedElement;
-    
-                    ep = draggedInto_.previousElementSibling
-                    console.log(ep)
-                    en = draggedInto_.nextElementSibling;
-                    dp = draggedElement_.previousElementSibling;
-                    dn = draggedElement_.nextElementSibling;
-                }
-    
+
+            if (draggedInto.hiddenId !== draggedElement.hiddenId  && !draggedElement.classList.contains("listHeader")  && draggedInto.hiddenType == "card") { //D&D code for card dragging
                 
-                if (!ep && !dn) { //If you take the last element and drag it to the start (from the side)
-                    draggedInto_.insertAdjacentElement("beforebegin", draggedElement_);
-                    console.log("!ep !dn")
-                }
-                else if (!en && !dp) {  //if you take the first element and drag it to the end (from the side)
-                    draggedInto_.insertAdjacentElement("afterend", draggedElement_);
-                    console.log("!ep !dp")
-                } 
-                else if (ep && ep != draggedElement_) {   //if we move up (the previous element target is different than the one dragged)
-                    ep.insertAdjacentElement("afterend", draggedElement_);
-                    draggedElement_.insertAdjacentElement("afterend", draggedInto_);
-    
-                    console.log("ep ep")
-                } 
-                else if (!ep) {     //if we reach the top from inside the list
-                    draggedInto_.insertAdjacentElement("beforebegin", draggedElement_);
-                    console.log("!ep")
-                } 
-                else if (en && en != draggedElement_) { //if we move down (the next element target is different than the one dragged)
-                    en.insertAdjacentElement("beforebegin", draggedElement_);
-                    draggedElement_.insertAdjacentElement("beforebegin", draggedInto_);
-                    console.log("en en")
-                } 
-                else if (!en) {     //if we reach the end from inside the list
-                    dp.insertAdjacentElement("afterend", draggedInto_); // we attach it just after the previous one
-                    console.log("!en")
-                }
-            }*/
-    
-            if (draggedInto !== draggedElement  && !draggedElement.classList.contains("listHeader")  && draggedInto.classList.contains("card")) { //D&D code for card dragging
                 let ep = draggedInto.previousElementSibling;
                 let en = draggedInto.nextElementSibling;
                 let dp = draggedElement.previousElementSibling;
@@ -527,7 +492,7 @@ function events(){
                 }
             }
     
-            if (draggedInto !== draggedElement  && draggedElement.classList.contains("listHeader") && (draggedInto.classList.contains("list") || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
+            if (draggedInto.hiddenId !== draggedElement.hiddenId  && draggedElement.classList.contains("listHeader") && (draggedInto.hiddenType == "list" || draggedInto.classList.contains("listHeader"))) { //D&D code for list dragging
     
                 draggedIntoContainer = draggedInto.classList.contains("card") ?  draggedInto.parentNode.parentNode :  draggedInto.parentNode;
                 draggedParent = draggedElement.parentNode;

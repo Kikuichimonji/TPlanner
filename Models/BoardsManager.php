@@ -44,6 +44,29 @@
             );
         }
 
+        public function getListArchived($id) {
+            $sql = "SELECT * FROM lists l
+            WHERE l.id_board = :idBoard
+            AND l.isArchived = 1";
+            $arg= ["idBoard" => $id];
+            return self::getResults(
+                self::select($sql,$arg, true),
+                "Models\lists"
+            );
+        }
+
+        public function getCardArchived($id) {
+            $sql = "SELECT c.id,c.title,c.description,c.color FROM cards c
+            INNER JOIN lists l ON l.id = c.id_list
+            AND c.isArchived = 1
+            WHERE l.id_board = :idBoard";
+            $arg= ["idBoard" => $id];
+            return self::getResults(
+                self::select($sql,$arg, true),
+                "Models\card"
+            );
+        }
+
         public function updateTitle($id,$text){
             
             $sql = "UPDATE boards
@@ -55,6 +78,28 @@
                 ];
                 //echo $sql2;
             return self::update($sql,$arg);
+        }
+
+        public function addBoard($text,$id)
+        {
+            $sql= "INSERT INTO boards(label,id_user)".
+                " VALUES (:label,:id)";
+
+            $arg= ["label" => $text,
+                    "id" => $id];
+
+            //var_dump($arg);die();
+            $idBoard = self::insertReturn($sql,$arg);
+
+            $sql= "INSERT INTO usersboard(id_user,id_board)".
+            " VALUES (:idu,:idb)";
+
+            $arg= ["idu" => $id,
+                    "idb" => $idBoard];
+
+            self::insert($sql,$arg);
+
+            return $idBoard;
         }
     }
 

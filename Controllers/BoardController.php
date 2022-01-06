@@ -16,6 +16,7 @@ class BoardController extends Controller
   {
     // Vérifie si l'utilisateur est connecté sinon redirection
     $this->authRequired();
+    // $this->isAuthorised(); 
   }
 
   /**
@@ -26,15 +27,20 @@ class BoardController extends Controller
   {
     $um = new UsersManager();
     $user = $um->getOneById($_SESSION['user']->getId());
-    if($idBoard){
+    if($idBoard !== null){
       
       $bm = new BoardsManager();
       $board = $bm->getOneById($idBoard);
-      
-      $this->view('board.php', [
-      'user' => $user,
-      'board' => $board,
-    ]);
+      if($board){
+        $this->view('board.php', [
+          'user' => $user,
+          'board' => $board,
+        ]);
+      }else{
+        $this->view('dashboard.php', [
+          'user' => $user
+        ]);
+      }
     }else{
       $this->view('dashboard.php', [
         'user' => $user
