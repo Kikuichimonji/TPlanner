@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 define('APP_ENV', 'dev');
 
 define("DS",DIRECTORY_SEPARATOR);
-define("ROOT",".".DS);
+define("ROOT","..".DS);
 define('PUBLIC_PATH', ROOT.'Public'.DS);
 define('ASSET_PATH', PUBLIC_PATH.'Assets'.DS);
 define('CSS_PATH', ASSET_PATH.'css'.DS);

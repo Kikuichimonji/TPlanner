@@ -43,6 +43,7 @@ class Controller
     if (file_exists($filePath)) {
       require $filePath; // Importe/Charge le code php de la vue
     }else{
+      var_dump("Controler problem");die();
       var_dump($filePath);die();
     }
   }

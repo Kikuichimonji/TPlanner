@@ -14,7 +14,7 @@ class IndexController extends Controller
   {
     $this->setToken();
     
-    //var_dump("");die;
+    //var_dump("index");die;
     $this->view('index.php', [
       'test' => 'Mon texte',
       'var' => 45,
