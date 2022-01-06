@@ -5,9 +5,8 @@ require_once 'autoloader.php';
 Autoloader::register();
 
 
-//test
 // Start Controller : NAMESPACE\CLASSNAME
-$controller = new Controllers\IndexController();
+$controller = new Controllers\UsersController();
 
 // Call Controller method
 $controller->index();
