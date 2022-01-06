@@ -45,8 +45,10 @@ abstract class Autoloader{
 
 			$filepath = ROOT.$path.DS.$file;
 			//$filepath = ./model/managers/VehiculeManager.php
+
+			var_dump($filepath);die();
 			if(file_exists($filepath)){
-				require $filepath;
+				require_once $filepath;
 			}
     }
 }
