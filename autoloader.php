@@ -2,6 +2,19 @@
 
 // Super Global
 //const APP_BASE_PATH = __DIR__;
+define('APP_ENV', 'dev');
+
+define("DS",DIRECTORY_SEPARATOR);
+define("ROOT",".".DS);
+define('PUBLIC_PATH', ROOT.'Assets'.DS);
+define('CSS_PATH', PUBLIC_PATH.'css'.DS);
+define('IMG_PATH', PUBLIC_PATH.'img'.DS);
+
+define("APP_PATH",ROOT."app".DS);
+define("CONTROL_PATH", ROOT."controller".DS);
+define("MODEL_PATH", ROOT."model".DS);    
+define("VIEW_PATH", ROOT."view".DS);
+define("CLASS_PATH", ROOT."classe".DS);
 
 abstract class Autoloader{
     public static function register()
@@ -38,19 +51,7 @@ abstract class Autoloader{
     }
 }
 
-define('APP_ENV', 'dev');
 
-define("DS",DIRECTORY_SEPARATOR);
-define("ROOT",".".DS);
-define('PUBLIC_PATH', ROOT.'Assets'.DS);
-define('CSS_PATH', PUBLIC_PATH.'css'.DS);
-define('IMG_PATH', PUBLIC_PATH.'img'.DS);
-
-define("APP_PATH",ROOT."app".DS);
-define("CONTROL_PATH", ROOT."controller".DS);
-define("MODEL_PATH", ROOT."model".DS);    
-define("VIEW_PATH", ROOT."view".DS);
-define("CLASS_PATH", ROOT."classe".DS);
 
 /*// App Loader
 require_once 'App/DAO.php';
