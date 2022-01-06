@@ -38,7 +38,7 @@ abstract class Autoloader{
 
 			//avant : ['Model', 'Managers']
 			//après implode : "model\managers"
-			$path = strtolower(implode(DS, $parts));
+			$path = implode(DS, $parts);
 			
 			$file = $className.'.php';
 			//$file = VehiculeManager.php
@@ -46,7 +46,7 @@ abstract class Autoloader{
 			$filepath = ROOT.$path.DS.$file;
 			//$filepath = ./model/managers/VehiculeManager.php
 
-			var_dump($filepath);die();
+			//var_dump($filepath);die();
 			if(file_exists($filepath)){
 				require_once $filepath;
 			}
