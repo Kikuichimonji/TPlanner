@@ -254,7 +254,7 @@ BOARD
     flex-direction: row;
     justify-content: flex-start;
     height: calc(100vh - (60px + 61px));
-    background:center no-repeat url("/TPlanner/Assets/img/T_logo_white.svg") var(--third-color);
+    background:center no-repeat url("/Assets/img/T_logo_white.svg") var(--third-color);
     background-size: 40%;
     overflow-x: auto;
 }
