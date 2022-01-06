@@ -40,7 +40,7 @@
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),
-                "Models\lists"
+                "Models\Lists"
             );
         }
 
@@ -67,7 +67,7 @@
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),
-                "Models\lists"
+                "Models\Lists"
             );
         }
 

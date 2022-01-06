@@ -6,12 +6,12 @@
         protected static $link;
         const DB_HOST = "localhost";
         const DB_NAME = "oflr1394_tplanner";
-        const DB_USER = "oflr1394_thomas ";
-        const DB_PASS = "T(cc9yBcWGH7";
+        const DB_USER = "oflr1394_thomas";
+        const DB_PASS = "jZ8S7!#*OVVx";
 
         public static function connect(){ //We create the connection to the DB
             try{//If the link does not exist already we create a new one
-                self::$link = (new \PDO("mysql:host=".self::DB_HOST.";port=3306;".
+                self::$link = self::$link ?? (new \PDO("mysql:host=".self::DB_HOST.";port=3306;".
                                                         " dbname=".self::DB_NAME,
                                                         self::DB_USER,
                                                         self::DB_PASS,
