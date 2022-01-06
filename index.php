@@ -1,6 +1,5 @@
 <?php
 
-echo "hello"; die();
 // Load App
 require_once 'autoloader.php';
 Autoloader::register();
