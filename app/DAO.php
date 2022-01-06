@@ -11,7 +11,7 @@
 
         public static function connect(){ //We create the connection to the DB
             try{//If the link does not exist already we create a new one
-                self::$link = self::$link ?? (new \PDO("mysql:host=".self::DB_HOST.";port=3306;".
+                self::$link = (new \PDO("mysql:host=".self::DB_HOST.";port=3306;".
                                                         " dbname=".self::DB_NAME,
                                                         self::DB_USER,
                                                         self::DB_PASS,
