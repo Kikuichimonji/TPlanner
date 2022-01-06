@@ -28,14 +28,15 @@ CREATE TABLE IF NOT EXISTS `boards` (
   KEY `id_user` (`id_user`),
   CONSTRAINT `boards_ibfk_1` FOREIGN KEY (`id_environnement`) REFERENCES `environnements` (`id_environnement`),
   CONSTRAINT `boards_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tplanner.boards: ~3 rows (approximately)
+-- Dumping data for table tplanner.boards: ~4 rows (approximately)
 /*!40000 ALTER TABLE `boards` DISABLE KEYS */;
 INSERT INTO `boards` (`id`, `label`, `lastChange`, `id_environnement`, `id_user`) VALUES
-	(1, 'My first board', NULL, NULL, 1),
-	(2, 'Board deux', NULL, NULL, 1),
-	(3, 'Board 3', NULL, NULL, 1);
+	(1, 'My first board', '2022-01-06 09:25:05', NULL, 1),
+	(2, 'Board deux', '2022-01-05 21:49:15', NULL, 1),
+	(3, 'Board 3', NULL, NULL, 1),
+	(4, 'tablo', '2022-01-05 15:09:54', NULL, 1);
 /*!40000 ALTER TABLE `boards` ENABLE KEYS */;
 
 -- Dumping structure for table tplanner.cards
@@ -52,9 +53,9 @@ CREATE TABLE IF NOT EXISTS `cards` (
   PRIMARY KEY (`id`),
   KEY `id_list` (`id_list`),
   CONSTRAINT `cards_ibfk_1` FOREIGN KEY (`id_list`) REFERENCES `lists` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tplanner.cards: ~12 rows (approximately)
+-- Dumping data for table tplanner.cards: ~19 rows (approximately)
 /*!40000 ALTER TABLE `cards` DISABLE KEYS */;
 INSERT INTO `cards` (`id`, `title`, `description`, `positions`, `color`, `picture`, `deadline`, `isArchived`, `id_list`) VALUES
 	(48, 'Card 2', NULL, 0, NULL, NULL, NULL, 0, 3),
@@ -62,13 +63,20 @@ INSERT INTO `cards` (`id`, `title`, `description`, `positions`, `color`, `pictur
 	(50, 'Card 4', NULL, 2, NULL, NULL, NULL, 0, 2),
 	(74, 'Card 5', NULL, 0, NULL, NULL, NULL, 0, 2),
 	(75, 'Card 6', NULL, 1, NULL, NULL, NULL, 0, 1),
-	(76, 'Card', NULL, 1, NULL, NULL, NULL, 0, 3),
-	(77, 'pouet', 'Description', 0, NULL, NULL, NULL, 0, 11),
+	(76, 'Card', NULL, 1, NULL, NULL, NULL, 0, 16),
 	(78, 'a card', NULL, 1, NULL, NULL, NULL, 0, 2),
-	(84, 'Card 1', '>1\n>2\n>3', 3, NULL, NULL, NULL, 0, 3),
-	(93, 'zerzer', 'aazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraaazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraaazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraaazeeraazeeraazeeraazeeraazeeraazeeraazeeraa', 0, NULL, NULL, NULL, 0, 16),
-	(96, 'alert();', NULL, 2, NULL, NULL, NULL, 0, 3),
-	(97, 'adaqzer', 'Cette description', 1, NULL, NULL, NULL, 0, 16);
+	(84, 'Card 1', '>1\n>2\n>3', 1, NULL, NULL, NULL, 0, 3),
+	(93, 'zerzer', 'aazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraaazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraaazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraazeeraaazeeraazeeraazeeraazeeraazeeraazeeraazeeraa', 0, NULL, NULL, NULL, 1, 24),
+	(96, 'alert();', 'ryryt', 2, NULL, NULL, NULL, 0, 3),
+	(97, 'adaqzer', 'Cette description', 0, NULL, NULL, NULL, 0, 16),
+	(98, 'a card', 'eterter', 0, NULL, NULL, NULL, 0, 11),
+	(106, 'And now a card', NULL, 0, NULL, NULL, NULL, 0, 21),
+	(109, 'fdssdfsdf', NULL, 5, NULL, NULL, NULL, 1, 24),
+	(110, 'eertert', NULL, 4, NULL, NULL, NULL, 1, 24),
+	(111, 'qsdqsd', 'qsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsdqsd', 3, NULL, NULL, NULL, 1, 24),
+	(112, 'last card', NULL, 0, NULL, NULL, NULL, 0, 35),
+	(113, 'last card', NULL, 1, NULL, NULL, NULL, 0, 35),
+	(114, 'last card', NULL, 2, NULL, NULL, NULL, 0, 35);
 /*!40000 ALTER TABLE `cards` ENABLE KEYS */;
 
 -- Dumping structure for table tplanner.comments
@@ -103,20 +111,31 @@ CREATE TABLE IF NOT EXISTS `lists` (
   `label` varchar(50) NOT NULL,
   `listPosition` tinyint(4) NOT NULL,
   `isArchived` tinyint(1) NOT NULL DEFAULT '0',
+  `isArchiveList` tinyint(4) NOT NULL DEFAULT '0',
   `id_board` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_board` (`id_board`),
   CONSTRAINT `lists_ibfk_1` FOREIGN KEY (`id_board`) REFERENCES `boards` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
--- Dumping data for table tplanner.lists: ~5 rows (approximately)
+-- Dumping data for table tplanner.lists: ~15 rows (approximately)
 /*!40000 ALTER TABLE `lists` DISABLE KEYS */;
-INSERT INTO `lists` (`id`, `label`, `listPosition`, `isArchived`, `id_board`) VALUES
-	(1, '1st List', 0, 0, 1),
-	(2, '2nd List', 1, 0, 1),
-	(3, '3rd liste', 2, 0, 1),
-	(11, 'sdfsdf', 2, 0, 2),
-	(16, 'azeazeazezzzzzsdfsdfsdfsdsdfsdfsdfsdfsdfsdfsdfrrrr', 3, 0, 1);
+INSERT INTO `lists` (`id`, `label`, `listPosition`, `isArchived`, `isArchiveList`, `id_board`) VALUES
+	(1, '1st List', 0, 0, 0, 1),
+	(2, '2nd List', 1, 0, 0, 1),
+	(3, '3rd liste', 3, 0, 0, 1),
+	(11, 'sdfsdf', 1, 0, 0, 2),
+	(16, 'Azerty', 2, 0, 0, 1),
+	(21, 'My new list', 1, 0, 0, 4),
+	(23, 'Archive', 0, 0, 1, 4),
+	(24, 'Archive', -1, 0, 1, 1),
+	(26, 'ertert', 4, 1, 0, 1),
+	(27, 'zsfsfsdfsdfsdfsfs', 0, 0, 0, 2),
+	(31, 'zerzer', 4, 1, 0, 1),
+	(32, 'ryrty', 4, 1, 0, 1),
+	(33, 'sdfsdf', 4, 1, 0, 1),
+	(34, 'qqsdqsd', 4, 1, 0, 1),
+	(35, 'ert', 4, 1, 0, 1);
 /*!40000 ALTER TABLE `lists` ENABLE KEYS */;
 
 -- Dumping structure for table tplanner.tags
@@ -164,12 +183,13 @@ CREATE TABLE IF NOT EXISTS `usersboard` (
   CONSTRAINT `usersboard_ibfk_2` FOREIGN KEY (`id_board`) REFERENCES `boards` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table tplanner.usersboard: ~3 rows (approximately)
+-- Dumping data for table tplanner.usersboard: ~4 rows (approximately)
 /*!40000 ALTER TABLE `usersboard` DISABLE KEYS */;
 INSERT INTO `usersboard` (`id_user`, `id_board`) VALUES
 	(1, 1),
 	(1, 2),
-	(1, 3);
+	(1, 3),
+	(1, 4);
 /*!40000 ALTER TABLE `usersboard` ENABLE KEYS */;
 
 -- Dumping structure for table tplanner.userscards
