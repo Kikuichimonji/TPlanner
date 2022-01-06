@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Models\BoardsManager;
 
-class DashboardController extends Controller
+class DashboardsController extends Controller
 {
   /**
    * HomeController constructor.

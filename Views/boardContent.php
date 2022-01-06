@@ -60,6 +60,7 @@
                                             <span class='picto'></span>
                                             <span>{$list->getLabel()}</span>
                                         </span>
+                                        <span class='delete'><img src='Assets/img/skull.png'></span>
                                         <span class='menu'>...</span>
                                     </div>
                                 </div>";

@@ -7,7 +7,7 @@ use Models\UsersManager;
 use Models\CardsManager;
 
 
-class BoardController extends Controller
+class BoardsController extends Controller
 {
   /**
    * HomeController constructor.

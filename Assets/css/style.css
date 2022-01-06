@@ -256,7 +256,7 @@ BOARD
     height: calc(100vh - (60px + 61px));
     background:center no-repeat url("../img/T_logo_white.svg") var(--third-color);
     background-size: 40%;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 .listContainer, #addList{
     position: relative;
@@ -336,7 +336,7 @@ BOARD
     background-color: white;
     min-height: 100px;
     border:1px solid black;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 90%;
 }
 
@@ -375,11 +375,11 @@ BOARD
 .card .cardHeader span:first-child{
     padding-left: 1em;
 }
-.card .menu{
+.card .menu,.listHeader .menu{
     margin-right: 0.5em;
     
 }
-.card .menu:hover{
+.card .menu:hover,.listHeader .menu:hover{
     box-shadow: var(--box-shadow);
 }
 .delete img{ 

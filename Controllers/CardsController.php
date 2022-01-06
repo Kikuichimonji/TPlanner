@@ -6,7 +6,7 @@ namespace Controllers;
 use Models\CardsManager;
 
 
-class CardController extends Controller
+class CardsController extends Controller
 {
     /**
      * HomeController constructor.

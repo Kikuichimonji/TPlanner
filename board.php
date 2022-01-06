@@ -2,8 +2,8 @@
 
 // Load App
 
-use Controllers\CardController;
-use Controllers\BoardController;
+use Controllers\CardsController;
+use Controllers\BoardsController;
 use Controllers\ListsController;
 
 require_once 'autoloader.php';
@@ -11,9 +11,9 @@ Autoloader::register();
 
 
 // Start Controller : NAMESPACE\CLASSNAME
-$boardController = new BoardController();
+$boardController = new BoardsController();
 $listsController = new ListsController();
-$cardController = new CardController();
+$cardController = new CardsController();
 
 
 // Call Controller method

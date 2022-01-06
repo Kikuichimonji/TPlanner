@@ -9,7 +9,7 @@ Autoloader::register();
 
 // Start Controller : NAMESPACE\CLASSNAME
 
-$controller = new Controllers\DashboardController();
+$controller = new Controllers\DashboardsController();
 
 /*var_dump('dashboard.php');
 var_dump($_SESSION);die();*/

@@ -107,7 +107,7 @@ class Controller
     // + référence vers $_SESSION
     if ( !self::$session ) {
       session_start();
-      self::$session = TRUE;
+      self::$session = true;
     }
     if($key){
       $_SESSION[$key] = $value;
