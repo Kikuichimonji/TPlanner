@@ -109,6 +109,35 @@ nav img{
 }
 
 /*************************
+INDEX
+*************************/
+
+.mainheader_container {
+background-color: var(--main-color);
+width: 100%;
+height: 90vh;
+color: white;
+margin: auto;
+margin-bottom: -5%;
+}
+
+.mainheader{ 
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.mainheader_container h1 {
+    font-family: "Bauhaus 93";
+}
+
+.mainheader_container h2 {
+    font-family: "Berlin Sans FB";
+    font-weight: normal;
+}
+
+/*************************
 LOGIN
 *************************/
 #login p,#register p{
@@ -218,8 +247,6 @@ BOARD
     height: 20%;
     font-weight:bold
 }
-
-
 
 .board{
     display: flex;
@@ -474,7 +501,7 @@ FOOTER
 footer{
     position: fixed;
     bottom: 0;
-    right:50%;
+    right:45vw;
     background-color: white;
     padding: 0.5em 1em;
     border-radius: 5px;
