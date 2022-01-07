@@ -72,6 +72,47 @@ class Board extends AbstractEntity
         return $this;
     }
 
+
+    /**
+     * Get the value of listArchived
+     */ 
+    public function getListArchived()
+    {
+        return $this->listArchived;
+    }
+
+    /**
+     * Set the value of listArchived
+     *
+     * @return  self
+     */ 
+    public function setListArchived($listArchived)
+    {
+        $this->listArchived = $listArchived;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cardArchived
+     */ 
+    public function getCardArchived()
+    {
+        return $this->cardArchived;
+    }
+
+    /**
+     * Set the value of cardArchived
+     *
+     * @return  self
+     */ 
+    public function setCardArchived($cardArchived)
+    {
+        $this->cardArchived = $cardArchived;
+
+        return $this;
+    }
+
     /**
      * Get the value of listLists
      */ 

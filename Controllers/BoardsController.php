@@ -16,7 +16,7 @@ class BoardsController extends Controller
   {
     // Vérifie si l'utilisateur est connecté sinon redirection
     $this->authRequired();
-    //$this->isAuthorised();
+    // $this->isAuthorised(); 
   }
 
   /**
@@ -27,7 +27,7 @@ class BoardsController extends Controller
   {
     $um = new UsersManager();
     $user = $um->getOneById($_SESSION['user']->getId());
-    if($idBoard !== null && $this->isAuthorised()){
+    if($idBoard !== null){
       
       $bm = new BoardsManager();
       $board = $bm->getOneById($idBoard);
