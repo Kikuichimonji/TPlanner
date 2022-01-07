@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `boards` (
 -- Dumping data for table tplanner.boards: ~4 rows (approximately)
 /*!40000 ALTER TABLE `boards` DISABLE KEYS */;
 INSERT INTO `boards` (`id`, `label`, `lastChange`, `id_environnement`, `id_user`) VALUES
-	(1, 'My first board', '2022-01-06 09:25:05', NULL, 1),
+	(1, 'My first board', '2022-01-06 16:47:13', NULL, 1),
 	(2, 'Board deux', '2022-01-05 21:49:15', NULL, 1),
 	(3, 'Board 3', NULL, NULL, 1),
 	(4, 'tablo', '2022-01-05 15:09:54', NULL, 1);
