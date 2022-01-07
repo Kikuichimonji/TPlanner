@@ -3,19 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="<?= CSS_PATH ?>/style.css">
-  <title>Hello</title>
+  <link rel="stylesheet" href="./Assets/css/style.css">
+  <title>TPLanner</title>
 </head>
+
 <body>
+
   <header>
     <?php require_once 'layout/header.php'; ?>
   </header>
 
   <main>
-    <h4>Accueil</h4>
-    <?php isset($data) ? var_dump($data) : null; ?>
+    <h1>Tasks, Team, Testing and Time Planner : TPlanner</h1>
+    <h2>La façon la plus simple de gérer vos projets</h2>
+    <p> test </p>
+    <?php //isset($data) ? var_dump($data) : null; ?>
   </main>
+
   <?php require_once 'layout/footer.php'; ?>
-  <script src="<?= JS_PATH ?>/global.js"></script>
+  <script src="./Assets/scripts/global.js"></script>
+
 </body>
+
 </html>

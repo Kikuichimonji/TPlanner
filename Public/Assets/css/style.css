@@ -43,6 +43,7 @@ body
     font-family:"Berlin Sans FB";
     outline: none;
 }
+
 /*************************
 NAVBAR
 *************************/
@@ -107,6 +108,7 @@ nav img{
 #headerConnection a:last-child{
     background-color: white;
 }
+
 /*************************
 LOGIN
 *************************/
