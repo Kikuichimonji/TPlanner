@@ -1,5 +1,7 @@
 <?php
 
+use Controllers\DashboardsController;
+
 // Load App
 require_once 'autoloader.php';
 Autoloader::register();
@@ -9,7 +11,7 @@ Autoloader::register();
 
 // Start Controller : NAMESPACE\CLASSNAME
 
-$controller = new Controllers\DashboardsController();
+$controller = new DashboardsController();
 
 /*var_dump('dashboard.php');
 var_dump($_SESSION);die();*/

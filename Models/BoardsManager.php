@@ -119,10 +119,16 @@
             $idBoard = self::insertReturn($sql,$arg);
 
             $sql= "INSERT INTO usersboard(id_user,id_board)".
-            " VALUES (:idu,:idBoard)";
+            " VALUES (:idu,:idBoard);
+                    INSERT INTO lists(label,listPosition,isArchiveList,id_board)".
+            " VALUES (:label,:pos,:isArch,:idBoard);";
 
             $arg= ["idu" => $id,
-                    "idBoard" => $idBoard];
+                    "idBoard" => $idBoard,
+                    "label" => "Archive",
+                    "pos" => -1,
+                    "isArch" => 1,
+                    ];
 
             self::insertNoChange($sql,$arg);
 

@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Models\BoardsManager;
+use Models\ListsManager;
 
 class DashboardsController extends Controller
 {

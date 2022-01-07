@@ -20,6 +20,10 @@ body
     border: 5px solid var(--secondary-color);
     border-radius: 7px;
 }
+.redBorder{
+    border: 5px solid red;
+    border-radius: 7px;
+}
 .whiteBorder{
     border: 5px solid white;
     border-radius: 7px;
@@ -92,7 +96,7 @@ nav img{
     display: flex;
     flex-direction: row;
 }
-#headerConnection a{
+#headerConnection a,#adminButton a{
     width: 105px;
     height: 30px;
     text-decoration: none;
@@ -102,7 +106,7 @@ nav img{
     justify-content: center;
     margin-right: 1em;
 }
-#headerConnection a:first-child{
+#headerConnection a:first-child,#adminButton a{
     color: white;
 }
 #headerConnection a:last-child{

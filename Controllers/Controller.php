@@ -28,6 +28,7 @@ class Controller
    * @var null
    */
   static protected $isAuth = null;
+  static protected $isAdmin = null;
 
   /**
    * Import le fichier PHP d'une vue
@@ -60,12 +61,17 @@ class Controller
       exit();
     }
   }
+  protected function adminRequired(): void
+  {
+    if ( !$this->isAuthorised() ) {
+      header('Location: '.self::REDIRECT_GUEST.'?err=1');
+      exit();
+    }
+  }
 
   protected function isAuthorised()
   {
     return in_array("admin",$this->getCurrentUserRole());
-
-    //return true;
   }
 
   /**
