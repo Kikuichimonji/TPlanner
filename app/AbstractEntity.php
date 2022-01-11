@@ -5,6 +5,7 @@
     {
         
         protected static function hydrate($data, $object){ //$data = Data from DB, $object = object to hydrate
+            
             foreach($data as $field => $value){ // check if they keys are a DB field
                 $fieldArray = explode("_",$field);
                 if(isset($fieldArray[1]) && $fieldArray[1] === "id") //if we find a foreigner key (we have to end it with _id)

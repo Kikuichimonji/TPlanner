@@ -19,6 +19,7 @@ class User extends AbstractEntity
   private $dateCreation;
   private $color;
   private $listBoards;
+  private $invitedBoards;
 
   public function __construct($data)
   {
@@ -158,6 +159,7 @@ class User extends AbstractEntity
   {
     $um = new UsersManager();
     $this->listBoards = $um->getBoards($this->id);
+    //var_dump($this->listBoards);die();
     return $this->listBoards;
   }
 
@@ -189,6 +191,29 @@ class User extends AbstractEntity
   public function setColor($color)
   {
     $this->color = $color;
+
+    return $this;
+  }
+
+
+  /**
+   * Get the value of invitedBoards
+   */ 
+  public function getInvitedBoards()
+  {
+    $um = new UsersManager();
+    $this->invitedBoards = $um->getInvitedBoards($this->id);
+    return $this->invitedBoards;
+  }
+
+  /**
+   * Set the value of invitedBoards
+   *
+   * @return  self
+   */ 
+  public function setInvitedBoards($invitedBoards)
+  {
+    $this->invitedBoards = $invitedBoards;
 
     return $this;
   }

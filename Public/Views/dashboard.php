@@ -10,7 +10,8 @@
   <header>
     <?php 
       require_once 'layout/header.php'; 
-      $user = $data['user']
+      $user = $data['user'];
+      //var_dump($user->getInvitedBoards());die();
     ?>
   </header>
 
@@ -20,6 +21,7 @@
       <div><div user="<?= $user->getId() ?>"><span>+</span>Nouveau Tableau</div></div>
       <div>Trier et tout ↓</div>
     </div>
+    <h2>Mes boards</h2>
     <?php 
       foreach($user->getListBoards() as $board)
       {
@@ -29,7 +31,15 @@
           </div>";
       }
     ?>
-    <?php //var_dump($user ?? []); ?>
+    <h2>Mes boards invités</h2>
+    <?php  
+      foreach($user->getInvitedBoards() as $board)
+      {
+          echo "<span>{$board->getLabel()}</span>
+          <div class='' id='{$board->getId()}'>
+            <a href='board.php?id={$board->getId()}'>Voir Listes</a>
+          </div>";
+      } ?>
   </main>
 
   <?php require_once 'layout/footer.php'; ?>

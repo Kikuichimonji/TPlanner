@@ -24,7 +24,7 @@ class DashboardsController extends Controller
    */
   public function index()
   {
-    //var_dump($_SESSION);die();
+    //var_dump($_SESSION['user']->getListBoards());die();
     $this->view('dashboard.php', [
         'user' => $_SESSION['user'],
     ]);

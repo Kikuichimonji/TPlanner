@@ -134,6 +134,15 @@
 
             return $idBoard;
         }
+
+        public function getOrphan(){
+            $sql = "SELECT * FROM boards WHERE id_user IS NULL";
+
+            return self::getResults(
+                self::select($sql, null, true),
+                self::$classname
+            );
+        }
     }
 
 ?>

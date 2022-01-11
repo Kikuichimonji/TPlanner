@@ -24,7 +24,7 @@
         protected static function getResults($rows, $class){ //We return multiple result
             
             $results = [];
-            
+            //var_dump($rows);die();
             if($rows != null){
                 foreach($rows as $row){
                     $results[] = new $class($row);
@@ -49,6 +49,7 @@
                 $stmt->execute($params); 
 
                 if($multiple){ //If we return multiple results we fecthAll
+                    //var_dump($stmt);die();
                     return $stmt->fetchAll();
                 }
                 return $stmt->fetch();
@@ -116,7 +117,9 @@
                 $stmt = self::$connection->prepare($sql);
                 $stmt = $stmt->execute($params);
 
-                self::setChange($idBoard? $idBoard : $params["idBoard"]);
+                $id = $idBoard? $idBoard : (isset($params["idBoard"]) ? isset($params["idBoard"]) : null);
+                $id ? self::setChange($id) : null;
+                
                 return $stmt;
             }
             catch(\PDOException $e) {

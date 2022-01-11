@@ -21,11 +21,12 @@ class UsersController extends Controller
    * Affiche une vue.
    * "index" (convention d'écriture) Méthode par défaut d'appel d'un controleur
    */
-  public function index()
+  public function index($id = null)
   {
     $um = new UsersManager();
     //var_dump($_SESSION);die();
-    $user = $um->getOneById($_SESSION['user']->getId());
+    $id = $this->isAuthorised() ? $id : $_SESSION['user']->getId(); //$id only exist if the user is an admin
+    $user = $um->getOneById($id);
     
     $this->view('user.php', [
       'user' => $user,

@@ -9,6 +9,8 @@ Autoloader::register();
 $controller = new Controllers\UsersController();
 
 // Call Controller method
-$controller->index();
+$id = isset($_GET["id"]) ? $_GET["id"] : null;
+
+$controller->index($id);
 // END SCRIPT
 //

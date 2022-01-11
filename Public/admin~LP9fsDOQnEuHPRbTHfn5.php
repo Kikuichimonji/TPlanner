@@ -10,7 +10,8 @@ Autoloader::register();
 $controller = new Controllers\AdminController();
 
 // Call Controller method
-$controller->index();
+isset($_GET["id"]) ? $controller->deleteUser($_GET["user"]) : $controller->index();
+
 
 
 // END SCRIPT

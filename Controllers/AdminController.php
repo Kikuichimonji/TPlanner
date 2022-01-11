@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Models\BoardsManager;
 use Models\UsersManager;
 
 
@@ -25,11 +26,23 @@ class AdminController extends Controller
   public function index()
   {
     $um = new UsersManager();
-
     $users = $um->findAll();
+    $bm = new BoardsManager();
+    $boards = $bm->getOrphan();
+    //var_dump($boards);die();
     $this->view('admin.php', [
-      'user' => $users,
+      'users' => $users,
+      'boards' => $boards,
     ]);
   }
 
+  public function deleteUser($id)
+  {
+    $um = new UsersManager();
+    if($id != "null"){
+      $result = $um->deleteUser($id,$um->getBoards($id));
+      //echo $result;
+    }
+    header("Location: admin~LP9fsDOQnEuHPRbTHfn5.php");
+  }
 }
