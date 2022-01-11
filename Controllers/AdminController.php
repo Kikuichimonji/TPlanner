@@ -29,7 +29,7 @@ class AdminController extends Controller
     $users = $um->findAll();
     $bm = new BoardsManager();
     $boards = $bm->getOrphan();
-    //var_dump($boards);die();
+
     $this->view('admin.php', [
       'users' => $users,
       'boards' => $boards,
@@ -38,10 +38,11 @@ class AdminController extends Controller
 
   public function deleteUser($id)
   {
+    //var_dump($id);die();
     $um = new UsersManager();
     if($id != "null"){
       $result = $um->deleteUser($id,$um->getBoards($id));
-      //echo $result;
+      echo $result;
     }
     header("Location: admin~LP9fsDOQnEuHPRbTHfn5.php");
   }

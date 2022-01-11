@@ -118,7 +118,7 @@
             //var_dump($arg);die();
             $idBoard = self::insertReturn($sql,$arg);
 
-            $sql= "INSERT INTO usersboard(id_user,id_board)".
+            $sql= "INSERT INTO users_boards(id_user,id_board)".
             " VALUES (:idu,:idBoard);
                     INSERT INTO lists(label,listPosition,isArchiveList,id_board)".
             " VALUES (:label,:pos,:isArch,:idBoard);";

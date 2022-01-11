@@ -61,7 +61,7 @@
         public function getBoards($id){
 
             $sql = "SELECT b.id,b.label FROM boards b
-                    INNER JOIN usersboard ub ON ub.id_board = b.id
+                    INNER JOIN users_boards ub ON ub.id_board = b.id
                     INNER JOIN users u ON u.id = ub.id_user
                     WHERE u.id = :id
                     AND b.id_user = u.id;";
@@ -75,7 +75,7 @@
         public function getInvitedBoards($id){
 
             $sql = "SELECT b.id,b.label FROM boards b
-                    INNER JOIN usersboard ub ON ub.id_board = b.id
+                    INNER JOIN users_boards ub ON ub.id_board = b.id
                     INNER JOIN users u ON u.id = ub.id_user
                     WHERE u.id = :id
                     AND b.id_user != u.id;";
@@ -102,8 +102,10 @@
         }
 
         public function deleteUser($id,$boards){
-
-            $sql = "UPDATE boards SET id_user = NULL WHERE id = :id;DELETE FROM usersboard WHERE id_user = :id; DELETE FROM users WHERE id = :id; ";
+            $sqls = [];
+            array_push($sqls,"UPDATE boards SET id_user = NULL WHERE id_user = :id;");
+            array_push($sqls,"DELETE FROM users_boards WHERE id_user = :id;");
+            array_push($sqls,"DELETE FROM users WHERE id = :id;");
 
             $arg=  ["id" => $id];
 
@@ -113,8 +115,8 @@
             foreach($boards as $board){
                 var_dump($board->getId());die();
             }*/
-            
-            return self::delete($sql,$arg);
+            //var_dump($sqls);die();
+            return self::transaction($sqls,$arg);
         }
     }
 

@@ -54,24 +54,16 @@ abstract class Autoloader{
 			}
     }
 }
+function dd(...$data)
+{
+	foreach(func_get_args() as $arg){
+		var_dump($arg);
+		echo '<br>';
+	}
+	die();
+}
+function e($text)
+{
+	return htmlspecialchars($text);
+}
 
-
-
-/*// App Loader
-require_once 'App/DAO.php';
-require_once 'App/AbstractEntity.php';
-require_once 'App/AbstractManager.php';
-
-// Controllers Loader
-require_once 'Controllers/Controller.php';
-require_once 'Controllers/WelcomeController.php';
-require_once 'Controllers/HomeController.php';
-require_once 'Controllers/LoginController.php';
-require_once 'Controllers/UserController.php';
-
-// Models Loader
-require_once 'Models/Model.php';
-require_once 'Models/User.php';
-require_once 'Models/UserManager.php';
-require_once 'Models/Note.php';
-*/

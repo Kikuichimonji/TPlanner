@@ -1,7 +1,9 @@
 <?php
     namespace App;
 
-    abstract class AbstractManager
+use Exception;
+
+abstract class AbstractManager
     {
         private static $connection;
 
@@ -64,7 +66,8 @@
         protected static function insert($sql, $params, $idBoard = null){ // The general INSERT function
             try{
                 $stmt = self::$connection->prepare($sql);
-                self::setChange($idBoard? $idBoard : $params["idBoard"]); //this method is called to indicate a change has been made
+                $id = $idBoard? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null);
+                $id ? self::setChange($id) : null; //this method is called to indicate a change has been made
                 return $stmt->execute($params);
             }
             catch(\PDOException $e) {
@@ -103,7 +106,8 @@
                 $stmt = self::$connection->prepare($sql);
                 $stmt = $stmt->execute($params);
 
-                self::setChange($idBoard? $idBoard : $params["idBoard"]);
+                $id = $idBoard? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null);
+                $id ? self::setChange($id) : null;
                 return $stmt;
             }
             catch(\PDOException $e) {
@@ -117,12 +121,38 @@
                 $stmt = self::$connection->prepare($sql);
                 $stmt = $stmt->execute($params);
 
-                $id = $idBoard? $idBoard : (isset($params["idBoard"]) ? isset($params["idBoard"]) : null);
+                $id = $idBoard? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null);
                 $id ? self::setChange($id) : null;
                 
                 return $stmt;
             }
             catch(\PDOException $e) {
+                echo $e->getMessage();  //Basic error shown
+                //die();  // meurt
+            }
+        }
+
+        protected static function transaction($sqls, $params = null, $idBoard = null){ // Transaction function
+            try{
+                self::$connection->beginTransaction();
+                foreach($sqls as $sql){
+                    $stmt = self::$connection->prepare($sql);
+                    $stmt = $stmt->execute($params);
+                    if($stmt === false){
+                        throw new Exception("Database Error ".self::$connection->errorInfo()[2]);
+                    }
+                }
+                
+                //die();
+                self::$connection->commit();
+
+                $id = $idBoard? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null);
+                $id ? self::setChange($id) : null;
+                
+                return $stmt;
+            }
+            catch(\PDOException $e) {
+                self::$connection->rollback();
                 echo $e->getMessage();  //Basic error shown
                 //die();  // meurt
             }

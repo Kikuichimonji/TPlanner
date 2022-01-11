@@ -11,7 +11,7 @@
             </div>
             <div id="listUser">
                 <span class='icon'>
-                    <?= "<span style='background-color:" . $_SESSION['user']->getColor() . "'>" . strtoupper(substr($_SESSION['user']->getUsername(), 0, 2)) . "</span>" ?>
+                    <?= "<span style='background-color:" . $_SESSION['user']->getColor() . "'>" . htmlspecialchars(strtoupper(substr($_SESSION['user']->getUsername(), 0, 2))) . "</span>" ?>
                 </span>
                 <div><span>+</span>Inviter</div>
             </div>
@@ -27,11 +27,11 @@
         <?php
         foreach ($board->getListLists() as $list) {
             if(!$list->getIsArchiveList() && !$list->getIsArchived()){
-                echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>{$list->getLabel()}</span></span><span class='menu'>...</span></div>";
+                echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><span class='picto'></span><span>".e($list->getLabel())."</span></span><span class='menu'>...</span></div>";
                 echo "<ul class='list' id='{$list->getId()}'>";
                 foreach ($list->getListCards() as $card) {
                     if(!$card->getIsArchived()){
-                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody'>".e($card->getDescription())."</p></li>";
                     } 
                 }
                 echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
@@ -51,14 +51,14 @@
                     if($list->getIsArchiveList()){
                         echo "<ul class='list Archive' id='{$list->getId()}' archive>";
                         foreach($board->getCardsArchived() as $card){
-                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>{$card->getTitle()}</span><span class='menu'>...</span></span><p class='cardBody'>{$card->getDescription()}</p></li>";
+                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody'>".e($card->getDescription())."</p></li>";
                         }
                         foreach($board->getListsArchived() as $list){
                             echo "<div class='listContainer'>
                                     <div class='listHeader' draggable='true'>
                                         <span>
                                             <span class='picto'></span>
-                                            <span>{$list->getLabel()}</span>
+                                            <span>".e($list->getLabel())."</span>
                                         </span>
                                         <span class='delete'><img src='".IMG_PATH."/skull.png'></span>
                                         <span class='menu'>...</span>
