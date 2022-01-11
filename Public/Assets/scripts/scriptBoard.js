@@ -4,6 +4,7 @@ let board = null
 let draggedElement = null;
 let newListButton = null;
 let boardTitle = null;
+let invButton = null;
 let okayToClose = false;
 let options = null;
 let cardOptions = null;
@@ -40,6 +41,7 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
 
     newListButton = document.getElementById("addList");
     boardTitle = document.querySelector("#leftside div div:first-child"); 
+    invButton = document.getElementById("inviteButton");
     archive = document.getElementById("rightside").firstElementChild;
     
     
@@ -49,32 +51,38 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         
         let newBox = document.createElement("input"); //we create a new text input
         newBox.setAttribute("type","text");
-        newBox.value = ev.target.textContent
+        ev.target.id != "inviteButton" ? newBox.value = ev.target.textContent : newBox.placeholder = "Entrer un email";
         newBox.classList.add("instantInput");
 
         let newButton = document.createElement("button"); //we create the confirm button
         newButton.innerHTML = "Valider";
         newButton.hiddenId = board.hiddenId;
         newButton.classList.add("confirmButton");
-
-        
+        newButton.hiddenclass = ev.target.id
+        newButton.oldElement = ev.target.outerHTML;
         ev.target.parentNode.appendChild(newBox)
         ev.target.parentNode.appendChild(newButton) //We append the input and the button 
         ev.target.outerHTML = ""    //we remove the title
         newBox.focus();
-        //ev.target.removeEventListener("click",handler);
         newButton.addEventListener("click", (ev) => { //the click function to confirm the new title value
-            args = {"type" : "changeBoard", 'board' : ev.target, 'text' : newBox.value}; //the argument list for the fetch
-            goFetch(args);  //we fetch the sql to save the value
-            myDiv = document.createElement("div"); //we recreate the title
-            myDiv.textContent = newBox.value;
-            ev.target.parentNode.innerHTML = myDiv.outerHTML
-            boardTitle = document.querySelector("#leftside div div:first-child");
-            boardTitle.addEventListener("click", handler); // we reatach the click event on the new title 
+            if(ev.target.hiddenclass == "inviteButton"){
+                args = {"type" : "invite", 'idBoard' : ev.target.hiddenId, 'mail' : newBox.value}; //the argument list for the fetch
+            }else{
+                args = {"type" : "changeBoard", 'board' : ev.target, 'text' : newBox.value}; //the argument list for the fetch
+            }
+            if(newBox.value != ""){
+                parent = ev.target.parentNode;
+                parent.innerHTML = ev.target.oldElement
+                parent.firstElementChild.innerHTML = ev.target.hiddenclass == "inviteButton" ? "<span>+</span> Inviter" : newBox.value;
+
+                parent.firstElementChild.addEventListener("click", handler); // we reatach the click event on the new element
+                goFetch(args); //we fetch the sql to save the value
+            }
         });
     };
 
     boardTitle.addEventListener("click", handler);
+    invButton.addEventListener("click", handler);
     
     cards.forEach((item)=>{ // We hide the id in a parameter so people can't mess with the positions
         item.hiddenId = item.id; //We hide the id inside a JS parameter
@@ -263,7 +271,7 @@ function openEditor(el)// Function that open the card editor
         args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value, "idBoard" : board.hiddenId}; //the args for the fetch
         ev.stopImmediatePropagation();
         goFetch(args); //we fetch the SQL to save
-        modal.el.querySelector(".cardBody").textContent = stripHTML(textarea.value); //we put the new description back into the card body
+        modal.el.querySelector(".cardBody").textContent = textarea.value; //we put the new description back into the card body
         modal.style.display = "none";
     })
 }
@@ -391,6 +399,10 @@ function goFetch(args) // function that fetch the board content depending on the
                 formData.append("text",args['text'])
                 link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"]; //the link for changing the card description
                 break
+            case "invite" :
+                formData.append("mail",args['mail'])
+                link = "board.php?&board=" + args["idBoard"]; //the link for changing the card description
+                break
             case "reload" :
                 link = "board.php?id=" +  args["board"];
                 break
@@ -416,9 +428,14 @@ function goFetch(args) // function that fetch the board content depending on the
                 if(args["type"] != "reload"){ //if we reload we dn't show the whole thing in console
                     console.log(response) //My check of the controler response
                 }
-                if(response === 'false')    //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
-                    console.log("Problème de paramètres")
-                else{
+                if(response === 'false'){  //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
+                    console.log("Problème de paramètres");
+                }else if(response === 'errorNoUser'){
+                    document.getElementById("error").innerHTML = "Ce mail ne correspond à aucun compte enregistré";
+                }else if(response === 'errorSameUser'){
+                    document.getElementById("error").innerHTML = "Cet utilisateur est déjà présent";
+                }else{
+                    document.getElementById("error").innerHTML = "";
                     if(args["type"] == "reload"){ //if we called the reload
                         document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
                         init();
@@ -660,7 +677,7 @@ function events(){ //all my general events
         }
     }); 
 
-    document.addEventListener("click", ev => {
+    document.addEventListener("click", ev => { //Function to "close" elements that are still open
         let elList = document.getElementsByClassName("inputOpen")
         
         if(elList.length > 0){
@@ -671,8 +688,7 @@ function events(){ //all my general events
             toClose = el.closest(".addCard") ? el.closest(".addCard") : toClose;
             
             if(!toClose){
-                for (let item of elList)
-                {
+                for (let item of elList){
                     item.parentNode.innerHTML = item.parentNode.oldText;
                 }
                 

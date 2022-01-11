@@ -24,7 +24,6 @@ class User extends AbstractEntity
   public function __construct($data)
   {
     parent::hydrate($data,$this);
-    $this->getListBoards();
   }
   
   public function __toString()

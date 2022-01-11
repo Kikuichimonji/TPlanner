@@ -143,6 +143,30 @@
                 self::$classname
             );
         }
+
+        public function inviteUser($idBoard,$idUser){
+            $sql= "INSERT INTO users_boards(id_user,id_board)".
+                " VALUES (:idUser,:idBoard)";
+
+            $arg= ["idUser" => $idUser,
+                    "idBoard" => $idBoard];
+
+            self::insert($sql,$arg);
+        }
+
+        public function getUsers($idBoard){
+            $sql = "SELECT u.id, u.username, u.mail, u.color FROM users u".
+                    " INNER JOIN users_boards ub ON u.id = ub.id_user".
+                    " INNER JOIN boards b ON b.id = ub.id_board".
+                    " WHERE b.id = :idBoard";
+
+            $arg= ["idBoard" => $idBoard];
+            //dd($sql);
+            return self::getResults(
+                self::select($sql, $arg, true),
+                "Models\User"
+            );
+        }
     }
 
 ?>

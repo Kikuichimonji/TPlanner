@@ -103,19 +103,12 @@
 
         public function deleteUser($id,$boards){
             $sqls = [];
-            array_push($sqls,"UPDATE boards SET id_user = NULL WHERE id_user = :id;");
-            array_push($sqls,"DELETE FROM users_boards WHERE id_user = :id;");
-            array_push($sqls,"DELETE FROM users WHERE id = :id;");
+            array_push($sqls,"UPDATE boards SET id_user = NULL WHERE id_user = :id;",
+                                "DELETE FROM users_boards WHERE id_user = :id;",
+                                "DELETE FROM users WHERE id = :id;");
 
             $arg=  ["id" => $id];
-
-            /*$sql .= "DELETE FROM users" ;
-            count($boards) ? null : null ;
-                
-            foreach($boards as $board){
-                var_dump($board->getId());die();
-            }*/
-            //var_dump($sqls);die();
+            //dd( $sqls);
             return self::transaction($sqls,$arg);
         }
     }

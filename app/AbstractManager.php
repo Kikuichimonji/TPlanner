@@ -51,7 +51,7 @@ abstract class AbstractManager
                 $stmt->execute($params); 
 
                 if($multiple){ //If we return multiple results we fecthAll
-                    //var_dump($stmt);die();
+                    //dd($stmt);
                     return $stmt->fetchAll();
                 }
                 return $stmt->fetch();

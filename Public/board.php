@@ -125,6 +125,16 @@ if(!isset($_POST["act"])){
                 echo "false";
             }
             break;
+        case "invite" :
+            if(isset($_POST["mail"]) && isset($_GET["board"])){
+                if($_GET["board"] != "undefined"){
+                    $result = $boardController->inviteUser($_GET["board"],$_POST['mail']);
+                    echo $result;
+                }
+            }else{
+                echo "false";
+            }
+            break;
         case "reload" :
             if(isset($_GET["id"])){
                 if($_GET["id"] == "undefined"){

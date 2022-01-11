@@ -36,10 +36,12 @@ body
     padding-left: 1em;
     padding-right: 1em;
     margin-right: 1em;
-    max-height: 2em;
+    max-height: 40px;
     word-break: normal;
+    height: 100%;
 }
 .instantInput{
+    height: 100%;
     padding-top: 0;
     padding-bottom: 0;
     border: 0;
@@ -82,7 +84,7 @@ nav img{
     cursor: pointer;
     user-select: none;
 }
-.icon span{
+.icon span:not(.tooltiptext){
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,7 +147,7 @@ margin-bottom: -5%;
 /*************************
 LOGIN
 *************************/
-#login p,#register p{
+#login p,#register p,.error{
     color: red;
     font-style: italic;
 }
@@ -181,6 +183,26 @@ DASHBOARD
 /*************************
 BOARD
 *************************/
+
+.tooltip {
+    position: relative;
+}
+.tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    font-weight: normal;
+    color: #fff;
+    text-align: center;
+    padding: 5px 5px;
+    border-radius: 7px;
+    position: absolute;
+    transform: translate(0,-100%);
+    z-index: 1;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
 #boardHeader{
     display: flex;
     flex-direction: row;
@@ -208,6 +230,7 @@ BOARD
     margin-left: 1em;
     align-items: center;
     cursor: pointer;
+    height: 45px;
 }
 #boardHeader #listUser div span{
     font-size: 2em;
@@ -244,7 +267,7 @@ BOARD
 #boardHeader .icon{
     /*box-shadow: 0 3px 6px lightgray;*/
 }
-#boardHeader .icon span{
+#boardHeader .icon span:not(.tooltiptext){
     font-size: 0.9em ;
     height: 30px;
     width: 30px;
@@ -253,7 +276,7 @@ BOARD
 #listUser {
     height: 100%;
 }
-#listUser div{
+#listUser div div{
     background-color: var(--main-color);
     color: white;
     height: 40px;

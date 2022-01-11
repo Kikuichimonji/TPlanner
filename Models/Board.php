@@ -16,6 +16,7 @@ class Board extends AbstractEntity
     private $listLists;
     private $cardsArchived;
     private $listsArchived;
+    private $usersList;
 
     public function __construct($data)
     {
@@ -172,6 +173,28 @@ class Board extends AbstractEntity
     {
         $this->listsArchived = $listsArchived;
 
+        return $this;
+    }
+
+    /**
+     * Get the value of usersList
+     */ 
+    public function getUsersList()
+    {
+        $bm = new BoardsManager();
+        return $bm->getUsers($this->id);
+
+    }
+
+    /**
+     * Set the value of usersList
+     *
+     * @return  self
+     */ 
+    public function setUsersList($usersList)
+    {
+        $this->usersList = $usersList;
+;
         return $this;
     }
 }

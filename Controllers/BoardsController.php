@@ -5,7 +5,7 @@ namespace Controllers;
 use Models\BoardsManager;
 use Models\UsersManager;
 use Models\CardsManager;
-
+use Models\User;
 
 class BoardsController extends Controller
 {
@@ -50,10 +50,40 @@ class BoardsController extends Controller
 
   public function updateTitle($id,$text)
   {
-    $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS ));
-    //var_dump($f_text);die();
+    $f_text= trim($text);
     $bm = new BoardsManager();
     $bm->updateTitle($id,$f_text);
+  }
+
+  public function inviteUser($idBoard,$mail)
+  {
+    $f_mail= trim($mail);
+    $um = new UsersManager();
+    $bm = new BoardsManager();
+    $user = $um->getOneByMail($f_mail);
+    $isInvited = false;
+    if($user !== null && $user->getId() != $_SESSION['user']->getId()){
+      $boards = $user->getInvitedBoards();
+      foreach($boards as $board){
+        $isInvited = $board->getId() == $idBoard ? true : false ;
+      }
+      if(!$isInvited){
+        $bm = new BoardsManager();
+        $bm->inviteUser($idBoard,$user->getId());
+      }else{
+        return "errorSameUser";
+      }
+    }else{
+      if($user !== null){
+        if($user->getId() == $_SESSION['user']->getId()){
+          return "errorSameUser";
+        }
+      }else{
+        return "errorNoUser";
+      }
+      
+    }
+    
   }
 
   public function reload($id)

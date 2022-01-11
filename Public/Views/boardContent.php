@@ -11,9 +11,13 @@
             </div>
             <div id="listUser">
                 <span class='icon'>
-                    <?= "<span style='background-color:" . $_SESSION['user']->getColor() . "'>" . htmlspecialchars(strtoupper(substr($_SESSION['user']->getUsername(), 0, 2))) . "</span>" ?>
+                    <?php
+                        foreach($board->getUsersList() as $user){
+                            echo "<span class='tooltip' style='background-color:" . $user->getColor() . "'>" . htmlspecialchars(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getMail()}</span></span>";
+                        }
+                    ?>
                 </span>
-                <div><span>+</span>Inviter</div>
+                <div><div id="inviteButton"><span>+</span>Inviter</div></div><span id="error" class="error"></span>
             </div>
         </div>
         <div id="rightside">

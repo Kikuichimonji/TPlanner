@@ -24,10 +24,9 @@ class UsersController extends Controller
   public function index($id = null)
   {
     $um = new UsersManager();
-    //var_dump($_SESSION);die();
-    $id = $this->isAuthorised() ? $id : $_SESSION['user']->getId(); //$id only exist if the user is an admin
+    $id = $this->isAuthorised() ? ($id ? $id : $_SESSION['user']->getId()) : $_SESSION['user']->getId(); //$id only exist if the user is an admin, we also check if the admin check it's profile from the menu
     $user = $um->getOneById($id);
-    
+
     $this->view('user.php', [
       'user' => $user,
     ]);

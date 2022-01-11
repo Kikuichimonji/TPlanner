@@ -44,7 +44,7 @@ class ListsController extends Controller
     {
         $lm = new ListsManager();
         //var_dump($oldPos);die();
-        $f_text= trim(filter_var($title,FILTER_SANITIZE_SPECIAL_CHARS));
+        $f_text= trim($title);
         $lm->add($id,$f_text);
     }
 
@@ -56,7 +56,7 @@ class ListsController extends Controller
 
     public function updateListTitle($id,$text,$board)
     {
-        $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS));
+        $f_text= trim($text);
         $lm = new ListsManager();
         $lm->updateTitle($id,$f_text,$board);
     }
