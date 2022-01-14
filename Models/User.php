@@ -20,6 +20,7 @@ class User extends AbstractEntity
   private $color;
   private $listBoards;
   private $invitedBoards;
+  private $isCreator;
 
   public function __construct($data)
   {
@@ -216,4 +217,21 @@ class User extends AbstractEntity
 
     return $this;
   }
+
+  /**
+   * Get the value of isCreator
+   */ 
+  public function isCreator($board)
+  {
+    if(isset($this->isCreator)){
+      dd("hello");
+      return $this->isCreator;
+    }else{
+      $bm = new BoardsManager();
+      
+      $this->isCreator = $bm->getCreator($board)["id_user"] == $this->id;
+      return $this->isCreator;
+    }
+  }
+
 }

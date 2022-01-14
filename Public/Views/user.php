@@ -24,7 +24,7 @@
             <?php 
                 foreach($data['user']->getListBoards() as $board)
                 {
-                    echo $board->getLabel().", ";
+                    echo "<a href='board.php?id={$board->getId()}'>{$board->getLabel()}</a>,";
                 }
             
             ?></li>

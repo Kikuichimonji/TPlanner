@@ -14,7 +14,7 @@
     <?php require_once 'layout/header.php'; ?>
   </header>
 
-  <main>
+  <main id="admin">
 
     <div class="mainheader_container">
       <div class="mainheader">

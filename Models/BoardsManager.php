@@ -167,6 +167,18 @@
                 "Models\User"
             );
         }
+
+        public function getCreator($id){
+
+            $sql =   "SELECT id_user".
+                    " FROM boards".
+                    " WHERE id = :id";
+            $arg= ["id" => $id];     
+
+            return self::getValue(
+                self::select($sql,$arg, false)
+            );
+        }
     }
 
 ?>

@@ -31,22 +31,21 @@ abstract class Autoloader{
         $parts = preg_split('#\\\#', $class);
 			//$parts = ['Controllers', 'BoardController']
 
-			// on extrait le dernier element 
 			$className = array_pop($parts);
-			//$className = VehiculeManager
+			//$className = BoardController
 
 			// on créé le chemin vers la classe
 			// on utilise DS car plus propre et meilleure portabilité entre les différents systèmes (windows/linux) 
 
-			//avant : ['Model', 'Managers']
-			//après implode : "model\managers"
+			//avant : ['Controllers']
+			//après implode : "Controllers"
 			$path = implode(DS, $parts);
 			
 			$file = $className.'.php';
-			//$file = VehiculeManager.php
+			//$file = BoardController.php
 
 			$filepath = ROOT.$path.DS.$file;
-			//$filepath = ./model/managers/VehiculeManager.php
+			//$filepath = ..\Controllers\IndexController.php
 
 			//var_dump($filepath);die();
 			if(file_exists($filepath)){

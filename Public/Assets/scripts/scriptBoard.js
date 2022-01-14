@@ -16,7 +16,7 @@ const stripHTML = (unsafe) => {
 }
 
 function init(){ //Initialisation of all the basic elements, necessary to make the board page work, can be recalled when the page is fetched
-
+    
     cards = document.querySelectorAll(".card"); //all the cards in the page
     lists = document.querySelectorAll(".list"); //all the lists in the page
     board = document.querySelector(".board");   //The board
@@ -46,7 +46,7 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
     
     
 
-
+    
     handler = function (ev){ //The function that change the board title into an input, then change it back into a clickable title
         
         let newBox = document.createElement("input"); //we create a new text input
@@ -89,6 +89,8 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
         item.hiddenType = "card"; //This attribute is used for drag and drop purpose, to detect what part of the element it is
         item.isCard = true;
         item.removeAttribute('id');
+        item.originalText = item.querySelector(".cardBody").getAttribute("originalText");
+        item.querySelector(".cardBody").removeAttribute("originalText");
         item.querySelector(".menu").hiddenClass = "menu"
         item.childNodes.forEach(child => { //we put the attribute on all cards childrens
             child.hiddenType = "card";
@@ -129,8 +131,8 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             })
         })
 
-        listTitle = item.previousElementSibling.querySelector(".picto").nextElementSibling; //We look for the title of each lists
-
+        listTitle = item.previousElementSibling.querySelector(".listTitle"); //We look for the title of each lists
+        
         handlerList = function (ev){ //The function that change the list title into an input, then change it back into a clickable title
             let newBox = document.createElement("input"); //we create a new input
             newBox.setAttribute("type","text");
@@ -141,13 +143,16 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
             newButton.innerHTML = "Valider";
             newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
             newButton.classList.add("confirmButton");
-
             ev.target.parentNode.nextElementSibling.style.display= 'none'; //we hide the menu icon to gain some space
-            ev.target.parentNode.appendChild(newBox);
-            ev.target.parentNode.appendChild(newButton);
-            ev.target.outerHTML = ""; //we remove the title
+            ev.target.parentNode.oldText = ev.target.innerHTML
+            ev.target.innerHTML = ""; //we remove the title
+            ev.target.classList.add("specialInputOpen")
+            ev.target.appendChild(newBox);
+            ev.target.appendChild(newButton);
+            
             newBox.focus();
             //ev.target.removeEventListener("click",handlerList);
+            //ev.stopImmediatePropagation();
             newButton.addEventListener("click", (ev) => { 
                 args = {"type" : "changeList", 'list' : ev.target.hiddenId, 'text' : newBox.value, "idBoard" : board.hiddenId}; //The arg list for the fetch
                 goFetch(args); //we fetch the SQL to save
@@ -157,7 +162,7 @@ function init(){ //Initialisation of all the basic elements, necessary to make t
                 ev.target.previousElementSibling.outerHTML = ""; //we remove the input
                 ev.target.outerHTML = ""; //we remove the button
                 mySpan.addEventListener("click", handlerList); //we attach again the click event on the new title
-                mySpan.parentNode.nextElementSibling.style.display= 'block'; //the menu icon comes back
+                mySpan.parentNode.parentNode.nextElementSibling.style.display= 'block'; //the menu icon comes back
             });
         }
 
@@ -259,7 +264,7 @@ function openEditor(el)// Function that open the card editor
     modal.style.display = "block";
     modal.el = el //again we pass the el here to grab it again in the listeners
     textarea = modal.querySelector("#cardDescription");
-    textarea.value = el.querySelector(".cardBody").textContent; // we put the text from the description into the textarea
+    textarea.value = el.originalText; // we put the text from the description into the textarea
     for(let item of cardOptions) //We put a listener on each editor link 
     {
         item.addEventListener("click", ev => {
@@ -271,7 +276,9 @@ function openEditor(el)// Function that open the card editor
         args = {"type" : "editCardDesc", 'card' : modal.el, "text" :textarea.value, "idBoard" : board.hiddenId}; //the args for the fetch
         ev.stopImmediatePropagation();
         goFetch(args); //we fetch the SQL to save
-        modal.el.querySelector(".cardBody").textContent = textarea.value; //we put the new description back into the card body
+        modal.el.querySelector(".cardBody").textContent = textarea.value.length > 200 ? textarea.value.substring(0,200)+"..." : textarea.value;
+        
+        modal.el.originalText = textarea.value;
         modal.style.display = "none";
     })
 }
@@ -679,29 +686,41 @@ function events(){ //all my general events
 
     document.addEventListener("click", ev => { //Function to "close" elements that are still open
         let elList = document.getElementsByClassName("inputOpen")
+        let elSpecialList = document.getElementsByClassName("specialInputOpen")
         
-        if(elList.length > 0){
+        if(elList.length > 0 || elSpecialList.length > 0){
 
             let el = ev.target;
             let toClose = null;
-            toClose = el.closest("#addList") ? el.closest("#addList") : toClose;
+            toClose = el.closest("#addList >span:first-child") ? el.closest("#addList >span:first-child") : toClose;
             toClose = el.closest(".addCard") ? el.closest(".addCard") : toClose;
-            
+            toClose = el.closest(".listHeader > span") ? el.closest(".listHeader > span") : toClose;
             if(!toClose){
                 for (let item of elList){
-                    item.parentNode.innerHTML = item.parentNode.oldText;
+                    item.classList.remove("inputOpen")
+                    item.parentElement.innerHTML = item.parentNode.oldText;
+                }
+                for (let item of elSpecialList){
+                    item.classList.remove("specialInputOpen")
+                    item.innerHTML = item.parentNode.oldText;
+                    item.parentNode.nextElementSibling.style.display = "block"
                 }
                 
             }
             //console.log(el)
         }
         let menu = document.getElementById("cardMenu");
-        if(!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu") && board.contains(ev.target)){
+        if(!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu")){
             menu.style.display = "none";
         }
 
         menu = document.getElementById("cardDetail");
         if(!ev.target.classList.contains("modalMenu") && ev.target.id == "cardDetail"){
+            menu.style.display = "none";
+        }
+
+        menu = document.getElementById("listMenu");
+        if(!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu")){
             menu.style.display = "none";
         }
 
