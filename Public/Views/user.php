@@ -15,7 +15,6 @@
         <h4>Profil de l'utilisateur : <?php echo $data['user']->getUsername(); ?></h4>
         <ul>
             <li>Username : <?= $data['user']->getUsername()?></li>
-            <li>Password : <?= $data['user']->getPassword()?></li>
             <li>Email : <?= $data['user']->getMail()?></li>
             <li>Role : <?php foreach(json_decode($data['user']->getRole()) as $role){echo $role.', ';} ?></li>
             <li class="icon">Icone : <span style="background-color:<?= $data['user']->getColor(); ?>"><?=  strtoupper(substr($data['user']->getUsername(),0,2)) ?></span></li>

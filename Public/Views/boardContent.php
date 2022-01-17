@@ -8,7 +8,7 @@
     <div id="boardHeader">
         <div id="leftside">
             <div>
-                <div><?= $board->getLabel() ?></div>
+                <div><?= e($board->getLabel()) ?></div>
             </div>
             <div id="listUser">
                 <span class='icon'>
