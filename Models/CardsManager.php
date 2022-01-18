@@ -204,9 +204,9 @@ class CardsManager extends AbstractManager
 
     public function updateTitle($id,$text,$board){
             
-        $sql = "UPDATE cards
-        SET title = :text
-        WHERE id = :id";
+        $sql = "UPDATE cards".
+        " SET title = :text".
+        " WHERE id = :id";
         
         $arg= ["text" => $text,
                 "id" => $id,

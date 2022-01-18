@@ -557,8 +557,48 @@ BOARD
     margin-top: 1em;
 }
 
-
-
+/*************************
+USER
+*************************/
+#user h4{
+    text-transform: capitalize;
+    text-align: center;
+    font-size: 25px;
+}
+#userTabs{
+    list-style: none;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    width: fit-content;
+    margin: auto;
+    font-size: 20px;
+    padding: 0;
+}
+#userTabs li{
+    display: inline-block;
+    padding:1em 2em;
+    cursor: pointer;
+}
+#userTabs li:hover{
+    background-color: var(--secondary-color);
+}
+#userTabs .active{
+    font-weight: bold;
+}
+#userContent{
+    width: 90%;
+    box-shadow: var(--box-shadow);
+    margin: auto;
+    padding: 2em;
+    margin-top: 1em;
+}
+#userContent div{
+    margin: auto;
+    width: 70%;
+}
+#user p span{
+    font-weight: bold;
+}
 /*************************
 FOOTER
 *************************/
