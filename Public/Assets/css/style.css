@@ -49,7 +49,9 @@ body
     font-family:"Berlin Sans FB";
     outline: none;
 }
-
+.smaller{
+    font-size:  0.75em;
+}
 /*************************
 NAVBAR
 *************************/
@@ -186,6 +188,12 @@ LOGIN
 
 #login p,#register p,.error{
     color: red;
+    font-style: italic;
+    text-align: center;
+}
+
+.success{
+    color: green;
     font-style: italic;
     text-align: center;
 }
@@ -661,6 +669,10 @@ USER
 }
 #user input{
     width: 450px;
+}
+#user p.smaller{
+    font-size:  1em;
+    font-style: italic;
 }
 #user input:last-child{
     font-size: 17px;

@@ -136,6 +136,18 @@
                 ];
             return self::update($sql,$arg);
         }
+
+        public function updateColor($id,$color){
+            
+            $sql = "UPDATE users
+            SET color = :color
+            WHERE id = :id";
+            
+            $arg= ["color" =>$color,
+                    "id" => $id,
+                ];
+            return self::update($sql,$arg);
+        }
     }
 
 ?>

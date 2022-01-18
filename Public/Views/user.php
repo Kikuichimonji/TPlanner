@@ -51,7 +51,7 @@
                 <p>Votre couleur est <span id='userColor' style='background-color:<?= $data['user']->getColor() ?>'></span></p>
                 <form action="user.php" method="post">
                     <label for="color">Nouvelle couleur (Temporairement)</label>
-                    <input type="color" name="color" id="color">
+                    <input type="color" name="color" id="color" value="<?= $data['user']->getColor() ?>">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
                 </form>
             </div>
@@ -67,12 +67,12 @@
                 </form>
             </div>
             <div>
+                <p class='smaller'>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></p>
                 <p>Lorsque vous supprimez votre compte, vous perdez l'accès aux services associés aux comptes TPlanner, et nous supprimons définitivement vos données personnelles. Vous disposez de 14 jours pour annuler la suppression</p>
                 <input type="submit" value="Supprimer votre compte" class="confirmButton">
             </div>
         </div>
         <ul>
-            <li>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></li>
             <li>Board(s) :
             <?php
                 $boardList = "";

@@ -18,6 +18,9 @@ if(isset($_POST["pseudo"])){
 if(isset($_POST["password"]) && isset($_POST["passwordNew"]) && isset($_POST["passwordNew2"])){
     $controller->updatePassword($id,$_POST["password"],$_POST["passwordNew"],$_POST["passwordNew2"]);
 }
+if(isset($_POST["color"])){
+    $controller->updateColor($id,$_POST["color"]);
+}
 $controller->index($id);
 // END SCRIPT
 //

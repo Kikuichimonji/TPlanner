@@ -32,12 +32,19 @@ class UsersController extends Controller
 		]);
 	}
 
-	public function updateUsername($id, $text)
+	public function updateUsername($id, $name)
 	{
-		$f_text = trim($text);
+		$f_name = trim($name);
 		$id = $id ? $id : $this->session()['user']->getId();
 		$um = new UsersManager();
-		$um->updateUsername($id, $f_text);
+		$um->updateUsername($id, $f_name) ? $this->session()['user']->setUsername($f_name) : null;
+	}
+
+	public function updateColor($id, $color)
+	{
+		$id = $id ? $id : $this->session()['user']->getId();
+		$um = new UsersManager();
+		$um->updateColor($id, $color) ? $this->session()['user']->setColor($color) : null;
 	}
 
 	public function updatePassword($id, $pass, $nPass1, $nPass2)
@@ -45,37 +52,37 @@ class UsersController extends Controller
 		$id = $id ? $id : $this->session()['user']->getId();
 		$um = new UsersManager();
 
-		if(password_verify($pass, $this->session()['user']->getPassword())) {
-			if(strlen($nPass1) < 8 || strlen($nPass2) < 8){
+		if (password_verify($pass, $this->session()['user']->getPassword())) {
+			if (strlen($nPass1) < 8 || strlen($nPass2) < 8) {
 				$this->view('user.php', [
 					'error' => "Password must be at least 8 characters long",
 					'user' => $this->session()['user']
-				  ]);
+				]);
 				die();
-			}else{
-				if($nPass1 == $nPass2){
+			} else {
+				if ($nPass1 == $nPass2) {
 					$nPass = password_hash($nPass1, PASSWORD_ARGON2I);
-					$um->updatePassword($id,$nPass);
+					$um->updatePassword($id, $nPass);
 
 					$this->view('user.php', [
 						'success' => "You password has been updated",
 						'user' => $this->session()['user']
-					  ]);
+					]);
 					die();
-				}else{
+				} else {
 					$this->view('user.php', [
 						'error' => "Your new passwords do not match",
 						'user' => $this->session()['user']
-					  ]);
+					]);
 					die();
 				}
 			}
-		}else{
+		} else {
 			$this->view('user.php', [
 				'error' => "Your password is incorrect",
 				'user' => $this->session()['user']
-			  ]);
-			  die();
+			]);
+			die();
 		}
 	}
 }
