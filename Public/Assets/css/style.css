@@ -187,6 +187,7 @@ LOGIN
 #login p,#register p,.error{
     color: red;
     font-style: italic;
+    text-align: center;
 }
 
 /*************************
@@ -682,6 +683,13 @@ USER
 }
 #user a:hover{
     text-decoration: underline;
+}
+#user #userColor{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    vertical-align: middle;
 }
 /*************************
 FOOTER
