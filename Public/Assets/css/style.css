@@ -53,6 +53,7 @@ body
 /*************************
 NAVBAR
 *************************/
+
 nav{
     display: flex;
     justify-content: space-between;
@@ -120,19 +121,22 @@ INDEX
 *************************/
 
 .mainheader_container {
-background-color: var(--main-color);
-width: 100%;
-height: 90vh;
-color: white;
-margin: auto;
-margin-bottom: -5%;
+    background-color: var(--main-color);
+    width: 100%;
+    height: 600px;
+    color: white;
+    margin: auto;
+    margin-bottom: 5%;
 }
 
 .mainheader{ 
     width: 80%;
-    height: 100%;
     margin: auto;
     text-align: center;
+}
+
+.mainheader div{
+    z-index: 2;
 }
 
 .mainheader_container h1 {
@@ -144,9 +148,42 @@ margin-bottom: -5%;
     font-weight: normal;
 }
 
+#relax {
+    width: 95vw;
+    padding-left: 3.5%;;
+    position: absolute;
+    margin-top: -142px;
+    pointer-events: none;
+}
+
+#separation {
+    width: 100%;
+    z-index: 2;
+    margin-top: 282px;
+    position: relative;
+}
+
+.section_container {
+    width: 100%;
+    margin: auto;
+}
+
+.article {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5%;
+}
+
+.article div {
+    padding: 2%;
+}
+
 /*************************
 LOGIN
 *************************/
+
 #login p,#register p,.error{
     color: red;
     font-style: italic;
@@ -604,7 +641,7 @@ FOOTER
 *************************/
 
 footer{
-    position: fixed;
+    /*position: fixed;*/
     bottom: 0;
     right:45vw;
     background-color: white;
