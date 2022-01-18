@@ -201,5 +201,18 @@ class CardsManager extends AbstractManager
         //var_dump($text);
         return self::update($sql,$arg,$idBoard);
     }
+
+    public function updateTitle($id,$text,$board){
+            
+        $sql = "UPDATE cards
+        SET title = :text
+        WHERE id = :id";
+        
+        $arg= ["text" => $text,
+                "id" => $id,
+            ];
+            
+        return self::update($sql,$arg,$board);
+    }
 }
 ?>

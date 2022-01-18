@@ -42,7 +42,7 @@
                         }else{
                             $desc2 = $desc;
                         }
-                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody' originalText='{$desc}'>{$desc2}</p></li>";
+                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody' originalText='{$desc}'>{$desc2}</p></li>";
                     } 
                 }
                 echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
@@ -62,7 +62,13 @@
                     if($list->getIsArchiveList()){
                         echo "<ul class='list Archive' id='{$list->getId()}' archive>";
                         foreach($board->getCardsArchived() as $card){
-                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody'>".e($card->getDescription())."</p></li>";
+                            $desc = e($card->getDescription());
+                            if(strlen($desc) > 200){
+                                $desc2 = substr($desc,0,200)."...";
+                            }else{
+                                $desc2 = $desc;
+                            }
+                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody'originalText='{$desc}'>{$desc2}</p></li>";
                         }
                         
                         foreach($board->getListsArchived() as $list){

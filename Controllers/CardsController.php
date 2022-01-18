@@ -47,4 +47,11 @@ class CardsController extends Controller
         $cm = new CardsManager();
         $cm->deleteCard($id,$pos,$list,$idBoard);
     }
+
+    public function updateCardTitle($id,$text,$board)
+    {
+        $f_text= trim($text);
+        $lm = new CardsManager();
+        $lm->updateTitle($id,$f_text,$board);
+    }
 }

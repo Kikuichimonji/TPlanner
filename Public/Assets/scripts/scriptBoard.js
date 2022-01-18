@@ -87,6 +87,40 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 child.hiddenId = child.parentNode.hiddenId;
             })
         })
+
+        cardTitle = item.querySelector(".cardTitle"); //We look for the title of each card
+        handlerCard = function (ev) { //The function that change the card title into an input, then change it back into a clickable title
+            ev.stopImmediatePropagation();
+            ev.target.removeEventListener("click",handlerList)
+            if(!ev.target.classList.contains("instantInput") && !ev.target.classList.contains("confirmButton")){
+                let newBox = document.createElement("input"); //we create a new input
+                newBox.setAttribute("type", "text");
+                newBox.value = ev.target.textContent
+                newBox.classList.add("instantInput");
+                let newButton = document.createElement("button"); //we create the confirm button
+                newButton.innerHTML = "Valider";
+                newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
+                newButton.classList.add("confirmButton");
+                ev.target.parentNode.nextElementSibling.style.display = 'none'; //we hide the menu icon to gain some space
+                ev.target.parentNode.oldText = ev.target.innerHTML
+                ev.target.innerHTML = ""; //we remove the title
+                ev.target.classList.add("specialInputOpen")
+                ev.target.appendChild(newBox);
+                ev.target.appendChild(newButton);
+                newBox.focus();
+                newButton.addEventListener("click", (ev) => {
+                    args = { "type": "changeCard", 'card': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
+                    goFetch(args); //we fetch the SQL to save
+                    ev.target.parentNode.classList.remove("specialInputOpen");
+                    ev.target.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back       
+                    ev.target.parentNode.textContent = newBox.value;
+                    
+                });
+            }
+        }
+        if (item.hiddenFunc != "archive") {
+            cardTitle.addEventListener("click", handlerCard);
+        }
     });
     lists.forEach((item) => { //Same as cards, we hide id
         item.hiddenId = item.id;
@@ -117,34 +151,33 @@ function init() { //Initialisation of all the basic elements, necessary to make 
         })
         listTitle = item.previousElementSibling.querySelector(".listTitle"); //We look for the title of each lists
         handlerList = function (ev) { //The function that change the list title into an input, then change it back into a clickable title
-            let newBox = document.createElement("input"); //we create a new input
-            newBox.setAttribute("type", "text");
-            newBox.value = ev.target.textContent
-            newBox.classList.add("instantInput");
-            let newButton = document.createElement("button"); //we create the confirm button
-            newButton.innerHTML = "Valider";
-            newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
-            newButton.classList.add("confirmButton");
-            ev.target.parentNode.nextElementSibling.style.display = 'none'; //we hide the menu icon to gain some space
-            ev.target.parentNode.oldText = ev.target.innerHTML
-            ev.target.innerHTML = ""; //we remove the title
-            ev.target.classList.add("specialInputOpen")
-            ev.target.appendChild(newBox);
-            ev.target.appendChild(newButton);
-            newBox.focus();
-            //ev.target.removeEventListener("click",handlerList);
-            //ev.stopImmediatePropagation();
-            newButton.addEventListener("click", (ev) => {
-                args = { "type": "changeList", 'list': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
-                goFetch(args); //we fetch the SQL to save
-                mySpan = document.createElement("span");
-                mySpan.innerHTML = newBox.value;
-                ev.target.parentNode.appendChild(mySpan); //we re create a new title and append it again
-                ev.target.previousElementSibling.outerHTML = ""; //we remove the input
-                ev.target.outerHTML = ""; //we remove the button
-                mySpan.addEventListener("click", handlerList); //we attach again the click event on the new title
-                mySpan.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back
-            });
+            ev.stopImmediatePropagation();
+            ev.target.removeEventListener("click",handlerList)
+            if(!ev.target.classList.contains("instantInput") && !ev.target.classList.contains("confirmButton")){
+                let newBox = document.createElement("input"); //we create a new input
+                newBox.setAttribute("type", "text");
+                newBox.value = ev.target.textContent
+                newBox.classList.add("instantInput");
+                let newButton = document.createElement("button"); //we create the confirm button
+                newButton.innerHTML = "Valider";
+                newButton.hiddenId = ev.target.parentNode.parentNode.hiddenId;
+                newButton.classList.add("confirmButton");
+                ev.target.parentNode.nextElementSibling.style.display = 'none'; //we hide the menu icon to gain some space
+                ev.target.parentNode.oldText = ev.target.innerHTML
+                ev.target.innerHTML = ""; //we remove the title
+                ev.target.classList.add("specialInputOpen")
+                ev.target.appendChild(newBox);
+                ev.target.appendChild(newButton);
+                newBox.focus();
+                newButton.addEventListener("click", (ev) => {
+                    args = { "type": "changeList", 'list': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
+                    goFetch(args); //we fetch the SQL to save
+                    ev.target.parentNode.classList.remove("specialInputOpen");
+                    ev.target.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back       
+                    ev.target.parentNode.textContent = newBox.value;
+                    
+                });
+            } 
         }
         if (item.hiddenFunc != "archive") {
             listTitle.addEventListener("click", handlerList);
@@ -185,7 +218,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     });
     cards.forEach(item => item.addEventListener("click", (ev) => //Event for when we're gonna click on the cards
     {
-        if (ev.target.classList.contains("cardBody")) { // When we click on the body, we open the editor
+        if(ev.target.classList.contains("cardBody")) { // When we click on the body, we open the editor
             openEditor(item);
         } else if (ev.target.hiddenType == "card" && ev.target.hiddenClass == "menu") { //if we click on the card menu button
             let menu = document.getElementById("cardMenu");
@@ -357,6 +390,10 @@ function goFetch(args) // function that fetch the board content depending on the
                 formData.append("text", args['text'])
                 link = "board.php?list=" + args["list"] + "&board=" + args["idBoard"]; //the link for changing the board title
                 break
+            case "changeCard":
+                formData.append("text", args['text'])
+                link = "board.php?card=" + args["card"] + "&board=" + args["idBoard"]; //the link for changing the board title
+                break
             case "editCardDesc":
                 formData.append("text", args['text'])
                 link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"]; //the link for changing the card description
@@ -406,7 +443,7 @@ function goFetch(args) // function that fetch the board content depending on the
                         console.log("good doggy")
                     }
                     //if everything went okay and we got no errors
-                    isArchive = args["el"] ? (args["el"].hiddenFunc == "archive" ? true : false) : false;
+                    isArchive = args["el"] ? (args["el"].hiddenFunc == "archive") : false;
                     if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive) { //we reload in thoses cases
                         args = { "type": "reload", 'board': board.hiddenId };
                         goFetch(args);
@@ -616,7 +653,8 @@ function events() { //all my general events
             let toClose = null;
             toClose = el.closest("#addList >span:first-child") ? el.closest("#addList >span:first-child") : toClose;
             toClose = el.closest(".addCard") ? el.closest(".addCard") : toClose;
-            toClose = el.closest(".listHeader > span") ? el.closest(".listHeader > span") : toClose;
+            toClose = el.closest(".listTitle") ? el.closest(".listTitle") : toClose;
+            toClose = el.closest(".cardTitle") ? el.closest(".cardTitle") : toClose;
             if (!toClose) {
                 for (let item of elList) {
                     item.classList.remove("inputOpen")

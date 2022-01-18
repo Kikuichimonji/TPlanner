@@ -114,6 +114,15 @@ if(!isset($_POST["act"])){
                 echo "false";
             }
             break;
+        case "changeCard" :
+            if(isset($_POST["text"]) && isset($_GET['card']) && isset($_GET["board"])){
+                if($_GET["board"] != "undefined"){
+                    $cardController->updateCardTitle($_GET['card'],$_POST['text'],$_GET["board"]);
+                }
+            }else{
+                echo "false";
+            }
+            break;
         case "editCardDesc" :
             if(isset($_GET["card"]) && isset($_POST['text']) && isset($_GET["board"])){
                 if($_GET["board"] != "undefined"){
