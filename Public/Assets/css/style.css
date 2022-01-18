@@ -611,6 +611,13 @@ USER
     font-size: 20px;
     padding: 0;
 }
+#user ul{
+    list-style: none;
+}
+#user li:not(#userTabs li){
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
 #userTabs li{
     display: inline-block;
     padding:1em 2em;
@@ -628,20 +635,60 @@ USER
     margin: auto;
     padding: 2em;
     margin-top: 1em;
+    height: 270px;
 }
 #userContent div{
     margin: auto;
-    width: 70%;
+    width: 500px;
+    display: none;
+    flex-direction: column;
+}
+#userContent div p,#userContent div label{
+    width: fit-content;
+}
+#user p,#user label{
+    font-size: 20px;
+}
+#user p{
+    margin-bottom: 0;
+}
+#user label{
+    margin-top: 1em;
 }
 #user p span{
     font-weight: bold;
+}
+#user input{
+    width: 450px;
+}
+#user input:last-child{
+    font-size: 17px;
+    width: fit-content;
+    margin: auto;
+    height: 50px;
+    margin-top: 2em;
+}
+#user form{
+    display: flex;
+    flex-direction: column;
+}
+#user .icon span{
+    margin-left: 0.5em;
+}
+#user a{
+    text-decoration: none;
+    font-weight: bold;
+    color : black;
+}
+#user a:hover{
+    text-decoration: underline;
 }
 /*************************
 FOOTER
 *************************/
 
 footer{
-    /*position: fixed;*/
+    position: fixed;
     bottom: 0;
     right:45vw;
     background-color: white;
