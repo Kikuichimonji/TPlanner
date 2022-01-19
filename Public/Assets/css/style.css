@@ -149,10 +149,10 @@ INDEX
 
 #main_right {
     width: 30%;
-    padding-left: 3.5%;;
     position: absolute;
-    margin-top: -178px;
     right: 0;
+    padding-bottom: 2.7%;
+    bottom: 0;
 }
 
 #main_left {
