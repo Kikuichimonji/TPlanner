@@ -12,7 +12,7 @@
     </header>
 
     <main id="register">
-        <h4>REGISTER</h4>
+        <h1>REGISTER</h4>
         <p>
         <?php
         if(isset($data)){
