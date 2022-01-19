@@ -20,6 +20,8 @@ if(isset($_POST["pseudo"])){
     $controller->updateColor($id,$_POST["color"]);
 }else if(isset($_POST["delete"])){
     $controller->disableAccount($id);
+}else if(isset($_POST["email"])){
+    $controller->updateEmail($id,$_POST["email"]);
 }
 $controller->index($id);
 // END SCRIPT

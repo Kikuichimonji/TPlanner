@@ -112,4 +112,12 @@ class UsersController extends Controller
 			} 
 		}
 	}
+
+	public function updateEmail($id, $mail)
+	{
+		$f_mail = trim($mail);
+		$id = $id ? $id : $this->session()['user']->getId();
+		$um = new UsersManager();
+		$um->updateEmail($id, $f_mail) ? $this->session()['user']->setMail($f_mail) : null;
+	}
 }

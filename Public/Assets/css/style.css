@@ -240,7 +240,7 @@ INDEX
 LOGIN
 *************************/
 
-#login p,#register p,.error{
+#login p.error,#register p,.error{
     color: red;
     font-style: italic;
     text-align: center;
@@ -251,7 +251,10 @@ LOGIN
     font-style: italic;
     text-align: center;
 }
-
+#login p{
+    display: inline-block;
+    margin-right: 1em;
+}
 /*************************
 DASHBOARD
 *************************/
