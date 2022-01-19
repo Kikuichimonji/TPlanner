@@ -12,16 +12,27 @@
     </header>
 
     <main id='user'>
-        <h4 class="bauhaus"><?php echo $data['user']->getUsername(); ?></h4>
+        <h4 class="bauhaus"><?php echo e($data['user']->getUsername()); ?></h4>
+        <?php
+        if(isset($data)){
+            if(isset($data["error"])){
+            echo '<p class="error">'.$data["error"].'</p>';
+            }
+            if(isset($data["success"])){
+                echo '<p class="success">'.$data["success"].'</p>';
+                }
+        }
+        ?>
         <ul id="userTabs">
             <li class="active">Profil</li>
             <li>Mail</li>
+            <li>Couleur</li>
             <li>Sécurité</li>
             <li>Paramètres</li>
         </ul>
         <div id="userContent">
             <div>
-                <p>Votre Pseudo actuel est <span>'<?= $data['user']->getUsername() ?>'</span></p>
+                <p>Votre Pseudo actuel est '<span><?= e($data['user']->getUsername()) ?></span>'</p>
                 <form action="user.php" method="post">
                     <label for="pseudo">Nouveau Pseudo</label>
                     <input type="text" name="pseudo" id="pseudo">
@@ -29,10 +40,18 @@
                 </form>
             </div>
             <div>
-                <p>Votre adresse Email actuelle est '<?= $data['user']->getMail() ?>'</p>
+                <p>Votre adresse Email actuelle est '<?= e($data['user']->getMail()) ?>'</p>
                 <form action="user.php" method="post">
                     <label for="email">Nouvelle adresse email</label>
                     <input type="text" name="email" id="email">
+                    <input type="submit" value="Enregistrer les modifications" class="confirmButton">
+                </form>
+            </div>
+            <div>
+                <p>Votre couleur est <span id='userColor' style='background-color:<?= $data['user']->getColor() ?>'></span></p>
+                <form action="user.php" method="post">
+                    <label for="color">Nouvelle couleur (Temporairement)</label>
+                    <input type="color" name="color" id="color" value="<?= $data['user']->getColor() ?>">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
                 </form>
             </div>
@@ -48,21 +67,20 @@
                 </form>
             </div>
             <div>
+                <p class='smaller'>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></p>
                 <p>Lorsque vous supprimez votre compte, vous perdez l'accès aux services associés aux comptes TPlanner, et nous supprimons définitivement vos données personnelles. Vous disposez de 14 jours pour annuler la suppression</p>
                 <input type="submit" value="Supprimer votre compte" class="confirmButton">
             </div>
         </div>
         <ul>
-            <li class="icon">Icone : <span style="background-color:<?= $data['user']->getColor(); ?>"><?=  strtoupper(substr($data['user']->getUsername(),0,2)) ?></span></li>
-            <li>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></li>
             <li>Board(s) :
             <?php
                 $boardList = "";
                 foreach($data['user']->getListBoards() as $board)
                 {
-                    $boardList .= "<a href='board.php?id={$board->getId()}'>{$board->getLabel()}</a>, ";
+                    $boardList .= "<a href='board.php?id={$board->getId()}'>".e($board->getLabel())."</a>, ";
                 }
-                echo rtrim($boardList,", ");
+                echo $boardList == "" ? "Vous n'avez aucun tableau" : rtrim($boardList,", ");
             ?></li>
         </ul>
     </main>

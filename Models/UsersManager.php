@@ -111,6 +111,43 @@
             //dd( $sqls);
             return self::transaction($sqls,$arg);
         }
+
+        public function updateUsername($id,$text){
+            
+            $sql = "UPDATE users
+            SET username = :text
+            WHERE id = :id";
+            
+            $arg= ["text" => $text,
+                    "id" => $id,
+                ];
+                
+            return self::update($sql,$arg);
+        }
+
+        public function updatePassword($id,$nPass){
+            
+            $sql = "UPDATE users
+            SET password = :password
+            WHERE id = :id";
+            
+            $arg= ["password" =>$nPass,
+                    "id" => $id,
+                ];
+            return self::update($sql,$arg);
+        }
+
+        public function updateColor($id,$color){
+            
+            $sql = "UPDATE users
+            SET color = :color
+            WHERE id = :id";
+            
+            $arg= ["color" =>$color,
+                    "id" => $id,
+                ];
+            return self::update($sql,$arg);
+        }
     }
 
 ?>
