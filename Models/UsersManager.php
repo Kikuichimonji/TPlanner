@@ -61,10 +61,10 @@
         public function getBoards($id){
 
             $sql = "SELECT b.id,b.label FROM boards b
-                    INNER JOIN users_boards ub ON ub.id_board = b.id
-                    INNER JOIN users u ON u.id = ub.id_user
+                    INNER JOIN users_boards ub ON ub.board_id = b.id
+                    INNER JOIN users u ON u.id = ub.user_id
                     WHERE u.id = :id
-                    AND b.id_user = u.id;";
+                    AND b.user_id = u.id;";
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),
@@ -75,10 +75,10 @@
         public function getInvitedBoards($id){
 
             $sql = "SELECT b.id,b.label FROM boards b
-                    INNER JOIN users_boards ub ON ub.id_board = b.id
-                    INNER JOIN users u ON u.id = ub.id_user
+                    INNER JOIN users_boards ub ON ub.board_id = b.id
+                    INNER JOIN users u ON u.id = ub.user_id
                     WHERE u.id = :id
-                    AND b.id_user != u.id;";
+                    AND b.user_id != u.id;";
             $arg= ["id" => $id];   
             return self::getResults(
                 self::select($sql,$arg, true),
@@ -103,8 +103,8 @@
 
         public function deleteUser($id,$boards){
             $sqls = [];
-            array_push($sqls,"UPDATE boards SET id_user = NULL WHERE id_user = :id;",
-                                "DELETE FROM users_boards WHERE id_user = :id;",
+            array_push($sqls,"UPDATE boards SET user_id = NULL WHERE user_id = :id;",
+                                "DELETE FROM users_boards WHERE user_id = :id;",
                                 "DELETE FROM users WHERE id = :id;");
 
             $arg=  ["id" => $id];

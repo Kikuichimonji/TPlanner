@@ -35,7 +35,7 @@
         public function getLists($id){
 
             $sql =   "SELECT * FROM lists l".
-                    " WHERE l.id_board = :id".
+                    " WHERE l.board_id = :id".
                     " ORDER BY l.listPosition";
             $arg= ["id" => $id];   
             return self::getResults(
@@ -47,9 +47,9 @@
         public function getCardsArchived($id){
 
             $sql = "SELECT c.id,c.title,c.description,c.color FROM cards c
-            INNER JOIN lists l ON l.id = c.id_list
+            INNER JOIN lists l ON l.id = c.list_id
             AND c.isArchived = 1
-            WHERE l.id_board = :id";
+            WHERE l.board_id = :id";
 
             $arg= ["id" => $id];   
             return self::getResults(
@@ -61,7 +61,7 @@
         public function getListsArchived($id){
 
             $sql = "SELECT * FROM lists l
-            WHERE l.id_board = :id
+            WHERE l.board_id = :id
             AND l.isArchived = 1";
 
             $arg= ["id" => $id];   
@@ -73,7 +73,7 @@
 
         public function getListArchived($id) {
             $sql = "SELECT * FROM lists l
-            WHERE l.id_board = :idBoard
+            WHERE l.board_id = :idBoard
             AND l.isArchived = 1";
             $arg= ["idBoard" => $id];
             return self::getResults(
@@ -84,9 +84,9 @@
 
         public function getCardArchived($id) {
             $sql = "SELECT c.id,c.title,c.description,c.color FROM cards c
-            INNER JOIN lists l ON l.id = c.id_list
+            INNER JOIN lists l ON l.id = c.list_id
             AND c.isArchived = 1
-            WHERE l.id_board = :idBoard";
+            WHERE l.board_id = :idBoard";
             $arg= ["idBoard" => $id];
             return self::getResults(
                 self::select($sql,$arg, true),
@@ -109,7 +109,7 @@
 
         public function addBoard($text,$id)
         {
-            $sql= "INSERT INTO boards(label,id_user)".
+            $sql= "INSERT INTO boards(label,user_id)".
                 " VALUES (:label,:idBoard)";
 
             $arg= ["label" => $text,
@@ -118,9 +118,9 @@
             //var_dump($arg);die();
             $idBoard = self::insertReturn($sql,$arg);
 
-            $sql= "INSERT INTO users_boards(id_user,id_board)".
+            $sql= "INSERT INTO users_boards(user_id,board_id)".
             " VALUES (:idu,:idBoard);
-                    INSERT INTO lists(label,listPosition,isArchiveList,id_board)".
+                    INSERT INTO lists(label,listPosition,isArchiveList,board_id)".
             " VALUES (:label,:pos,:isArch,:idBoard);";
 
             $arg= ["idu" => $id,
@@ -136,7 +136,7 @@
         }
 
         public function getOrphan(){
-            $sql = "SELECT * FROM boards WHERE id_user IS NULL";
+            $sql = "SELECT * FROM boards WHERE user_id IS NULL";
 
             return self::getResults(
                 self::select($sql, null, true),
@@ -145,7 +145,7 @@
         }
 
         public function inviteUser($idBoard,$idUser){
-            $sql= "INSERT INTO users_boards(id_user,id_board)".
+            $sql= "INSERT INTO users_boards(user_id,board_id)".
                 " VALUES (:idUser,:idBoard)";
 
             $arg= ["idUser" => $idUser,
@@ -156,8 +156,8 @@
 
         public function getUsers($idBoard){
             $sql = "SELECT u.id, u.username, u.mail, u.color FROM users u".
-                    " INNER JOIN users_boards ub ON u.id = ub.id_user".
-                    " INNER JOIN boards b ON b.id = ub.id_board".
+                    " INNER JOIN users_boards ub ON u.id = ub.user_id".
+                    " INNER JOIN boards b ON b.id = ub.board_id".
                     " WHERE b.id = :idBoard";
 
             $arg= ["idBoard" => $idBoard];
@@ -170,7 +170,7 @@
 
         public function getCreator($id){
 
-            $sql =   "SELECT id_user".
+            $sql =   "SELECT user_id".
                     " FROM boards".
                     " WHERE id = :id";
             $arg= ["id" => $id];     

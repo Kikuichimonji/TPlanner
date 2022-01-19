@@ -229,7 +229,7 @@ class User extends AbstractEntity
     }else{
       $bm = new BoardsManager();
       
-      $this->isCreator = $bm->getCreator($board)["id_user"] == $this->id;
+      $this->isCreator = $bm->getCreator($board)["user_id"] == $this->id;
       return $this->isCreator;
     }
   }

@@ -10,7 +10,7 @@
             self::connect();
         }
 
-        public function getOneById($id){
+        public function findOneById($id){
 
             $sql = "SELECT *
             FROM lists
@@ -35,7 +35,7 @@
         public function getCards($id){
 
             $sql = "SELECT * FROM cards c
-                    WHERE c.id_list = :id
+                    WHERE c.list_id = :id
                     ORDER BY c.positions";
             $arg= ["id" => $id];   
             return self::getResults(
@@ -68,7 +68,7 @@
                 $sql="UPDATE lists 
                     SET listPosition = listPosition -1
                     WHERE listPosition > :position
-                    AND id_board = :idBoard;
+                    AND board_id = :idBoard;
                     UPDATE lists
                     SET isArchived = 1
                     WHERE id = :list";
@@ -87,7 +87,7 @@
                     SET listPosition = listPosition-1
                     WHERE listPosition > :oldPosition
                     AND listPosition <= :position
-                    AND id_board = :idBoard;
+                    AND board_id = :idBoard;
                     UPDATE lists
                     SET listPosition = :position
                     WHERE id = :list";
@@ -101,7 +101,7 @@
                     SET listPosition = listPosition+1
                     WHERE listPosition >= :position
                     AND listPosition < :oldPosition
-                    AND id_board = :idBoard;
+                    AND board_id = :idBoard;
                     UPDATE lists
                     SET listPosition = :position
                     WHERE id = :list";
@@ -126,7 +126,7 @@
 
             $sql = "SELECT MAX(listPosition) as max
             FROM lists
-            WHERE id_board = :id";
+            WHERE board_id = :id";
             $arg= ["id" => $id];     
 
             return self::getValue(
@@ -138,7 +138,7 @@
 
 
             $pos = $this->getMaxPos($id)['max']? $this->getMaxPos($id)['max']+1 : 0;
-            $sql= "INSERT INTO lists(label,listPosition,id_board) 
+            $sql= "INSERT INTO lists(label,listPosition,board_id) 
                    VALUES (:title,:positions,:idBoard)";
 
             $arg= ["title" => $title,
@@ -155,7 +155,7 @@
             $sql = "UPDATE lists 
                     SET listPosition = listPosition -1
                     WHERE listPosition > :pos
-                    AND id_board = :idBoard;
+                    AND board_id = :idBoard;
                     DELETE
                     FROM lists
                     WHERE id = :id ";

@@ -532,7 +532,7 @@ function events() { //all my general events
         }
     });
     document.addEventListener("dragenter", function (ev) { //Even start when the dragged target enter an element
-        //console.log(ev.target)
+        ev.stopImmediatePropagation();
         if (ev.target && (ev.target.hiddenType == "card" || ev.target.hiddenType == "list" || ev.target.classList.contains('listHeader')) && draggedElement) //If we drag into something && we drag into a card || we drag into a list
         {
             draggedInto = getDraggedParent(ev.target);
@@ -543,8 +543,9 @@ function events() { //all my general events
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
             }
-            //console.log(draggedInto.hiddenFunc)
+            //console.log(draggedInto)
             if (draggedInto.hiddenId !== draggedElement.hiddenId && !draggedElement.classList.contains("listHeader") && draggedInto.hiddenType == "card") { //D&D code for card dragging
+                //console.log(ev.target)
                 let ep = draggedInto.previousElementSibling;
                 let en = draggedInto.nextElementSibling;
                 let dp = draggedElement.previousElementSibling;

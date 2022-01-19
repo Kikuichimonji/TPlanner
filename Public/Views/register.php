@@ -27,6 +27,9 @@
             <input type="text" name="pseudo" id="pseudo" <?php if(isset($data["pseudo"])){echo "value='{$data["pseudo"]}'"; } ?>>
             <label for="mail">Email</label>
             <input type="text" name="mail" id="mail" <?php if(isset($data["mail"])){echo "value='{$data["mail"]}'";} ?>>
+            <br>
+            <span>8 charactères minimum</span>
+            <br>
             <label for="password">Password</label>
             <input type="password" name="password" id="password">
             <label for="password2">Confirmez le Password</label>

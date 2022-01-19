@@ -56,14 +56,14 @@ class CardsManager extends AbstractManager
             UPDATE cards
             SET positions = positions+1 
             WHERE positions >= :position
-            AND id_list = :list;
+            AND list_id = :list;
             UPDATE cards
             SET positions = positions-1
             WHERE positions >= :oldPosition
-            AND id_list = :oldList;
+            AND list_id = :oldList;
             UPDATE cards
             SET positions = :position ,
-            id_list = :list
+            list_id = :list
             WHERE id = :card;
             END;
 
@@ -89,10 +89,10 @@ class CardsManager extends AbstractManager
                 SET positions = positions-1
                 WHERE positions > :oldPosition
                 AND positions <= :position
-                AND id_list = :list;
+                AND list_id = :list;
                 UPDATE cards
                 SET positions = :position ,
-                id_list = :list
+                list_id = :list
                 WHERE id = :card;
                 END;
             }else{
@@ -105,10 +105,10 @@ class CardsManager extends AbstractManager
                 SET positions = positions+1
                 WHERE positions >= :position
                 AND positions < :oldPosition
-                AND id_list = :list;
+                AND list_id = :list;
                 UPDATE cards
                 SET positions = :position ,
-                id_list = :list
+                list_id = :list
                 WHERE id = :card
                 END;
             }
@@ -119,7 +119,7 @@ class CardsManager extends AbstractManager
                     " UPDATE cards".
                     " SET positions = positions-1".
                     " WHERE positions >= :oldPosition".
-                    " AND id_list = :oldList;";
+                    " AND list_id = :oldList;";
             
             $arg= ["oldPosition" => $oldPos,
                     "oldList" => $oldList,
@@ -143,7 +143,7 @@ class CardsManager extends AbstractManager
 
         $sql = "SELECT MAX(positions) as max".
         " FROM cards".
-        " WHERE id_list = :id";
+        " WHERE list_id = :id";
         $arg= ["id" => $id];     
 
         return self::getValue(
@@ -155,11 +155,11 @@ class CardsManager extends AbstractManager
 
 
         $pos = isset($this->getMaxPos($id)['max'])? $this->getMaxPos($id)['max']+1 : 0;
-        $sql= "INSERT INTO cards(title,positions,id_list)".
-                " VALUES (:title,:positions,:id_list)";
+        $sql= "INSERT INTO cards(title,positions,list_id)".
+                " VALUES (:title,:positions,:list_id)";
 
         $arg= ["title" => $title,
-                "id_list" => $id,
+                "list_id" => $id,
                 "positions" => $pos];
 
         //var_dump($arg);die();
@@ -173,7 +173,7 @@ class CardsManager extends AbstractManager
         UPDATE cards
         SET positions = positions -1
         WHERE positions > :pos
-        AND id_list = :list;
+        AND list_id = :list;
         DELETE
         FROM cards
         WHERE id = :id 
