@@ -33,7 +33,8 @@
           <?php //isset($data) ? var_dump($data) : null; ?>
           </div>
         </div>
-      <img id="relax" src="./Assets/img/tplanner_image_relax.svg" alt="image zen de la page d'accueil" />
+      <img id="main_left" src="./Assets/img/tplanner_image_relax-gauche.svg" alt="image zen de la page d'accueil" />
+      <img id="main_right" src="./Assets/img/tplanner_image_relax-droite.svg" alt="image zen de la page d'accueil" />
       <img id="separation" src="./Assets/img/tplanner_background_separation-vague.svg" alt="separation" />
     </section>
 

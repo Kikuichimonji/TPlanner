@@ -127,16 +127,13 @@ INDEX
     color: white;
     margin: auto;
     margin-bottom: 5%;
+    position: relative;
 }
 
 .mainheader{ 
     width: 80%;
     margin: auto;
     text-align: center;
-}
-
-.mainheader div{
-    z-index: 2;
 }
 
 .mainheader_container h1 {
@@ -148,19 +145,27 @@ INDEX
     font-weight: normal;
 }
 
-#relax {
-    width: 95vw;
+#main_right {
+    width: 30%;
+    padding-left: 3.5%;;
+    position: absolute;
+    margin-top: -178px;
+    right: 0;
+}
+
+#main_left {
+    width: 7%;
     padding-left: 3.5%;;
     position: absolute;
     margin-top: -142px;
-    pointer-events: none;
 }
 
 #separation {
     width: 100%;
     z-index: 2;
     margin-top: 282px;
-    position: relative;
+    position: absolute;
+    bottom: 0;
 }
 
 .section_container {
