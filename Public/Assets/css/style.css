@@ -212,7 +212,6 @@ INDEX
 #separation {
     width: 100%;
     z-index: 2;
-    margin-top: 282px;
     position: absolute;
     bottom: 0;
 }
@@ -220,6 +219,7 @@ INDEX
 .article_container {
     width: 100%;
     margin: auto;
+    padding-bottom: 2%;
 }
 
 .article {
@@ -227,7 +227,7 @@ INDEX
     margin: auto;
     display: flex;
     flex-direction: row;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
 }
 
 .article div {
