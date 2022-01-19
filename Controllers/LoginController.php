@@ -38,6 +38,13 @@ class LoginController extends Controller
 		if ($f_mail) {
 			$um = new UsersManager();
 			$user = $um->getOneByMail($f_mail);
+
+			if (!$this->isDisabled($user)) {
+				$this->view('login.php', [
+					'error' => "Your account is disabled"
+				]);
+				die();
+			}
 			if ($user !== null) {
 				if (!password_verify($data['password'], $user->getPassword())) {
 					$this->view('login.php', [
@@ -82,10 +89,7 @@ class LoginController extends Controller
 		$token = hash_hmac("sha256", "tralala", $this->getToken());
 		if (isset($data)) {
 			//var_dump($data);
-			if (!$this->csrfCheck($data['token'])) {
-				header("Location:index.php");
-				die();
-			}
+			
 			$f_username = trim(filter_var($data["pseudo"], FILTER_SANITIZE_SPECIAL_CHARS));
 			$f_mail = trim(filter_var($data['mail'], FILTER_SANITIZE_EMAIL));
 			$f_password1 = filter_var($data["password"], FILTER_VALIDATE_REGEXP, [

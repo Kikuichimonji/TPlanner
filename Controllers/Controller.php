@@ -177,4 +177,19 @@ class Controller
       die();
     }
   }
+
+  protected function isDisabled($user) 
+  {
+    try{
+        if(is_array(json_decode($user->getRole()))){
+          return in_array("user",json_decode($user->getRole()));
+        }else{
+          return false;
+        }
+
+    }catch(\Exception $e){
+      echo $e->getMessage();
+      die();
+    }
+  }
 }

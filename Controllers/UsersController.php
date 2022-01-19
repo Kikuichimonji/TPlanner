@@ -27,8 +27,10 @@ class UsersController extends Controller
 		//dd($id);
 		$user = $um->getOneById($id);
 
+		$token = hash_hmac("sha256", "tralala", $this->getToken());
 		$this->view('user.php', [
 			'user' => $user,
+			"token" => $token,
 		]);
 	}
 
@@ -47,10 +49,18 @@ class UsersController extends Controller
 		$um->updateColor($id, $color) ? $this->session()['user']->setColor($color) : null;
 	}
 
-	public function updatePassword($id, $pass, $nPass1, $nPass2)
+	public function updatePassword($id, $pass, $nPass1, $nPass2, $token)
 	{
 		$id = $id ? $id : $this->session()['user']->getId();
 		$um = new UsersManager();
+
+		if (!$this->csrfCheck($token)) {
+			$this->view('index.php', [
+				'error' => "WSRF ERROR",
+				'user' => $this->session()['user']
+			]);
+			die();
+		}
 
 		if (password_verify($pass, $this->session()['user']->getPassword())) {
 			if (strlen($nPass1) < 8 || strlen($nPass2) < 8) {
@@ -83,6 +93,23 @@ class UsersController extends Controller
 				'user' => $this->session()['user']
 			]);
 			die();
+		}
+	}
+
+	public function disableAccount($id)
+	{
+		$id = $id ? $id : $this->session()['user']->getId();
+		$um = new UsersManager();
+		$role = json_decode($this->session()['user']->getRole());
+		if(array_search("user",$role) !== false){
+			unset($role[array_search("user",$role)]) ;
+			if($um->updateRole($id,json_encode($role))){
+				$this->session()['user']->setRole(json_encode($role));
+				$this->view('user.php', [
+					'error' => "Your password is incorrect",
+					'user' => $this->session()['user']
+				]);
+			} 
 		}
 	}
 }

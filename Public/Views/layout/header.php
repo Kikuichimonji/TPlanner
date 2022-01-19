@@ -15,7 +15,6 @@
                   <ul>
                     <li><a href='dashboard.php'>DashBoard</a></li>
                     <li><a href='user.php'>Profil</a></li>
-                    <li><a href=''>Paramètres</a></li>
                     <li><a href='login.php?act=logout'>Se Déconnecter</a></li>
                   </ul>
                 </div>

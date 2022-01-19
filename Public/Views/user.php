@@ -64,12 +64,17 @@
                     <label for="passwordNew2">Confirmation du nouveau mot de passe*</label>
                     <input type="text" name="passwordNew2" id="passwordNew2">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
+                    <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
                 </form>
             </div>
             <div>
-                <p class='smaller'>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></p>
-                <p>Lorsque vous supprimez votre compte, vous perdez l'accès aux services associés aux comptes TPlanner, et nous supprimons définitivement vos données personnelles. Vous disposez de 14 jours pour annuler la suppression</p>
-                <input type="submit" value="Supprimer votre compte" class="confirmButton">
+                <form action="user.php" method="post">
+                    <p class='smaller'>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></p>
+                    <p>Lorsque vous supprimez votre compte, vous perdez l'accès aux services associés aux comptes TPlanner, et nous supprimons définitivement vos données personnelles. Vous disposez de 14 jours pour annuler la suppression</p>
+                    <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
+                    <input type="hidden" name="delete" id="delete" />
+                    <input type="submit" value="Supprimer votre compte" class="confirmButton">
+                </form>
             </div>
         </div>
         <ul>

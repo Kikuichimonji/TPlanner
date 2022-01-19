@@ -14,12 +14,12 @@ $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
 if(isset($_POST["pseudo"])){
     $controller->updateUsername($id,$_POST["pseudo"]);
-}
-if(isset($_POST["password"]) && isset($_POST["passwordNew"]) && isset($_POST["passwordNew2"])){
-    $controller->updatePassword($id,$_POST["password"],$_POST["passwordNew"],$_POST["passwordNew2"]);
-}
-if(isset($_POST["color"])){
+}else if(isset($_POST["password"]) && isset($_POST["passwordNew"]) && isset($_POST["passwordNew2"])){
+    $controller->updatePassword($id,$_POST["password"],$_POST["passwordNew"],$_POST["passwordNew2"],$_POST['token']);
+}else if(isset($_POST["color"])){
     $controller->updateColor($id,$_POST["color"]);
+}else if(isset($_POST["delete"])){
+    $controller->disableAccount($id);
 }
 $controller->index($id);
 // END SCRIPT

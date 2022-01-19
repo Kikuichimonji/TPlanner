@@ -148,6 +148,18 @@
                 ];
             return self::update($sql,$arg);
         }
+
+        public function updateRole($id,$role){
+            
+            $sql = "UPDATE users
+            SET role = :role
+            WHERE id = :id";
+            
+            $arg= ["role" =>$role,
+                    "id" => $id,
+                ];
+            return self::update($sql,$arg);
+        }
     }
 
 ?>
