@@ -64,14 +64,24 @@
 
     <section class="prefooter_container">
       <div class="prefooter">
-      <h3>TPlanner</h3>
         <ul>
+          <li><h3>TPlanner</h3></li>
           <li>A Propos</li>
           <li>Contact</li>
           <li>Mentions légales</li>
           <li>Politique de confidentialité</li>
         </ul>
+
+        <a href="https://fr-fr.facebook.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_facebook.svg" alt="logo facebook" /></a>
+        <a href="https://www.instagram.com/?hl=fr" target="_blank"><img class="network" src="./Assets/img/tplanner_network_instagram.svg" alt="logo instagram" /></a>
+        <a href="https://twitter.com/?lang=fr" target="_blank"><img class="network" src="./Assets/img/tplanner_network_twitter.svg" alt="logo twitter" /></a>
+        <a href="https://fr.linkedin.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_linkedin.svg" alt="logo linkedin" /></a>
+        <a href="https://www.youtube.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_youtube.svg" alt="logo youtube" /></a>
       </div>
+
+      <img id="prefooter_logo" src="./Assets/img/TPlanner_logo-white.svg" alt="logo tplanner prefooter" />
+      <img id="prefooter_left" src="./Assets/img/tplanner_prefooter-gauche.svg" alt="image prefooter" />
+      <img id="prefooter_right" src="./Assets/img/tplanner_prefooter-droite.svg" alt="image prefooter" />
     </section>
 
   </main>

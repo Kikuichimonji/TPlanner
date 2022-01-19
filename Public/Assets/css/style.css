@@ -124,6 +124,10 @@ nav img{
     background-color: white;
 }
 
+a {
+    color: var(--main-color)
+}
+
 /*************************
 INDEX
 *************************/
@@ -198,7 +202,7 @@ INDEX
 
 #main_left {
     width: 8%;
-    padding-left: 3.5%;;
+    padding-left: 3.5%;
     position: absolute;
     /*margin-top: -142px;*/
     padding-bottom: 15%;
@@ -228,12 +232,57 @@ INDEX
 
 .article div {
     padding: 2%;
+    text-align: center;
+    margin-top: 10%;
 }
 
 .prefooter_container {
     background-color: var(--main-color);
     color: white;
     padding: 2%;
+    position: relative;
+    height: 400px;
+}
+
+.prefooter {
+    text-align: center;
+    margin-top: -2%;
+}
+
+.prefooter ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.prefooter ul li {
+    padding: 0.8%;
+}
+
+#prefooter_logo {
+    width: 7%;
+    left: 1%;
+    top: 5%;
+    position: absolute;
+}
+
+#prefooter_left {
+    width: 8%;
+    left: 6%;
+    position: absolute;
+    bottom: 15%;
+}
+
+#prefooter_right {
+    width: 8%;
+    right: 6%;
+    position: absolute;
+    bottom: 15%;
+}
+
+.network {
+    width: 40px;
+    height: 40px;
+    margin: 2%;
 }
 
 /*************************
