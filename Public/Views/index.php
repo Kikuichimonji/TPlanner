@@ -15,8 +15,6 @@
   </header>
 
   <main>
-
-  <!-- HEADER SECTION -->
   
     <section class="mainheader_container">
       <div class="mainheader">
@@ -24,16 +22,17 @@
         <h1>Tasks, Team, Testing and Time Planner : TPlanner</h1>
         <h2>La façon la plus simple de gérer vos projets !</h2>
         <div>
-          <div>
-            <h3>Bienvenue sur TPlanner cher visiteur ! </h3>
-            <p>Découvrez notre site : il est gratuit et facile d'utilisation. </p>
-            <a href='./register.php'>Inscrivez-vous gratuitement</a> </br>
-            <a href='./login.php'>Ou connectez-vous !</a>
-          </div>
-          <?php //isset($data) ? var_dump($data) : null; ?>
-          </div>
+          <h3>Bienvenue sur TPlanner cher visiteur ! </h3>
+          <p>Découvrez notre site : il est gratuit et facile d'utilisation. </p>
+          </br>
+          <a class="button" href='./register.php'>Inscrivez-vous gratuitement</a> </br>
+          </br></br>
+          <a class="link" href='./login.php'>Ou connectez-vous !</a>
         </div>
-      <img id="relax" src="./Assets/img/tplanner_image_relax.svg" alt="image zen de la page d'accueil" />
+        <?php //isset($data) ? var_dump($data) : null; ?>
+      </div>
+      <img id="main_left" src="./Assets/img/tplanner_image_relax-gauche.svg" alt="image zen de la page d'accueil" />
+      <img id="main_right" src="./Assets/img/tplanner_image_relax-droite.svg" alt="image zen de la page d'accueil" />
       <img id="separation" src="./Assets/img/tplanner_background_separation-vague.svg" alt="separation" />
     </section>
 
@@ -60,6 +59,18 @@
           </p>
         </div>
         <img src="./Assets/img/tplanner_image_screenshot2.svg" alt="separation" />
+      </div>
+    </section>
+
+    <section class="prefooter_container">
+      <div class="prefooter">
+      <h3>TPlanner</h3>
+        <ul>
+          <li>A Propos</li>
+          <li>Contact</li>
+          <li>Mentions légales</li>
+          <li>Politique de confidentialité</li>
+        </ul>
       </div>
     </section>
 
