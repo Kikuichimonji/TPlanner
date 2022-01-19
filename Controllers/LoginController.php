@@ -207,7 +207,8 @@ class LoginController extends Controller
 					'</body></html>';
 		$headers = "From: admin@thomas-roess.fr"."\r\n".
 					"Reply-To: admin@thomas-roess.fr\r\n".
-					'X-Mailer: PHP/'.phpversion();;
+					"X-Mailer: PHP/".phpversion()."\r\n".
+					"Content-type: text/html\r\n";
 
 		return mail($to_email,$subject,$message,$headers);
 	
