@@ -310,7 +310,14 @@ LOGIN
     display: inline-block;
     margin-right: 1em;
 }
+<<<<<<< HEAD
 
+=======
+#login h5{
+    font-weight: normal;
+    font-size: 1em;
+}
+>>>>>>> 48c4d5300f0f17990e8ba73a6bc84589d440a326
 /*************************
 DASHBOARD
 *************************/

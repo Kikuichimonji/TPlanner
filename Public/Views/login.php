@@ -13,15 +13,16 @@
 
   <main id="login">
     <h4>LOGIN</h4>
-    <p class="error">
+    
     <?php
       if(isset($data)){
         if(isset($data["error"])){
-          echo $data["error"];
+          echo '<p class="error">'.$data["error"].'</p>';
+        }if(isset($data["success"])){
+          echo '<p class="success">'.$data["success"].'</p>';
         }
       }
     ?>
-    </p>
     <form action="login.php?act=submit" method="post">
       <label for="mail">Email</label>
       <input type="text" name="mail" id="mail">
@@ -30,7 +31,7 @@
       <button type="submit">Connection</button>
       <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
     </form>
-    <p>Mot de passe oublié? </p><a href="">Réinitialisez le</a>
+    <p>Mot de passe oublié? </p><a href="login.php?act=reset">Réinitialisez le</a>
   </main>
 
   <?php require_once 'layout/footer.php'; ?>

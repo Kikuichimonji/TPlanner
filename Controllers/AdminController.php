@@ -14,7 +14,6 @@ class AdminController extends Controller
   public function __construct()
   {
     // Vérifie si l'utilisateur est connecté sinon redirection
-    //var_dump("ddd");die();
     $this->authRequired();
     $this->adminRequired();
   }
@@ -41,7 +40,7 @@ class AdminController extends Controller
     //var_dump($id);die();
     $um = new UsersManager();
     if($id != "null"){
-      $result = $um->deleteUser($id,$um->getBoards($id));
+      $result = $um->deleteUser($id);
       echo $result;
     }
     header("Location: admin~LP9fsDOQnEuHPRbTHfn5.php");

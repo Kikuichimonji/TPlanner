@@ -84,6 +84,12 @@ class LoginController extends Controller
 		]);
 	}
 
+	public function showReset()
+	{
+		$this->view('resetPassword.php', [
+		]);
+	}
+
 	public function register($data)
 	{
 		$token = hash_hmac("sha256", "tralala", $this->getToken());
@@ -147,5 +153,59 @@ class LoginController extends Controller
 			header("Location:index.php");
 			die();
 		}
+	}
+
+	public function resetPassword($mail)
+	{
+		$um = new UsersManager();
+		if($mail != ""){
+			$user = $um->getOneByMail($mail);
+			if($user){
+				$newpass = $this->generatePassword();
+				$hashPass = password_hash($newpass, PASSWORD_ARGON2I);
+				if($this->sendPassMail($mail,$newpass)){
+					$um->updatePassword($user->getId(),$hashPass);
+					$this->view('login.php', [
+						'success' => "Vous allez reçevoir un nouveau mot de passe sur votre boite mail",
+					]);
+				}else{
+					$this->view('resetPassword.php', [
+						'error' => "Un problème est survenu lors de l'envoi du mail",
+					]);
+				}
+				
+			}else{
+				$this->view('resetPassword.php', [
+					'error' => "Désolé, cet email n'est pas lié à un compte utilisateur",
+				]);
+			}
+		}else{
+			$this->view('resetPassword.php', [
+				'error' => "Veuillez entrer un email",
+			]);
+		}
+		
+	}
+
+	public function generatePassword() {
+		$keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$pass = '';
+		$max = strlen($keyspace) - 1;
+		for ($i = 0; $i < 12; ++$i) {
+			$pass .= $keyspace[random_int(0, $max)];
+		}
+		return $pass;
+	}
+
+	public function sendPassMail($mail,$pass)
+	{
+		$to_email = $mail;
+		$subject = "TPlanner : Votre nouveau mot de passe";
+		$message = "Voici votre nouveau mot de passe généré aléatoirement : <strong>$pass</strong>";
+		$headers = "From: admin@thomas-roess.fr \r\n".
+		" X-Mailer: PHP/".phpversion();
+
+		return mail($to_email,$subject,$message,$headers);
+	
 	}
 }
