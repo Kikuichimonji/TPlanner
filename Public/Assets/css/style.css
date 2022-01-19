@@ -219,7 +219,7 @@ INDEX
 }
 
 .article {
-    width: 80%;
+    width: 60%;
     margin: auto;
     display: flex;
     flex-direction: row;
@@ -227,6 +227,12 @@ INDEX
 }
 
 .article div {
+    padding: 2%;
+}
+
+.prefooter_container {
+    background-color: var(--main-color);
+    color: white;
     padding: 2%;
 }
 

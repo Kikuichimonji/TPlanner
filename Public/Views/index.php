@@ -15,8 +15,6 @@
   </header>
 
   <main>
-
-  <!-- HEADER SECTION -->
   
     <section class="mainheader_container">
       <div class="mainheader">
@@ -61,6 +59,18 @@
           </p>
         </div>
         <img src="./Assets/img/tplanner_image_screenshot2.svg" alt="separation" />
+      </div>
+    </section>
+
+    <section class="prefooter_container">
+      <div class="prefooter">
+      <h3>TPlanner</h3>
+        <ul>
+          <li>A Propos</li>
+          <li>Contact</li>
+          <li>Mentions légales</li>
+          <li>Politique de confidentialité</li>
+        </ul>
       </div>
     </section>
 
