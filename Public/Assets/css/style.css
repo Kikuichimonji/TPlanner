@@ -255,6 +255,10 @@ LOGIN
     display: inline-block;
     margin-right: 1em;
 }
+#login h5{
+    font-weight: normal;
+    font-size: 1em;
+}
 /*************************
 DASHBOARD
 *************************/

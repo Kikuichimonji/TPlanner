@@ -101,7 +101,7 @@
             return self::insertNoChange($sql,$arg);
         }
 
-        public function deleteUser($id,$boards){
+        public function deleteUser($id){
             $sqls = [];
             array_push($sqls,"UPDATE boards SET user_id = NULL WHERE user_id = :id;",
                                 "DELETE FROM users_boards WHERE user_id = :id;",
