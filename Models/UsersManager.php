@@ -160,6 +160,19 @@
                 ];
             return self::update($sql,$arg);
         }
+
+        public function updateEmail($id,$mail){
+            
+            $sql = "UPDATE users
+            SET mail = :mail
+            WHERE id = :id";
+            
+            $arg= ["mail" => $mail,
+                    "id" => $id,
+                ];
+                
+            return self::update($sql,$arg);
+        }
     }
 
 ?>

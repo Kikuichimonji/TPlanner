@@ -13,7 +13,7 @@
 
   <main id="login">
     <h4>LOGIN</h4>
-    <p>
+    <p class="error">
     <?php
       if(isset($data)){
         if(isset($data["error"])){
@@ -30,6 +30,7 @@
       <button type="submit">Connection</button>
       <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
     </form>
+    <p>Mot de passe oublié? </p><a href="">Réinitialisez le</a>
   </main>
 
   <?php require_once 'layout/footer.php'; ?>
