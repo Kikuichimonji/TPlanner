@@ -201,9 +201,12 @@ class LoginController extends Controller
 	{
 		$to_email = $mail;
 		$subject = "TPlanner : Votre nouveau mot de passe";
-		$message = "Voici votre nouveau mot de passe généré aléatoirement : <strong>$pass</strong>";
-		$headers = "From: admin@thomas-roess.fr \r\n".
-		" X-Mailer: PHP/".phpversion();
+		$message = '<html><body>';
+		$message .= '<h1 style="color:#f40;">Votre nouveau mot de passe!</h1>'.
+		$message .= "Voici votre nouveau mot de passe généré aléatoirement : <strong>$pass</strong>".
+		$message .= '</body></html>';
+		$headers = "From: admin@thomas-roess.fr"."\r\n".
+					'X-Mailer: PHP/' . phpversion();;
 
 		return mail($to_email,$subject,$message,$headers);
 	
