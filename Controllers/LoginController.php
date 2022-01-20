@@ -27,6 +27,12 @@ class LoginController extends Controller
 		]);
 	}
 
+	public function notFound()
+	{
+		$this->view('404.php', [
+		]);
+	}
+
 	public function login($data)
 	{
 		if (!$this->csrfCheck($data['token'])) {

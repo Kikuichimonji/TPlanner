@@ -5,47 +5,50 @@ namespace Controllers;
 class Controller
 {
   /**
-   * Chemin du dossier des vues à partir de la racine
+   * View folder path
    */
   const VIEW_PATH = '/Public/Views/';
 
   /**
-   * Page de redirection si non connecté
+   * Where the user is redirected if not connected
    */
   const REDIRECT_GUEST = 'login.php';
 
   /**
-   * Détermine si la session a déjà été "start"
-   *
+   * Check if the session has been started
    * @var bool
    */
   static protected $session = false;
 
   /**
-   * Détermine si l'utilisateur est connecté dans la session
-   * Voir function isAuth() plus bas
-   *
+   * Check if the user is connected
+   * See isAuth() function under
    * @var null
    */
   static protected $isAuth = null;
+
+  /**
+   * Check if the user is an admin
+   * See isAdmin() function under
+   * @var null
+   */
   static protected $isAdmin = null;
 
   /**
-   * Import le fichier PHP d'une vue
+   * Import a view file
    *
    * @param string $fileName
-   * @param array $data Contient les données fournies par le contrôleur
+   * @param array $data Contain datas given throught the controller
    * @return void
    */
   protected function view(string $fileName, array $data = []): void
   {
-    $filePath = ROOT . self::VIEW_PATH . $fileName;
+    $filePath = ROOT.self::VIEW_PATH.$fileName;
     
     if (file_exists($filePath)) {
-      require $filePath; // Importe/Charge le code php de la vue
+      require $filePath;
     }else{
-      var_dump("Controler problem");die();
-      var_dump($filePath);die();
+      require ROOT.self::VIEW_PATH."404.php";
     }
   }
 

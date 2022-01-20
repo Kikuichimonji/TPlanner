@@ -9,49 +9,43 @@ use Models\CardsManager;
 class CardsController extends Controller
 {
     /**
-     * HomeController constructor.
+     * CardsController constructor.
      */
-    public function __construct()
+    public function __construct()  // check if the user is connected
     {
-        // Vérifie si l'utilisateur est connecté sinon redirection
         $this->authRequired();
     }
 
     /**
-     * Affiche une vue.
-     * "index" (convention d'écriture) Méthode par défaut d'appel d'un controleur
+     * Add a new card to the list
+     * @param int $id The list ID
+     * @param string $title The title of the card 
+     * @param int $idBoard The board ID
      */
-    public function index()
-    {
-
-    }
-
-    public function add($id,$title,$idBoard)
+    public function add($id, $title, $idBoard)
     {
         $cm = new CardsManager();
-        //$f_text= trim(filter_var($title,FILTER_SANITIZE_SPECIAL_CHARS));
-        $f_text= trim($title);
-        //var_dump($title);die();
-        $cm->add($id,$f_text,$idBoard);
-    }
-    public function editCardDesc($id,$text,$idBoard)
-    {
-        //var_dump($id,$text);die();
-        $f_text= trim($text);
-        $cm = new CardsManager();
-        $cm->editCardDesc($id,$f_text,$idBoard);
+        $f_text = trim($title);
+        $cm->add($id, $f_text, $idBoard);
     }
 
-    public function deleteCard($id,$pos,$list,$idBoard)
+    public function editCardDesc($id, $text, $idBoard) //Function that change the card Description
     {
+        $f_text = trim($text);
         $cm = new CardsManager();
-        $cm->deleteCard($id,$pos,$list,$idBoard);
+        $cm->editCardDesc($id, $f_text, $idBoard);
     }
 
-    public function updateCardTitle($id,$text,$board)
+    public function deleteCard($id, $pos, $list, $idBoard) //Function that delete the card
     {
-        $f_text= trim($text);
+        $cm = new CardsManager();
+        $cm->deleteCard($id, $pos, $list, $idBoard);
+    }
+
+    public function updateCardTitle($id, $text, $board)//Function that update the card title
+    {
+        $f_text = trim($text);
         $lm = new CardsManager();
-        $lm->updateTitle($id,$f_text,$board);
+        $lm->updateTitle($id, $f_text, $board);
     }
 }

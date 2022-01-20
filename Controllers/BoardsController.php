@@ -49,41 +49,42 @@ class BoardsController extends Controller
 		$bm->updateTitle($id, $f_text);
 	}
 
-	public function inviteUser($idBoard, $mail)
+	public function inviteUser($idBoard, $mail) //Function that add someone to a board after a user clicked on "inviter"
 	{
 		$f_mail = trim($mail);
 		$um = new UsersManager();
 		$bm = new BoardsManager();
-		$user = $um->getOneByMail($f_mail);
+		$user = $um->getOneByMail($f_mail); //We check if the user exist in the database
 		$isInvited = false;
-		if ($user !== null && $user->getId() != $_SESSION['user']->getId()) {
+		if ($user !== null && $user->getId() != $this->session()['user']->getId()) { //if the user exist and is different than the one that invite
 			$boards = $user->getInvitedBoards();
-			foreach ($boards as $board) {
-				$isInvited = $board->getId() == $idBoard ? true : false;
+			foreach ($boards as $board) { //We check if the user is already invited to this board
+				if (!$isInvited) {
+					$isInvited = $board->getId() == $idBoard ? true : false;
+				}
 			}
-			if (!$isInvited) {
+			if (!$isInvited) { //If the user is not invited , we add him to the board
 				$bm = new BoardsManager();
 				$bm->inviteUser($idBoard, $user->getId());
 			} else {
-				return "errorSameUser";
+				return "error:Cet utilisateur à déjà été invité"; //I send the error this way because i didn't have enough time to fetch the whole documents as json
 			}
 		} else {
 			if ($user !== null) {
 				if ($user->getId() == $_SESSION['user']->getId()) {
-					return "errorSameUser";
+					return "error:Vous ne pouvez pas vous inviter vous même";
 				}
 			} else {
-				return "errorNoUser";
+				return "error:Cet utilisateur n'existe pas";
 			}
 		}
 	}
 
-	public function reload($id)
+	public function reload($id) //We reload the board content (either for some operation or when the fetch find new content)
 	{
-		$um = new UsersManager();
-		$user = $um->getOneById($_SESSION['user']->getId());
+		$user = $this->session()['user'];
 		$bm = new BoardsManager();
-		$board = $bm->getOneById($id);
+		$board = $bm->getOneById($id); //We have to call the board again to fetch the new content
 
 		$this->view('boardContent.php', [
 			'user' => $user,

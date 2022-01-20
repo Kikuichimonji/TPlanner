@@ -739,7 +739,7 @@ BOARD
 }
 #cardDetail .modalMenu{
     height: 50%;
-    min-width: 30%;
+    min-width: 35%;
     display: block;
     position: relative;
     margin: auto;
@@ -767,6 +767,10 @@ BOARD
     height: 40px;
     margin-top: 1em;
 }
+.modalMenu textarea{
+    padding-left: 0.5em;
+    margin-left: 1em;
+}
 #popupModal{
     height: fit-content;
     width: fit-content;
@@ -778,9 +782,31 @@ BOARD
     border: 5px solid var(--secondary-color);
     display: none;
     animation: popDown 0.5s forwards;
+    z-index: 10;
 }
 #popupModal.popupUp{
     animation: popUp 0.5s forwards;
+}
+.youSure{
+    position: absolute;
+    top:40%;
+    left:50%;
+    z-index: 5;
+    background-color: white;
+    text-align: center;
+    border: 5px solid var(--secondary-color);
+    border-radius: 5px;
+}
+.youSure button{
+    height: 100%;
+    box-shadow: var(--box-shadow);
+    font-family:"Berlin Sans FB";
+    outline: none;
+    border: 5px solid var(--third-color);
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    margin: 1em;
+    cursor: pointer;
 }
 /*************************
 USER

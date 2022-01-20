@@ -61,7 +61,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 args = { "type": "changeBoard", 'board': ev.target, 'text': newBox.value }; //the argument list for the fetch
             }
             if(newBox.value.trim() != "") {
-                if(newBox.value.trim().length <50){
+                if(newBox.value.trim().length <50 || ev.target.hiddenclass == "inviteButton"){
                     parent = ev.target.parentNode;
                     parent.innerHTML = ev.target.oldElement
                     parent.firstElementChild.innerHTML = ev.target.hiddenclass == "inviteButton" ? "<span>+</span> Inviter" : newBox.value;
@@ -71,7 +71,8 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     callErrorModal("Le titre ne peux pas dépasser 50 charactères");
                 }
             }else{
-                callErrorModal("Le titre ne peux pas être vide");
+                ev.target.hiddenclass == "inviteButton" ? callErrorModal("Veuillez entrer une adresse email") : callErrorModal("Le titre ne peux pas être vide");
+                
             }
         });
     };
@@ -115,12 +116,19 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 ev.target.appendChild(newButton);
                 newBox.focus();
                 newButton.addEventListener("click", (ev) => {
-                    args = { "type": "changeCard", 'card': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
-                    goFetch(args); //we fetch the SQL to save
-                    ev.target.parentNode.classList.remove("specialInputOpen");
-                    ev.target.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back       
-                    ev.target.parentNode.textContent = newBox.value;
-                    
+                    if(newBox.value.trim() != ""){
+                        if(newBox.value.trim().length <50){
+                            args = { "type": "changeCard", 'card': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
+                            goFetch(args); //we fetch the SQL to save
+                            ev.target.parentNode.classList.remove("specialInputOpen");
+                            ev.target.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back       
+                            ev.target.parentNode.textContent = newBox.value;
+                        }else{
+                            callErrorModal("Le titre ne peux pas dépasser 50 charactères");
+                        }
+                    }else{
+                        callErrorModal("Le titre de la carte ne peux pas être vide");
+                    }
                 });
             }
         }
@@ -214,7 +222,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     item.addEventListener("click", ev => {
                         let list = ev.currentTarget.list
                         item.hiddenFunc == "archive" ? ev.target.nodeName == "SPAN" ? (archiveEl(list), menu.style.display = "none") : null : null;
-                        item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (deleteList(list), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
+                        item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (youSure(deleteList,list), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
                         item.hiddenFunc == "edit" ? ev.target.nodeName == "SPAN" ? (openEditor(list), menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
                         ev.stopImmediatePropagation();
                     })
@@ -244,7 +252,8 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                         let card = ev.currentTarget.card
                         //console.log(item.hiddenFunc)
                         item.hiddenFunc == "archive" ? ev.target.nodeName == "SPAN" ? (archiveEl(card), menu.style.display = "none") : null : null;
-                        item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (deleteCard(card), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
+                        item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (youSure(deleteCard,card) ? null : null , menu.style.display = "none") : null : null;
+                        //item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (deleteCard(card), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
                         item.hiddenFunc == "edit" ? ev.target.nodeName == "SPAN" ? (openEditor(card), menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
                         ev.stopImmediatePropagation();
                     })
@@ -283,10 +292,16 @@ function openEditor(el)// Function that open the card editor
     modal.querySelector("button").addEventListener("click", ev => {
         args = { "type": "editCardDesc", 'card': modal.el, "text": textarea.value, "idBoard": board.hiddenId }; //the args for the fetch
         ev.stopImmediatePropagation();
-        goFetch(args); //we fetch the SQL to save
-        modal.el.querySelector(".cardBody").textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
-        modal.el.originalText = textarea.value;
-        modal.style.display = "none";
+        if(textarea.value.length < 500) //We limite the length to 500 char for now, need more testing
+        {
+            goFetch(args); //we fetch the SQL to save
+            modal.el.querySelector(".cardBody").textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
+            modal.el.originalText = textarea.value;
+            modal.style.display = "none";
+        }else{
+            callErrorModal("La description est limitée à 500 charactères (Actuellement : " + textarea.value.length + ")")
+        }
+        
     })
 }
 function addNewEl(el) // Function that add a new list or card
@@ -316,20 +331,18 @@ function addNewEl(el) // Function that add a new list or card
         } else {
             args = { "type": "newList", 'list': el };
         }
-        if (elText !== "") { //if the text is empty we don't save
-            //console.log(args)
-            goFetch(args)
+        if (elText.trim() !== "") { //if the text is not empty and less than 50 char we save it
+            elText.trim().length <50 ? goFetch(args) : callErrorModal("Le titre ne peux pas dépasser 50 charactères");
         } else {
-            console.log("Please enter a name")
+            callErrorModal("Le titre ne peux pas être vide");
         }
-        //console.log("he clicked")
     })
 }
 function deleteCard(el) { //Function to delete a card
     let card = el
-    let list = el.parentNode.querySelectorAll(".card");
-    listArray = [...list];
-    pos = listArray.indexOf(el); //we transform the htmlCollection into an array to use indexOf to get the position of the item in the list
+    let list = el.parentNode.querySelectorAll(".card") ;
+    listArray = [...list]; //we transform the htmlCollection into an array to use indexOf to get the position of the item in the list
+    pos = listArray.indexOf(el); 
     let args = {
         "type": "deleteCard",
         "el": card,
@@ -433,12 +446,11 @@ function goFetch(args) // function that fetch the board content depending on the
                 if (args["type"] != "reload") { //if we reload we dn't show the whole thing in console
                     console.log(response) //My check of the controler response
                 }
+                error = response.split(":");
                 if (response === 'false') {  //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
                     console.log("Problème de paramètres");
-                } else if (response === 'errorNoUser') {
-                    document.getElementById("error").innerHTML = "Ce mail ne correspond à aucun compte enregistré";
-                } else if (response === 'errorSameUser') {
-                    document.getElementById("error").innerHTML = "Cet utilisateur est déjà présent";
+                } else if (error[0] === 'error') {
+                    callErrorModal(error[1]);
                 } else {
                     document.getElementById("error").innerHTML = "";
                     if (args["type"] == "reload") { //if we called the reload
@@ -529,6 +541,29 @@ function callErrorModal(message)
             popup.classList.remove("popupUp");
         },3000)
     }
+}
+function youSure(func,elem)
+{
+    let modal = document.createElement("div");
+    modal.classList.add("youSure");
+    let title = document.createElement("h4");
+    title.innerHTML = "Etes vous sûr ?"
+    let buttonYes = document.createElement("button");
+    buttonYes.innerHTML = "Oui";
+    let buttonNo = document.createElement("button");
+    buttonNo.innerHTML = "Non";
+
+    modal.appendChild(title);
+    modal.appendChild(buttonYes);
+    modal.appendChild(buttonNo);
+    document.querySelector("body").appendChild(modal);
+    buttonYes.addEventListener("click", ev =>{
+        func(elem);
+        modal.outerHTML = "";
+    })
+    buttonNo.addEventListener("click", ev =>{
+        modal.outerHTML = "";
+    })
 }
 function events() { //all my general events
     document.addEventListener("dragstart", function (ev) { //Event trigger when we start dragging
