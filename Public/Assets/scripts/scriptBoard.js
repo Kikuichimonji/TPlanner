@@ -60,12 +60,14 @@ function init() { //Initialisation of all the basic elements, necessary to make 
             } else {
                 args = { "type": "changeBoard", 'board': ev.target, 'text': newBox.value }; //the argument list for the fetch
             }
-            if (newBox.value != "") {
+            if (newBox.value.trim() != "") {
                 parent = ev.target.parentNode;
                 parent.innerHTML = ev.target.oldElement
                 parent.firstElementChild.innerHTML = ev.target.hiddenclass == "inviteButton" ? "<span>+</span> Inviter" : newBox.value;
                 parent.firstElementChild.addEventListener("click", handler); // we reatach the click event on the new element
                 goFetch(args); //we fetch the sql to save the value
+            }else{
+                callErrorModal("Le titre ne peux pas être vide");
             }
         });
     };
@@ -510,6 +512,17 @@ function archiveEl(el) {
     el.listId = document.querySelector(".listContainer:last-child").firstElementChild.hiddenId
     //console.log(pos)
     goFetch(args);
+}
+function callErrorModal(message)
+{
+    popup = document.getElementById("popupModal")
+    popup.style.display = 'block';
+    popup.classList.add("popupUp")
+    popup.innerHTML = message;
+    
+    setTimeout(() =>{
+        popup.classList.remove("popupUp");
+    },3000)
 }
 function events() { //all my general events
     document.addEventListener("dragstart", function (ev) { //Event trigger when we start dragging

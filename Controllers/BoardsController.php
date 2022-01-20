@@ -42,9 +42,12 @@ class BoardsController extends Controller
 		}
 	}
 
-	public function updateTitle($id, $text) //Function that uppate the title of the board
+	public function updateTitle($id, $text) //Function that update the title of the board
 	{
 		$f_text = trim($text);
+		if(!$f_text){
+			return "Le titre ne peut pas être vide";
+		}
 		$bm = new BoardsManager();
 		$bm->updateTitle($id, $f_text);
 	}

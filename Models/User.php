@@ -224,7 +224,6 @@ class User extends AbstractEntity
   public function isCreator($board)
   {
     if(isset($this->isCreator)){
-      dd("hello");
       return $this->isCreator;
     }else{
       $bm = new BoardsManager();
