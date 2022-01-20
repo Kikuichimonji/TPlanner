@@ -286,10 +286,10 @@ INDEX
 }
 
 /*************************
-REGISTER
+REGISTER ET LOGIN
 *************************/
 
-#register h1 {
+#register h1, #login h1 {
     margin-top: 5%;
     margin-bottom: -2%;
     text-align: center;
@@ -339,14 +339,13 @@ select, .label_input input { /* sets the height of all inputs */
     height: 40px;
 }
 
-#register button {
+#register button, #login button {
     background-color: var(--main-color);
     color: white;
     font-family: 'Berlin sans FB';
     font-size: 1.3rem;
     padding: 1%;
 }
-
 
 /*************************
 LOGIN
@@ -371,9 +370,11 @@ LOGIN
     font-weight: normal;
     font-size: 1em;
 }
+
 /*************************
 DASHBOARD
 *************************/
+
 #dashboardTop{
     display: flex;
     flex-direction: row;
@@ -396,8 +397,6 @@ DASHBOARD
 #dashboardTop span{
     margin-right: 0.5em;
 }
-
-
 
 /*************************
 BOARD

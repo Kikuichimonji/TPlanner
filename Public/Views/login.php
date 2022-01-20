@@ -12,7 +12,7 @@
   </header>
 
   <main id="login">
-    <h4>LOGIN</h4>
+    <h1>Connectez-vous sur TPlanner</h1>
     
     <?php
       if(isset($data)){
@@ -23,15 +23,23 @@
         }
       }
     ?>
+
+    <section class="forms_container">
+    <div class="forms">
     <form action="login.php?act=submit" method="post">
+    <fieldset class="fieldset_container">
       <label for="mail">Email</label>
       <input type="text" name="mail" id="mail">
+      </br>
       <label for="password">Password</label>
       <input type="password" name="password" id="password">
-      <button type="submit">Connection</button>
+      </br></br>
+      <button type="submit">Se connecter</button>
       <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
+      </br>
+      <a href="login.php?act=reset">Mot de passe oublié ? Réinitialisez le</a>
+    </fieldset>
     </form>
-    <p>Mot de passe oublié? </p><a href="login.php?act=reset">Réinitialisez le</a>
   </main>
 
   <?php require_once 'layout/footer.php'; ?>

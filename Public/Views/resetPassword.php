@@ -14,7 +14,7 @@
     </header>
 
     <main id="login">
-        <h4>FORGOT PASSWORD</h4>
+        <h1>FORGOT PASSWORD</h1>
         <p class="error">
             <?php
             if (isset($data)) {
