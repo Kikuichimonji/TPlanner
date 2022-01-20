@@ -9,52 +9,40 @@ use Models\CardsManager;
 class ListsController extends Controller
 {
     /**
-     * HomeController constructor.
+     * ListsController constructor.
      */
-    public function __construct()
+    public function __construct() // check if the user is connected
     {
-        // Vérifie si l'utilisateur est connecté sinon redirection
         $this->authRequired();
     }
 
-    /**
-     * Affiche une vue.
-     * "index" (convention d'écriture) Méthode par défaut d'appel d'un controleur
-     */
-    public function index()
-    {
-    }
-
-    public function editCardsPosition($card,$list,$oldList,$pos,$idBoard,$isArchive)
-    {
-        $cm = new CardsManager();
-        $oldPos = $cm->getPos($card)['positions'];
-        //var_dump($isArchive);die();
-        $cm->edit($card,$list,$oldList,$pos,$oldPos,$idBoard,$isArchive);
-    }
-    public function editPosition($list,$pos,$idBoard,$isArchive)
+    public function editPosition($list,$pos,$idBoard,$isArchive) //Function that change the list position
     {
         $lm = new ListsManager();
         $oldPos = $lm->getPos($list)['listPosition'];
-        //var_dump($oldPos);die();
         $lm->edit($list,$pos,$oldPos,$idBoard,$isArchive);
     }
 
-    public function add($id,$title)
+    public function add($id,$title) //Function that add a new list
     {
         $lm = new ListsManager();
-        //var_dump($oldPos);die();
         $f_text= trim($title);
         $lm->add($id,$f_text);
     }
 
-    public function deleteList($id,$pos,$board)
+    public function deleteList($id,$pos,$board) //Function that delete a list
     {
         $lm = new ListsManager();
-        $lm->deleteList($id,$pos,$board);
+        return $lm->deleteList($id,$pos,$board);
     }
 
-    public function updateListTitle($id,$text,$board)
+    public function archiveDeleteList($id,$board) //Function that delete a list from archive list
+    {
+        $lm = new ListsManager();
+        return $lm->archiveDeleteList($id,$board);
+    }
+
+    public function updateListTitle($id,$text,$board) //Function that update the list title
     {
         $f_text= trim($text);
         $lm = new ListsManager();

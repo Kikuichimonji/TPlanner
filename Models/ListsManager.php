@@ -184,6 +184,34 @@
                 
             return self::delete($sql,$arg);
         }
+        public function archiveDeleteList($id,$board){
+
+            $sql = "DELETE
+                    FROM lists
+                    WHERE id = :id ";
+
+            $arg=  ["id" => $id,
+                    ];
+
+            $cardSql = " DELETE
+            FROM cards
+            WHERE id IN(";
+
+            $cards = $this->getCards($id);
+            $count = 0;
+            foreach ($cards as $card) {
+                $cardSql.= $card->getId();
+                $count++;
+                if(count($cards) != $count){
+                    $cardSql.= ",";
+                }
+            }
+            $cardSql.=")";
+            if($count){
+                self::delete($cardSql);
+            }
+            return self::delete($sql,$arg,$board);
+        }
 
         public function updateTitle($id,$text,$board){
             

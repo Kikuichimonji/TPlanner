@@ -3,38 +3,33 @@
 namespace Controllers;
 
 use Models\BoardsManager;
-use Models\ListsManager;
 
 class DashboardsController extends Controller
 {
-  /**
-   * HomeController constructor.
-   */
-  public function __construct()
-  {
-    /*echo "dashboardcontroler ";
-    var_dump($this->session());die();*/
-    // Vérifie si l'utilisateur est connecté sinon redirection
-    $this->authRequired();
-  }
+	/**
+	 * DashboardsController constructor.
+	 */
+	public function __construct() // check if the user is connected
+	{
+		$this->authRequired();
+	}
 
-  /**
-   * Affiche une vue.
-   * "index" (convention d'écriture) Méthode par défaut d'appel d'un controleur
-   */
-  public function index()
-  {
-    //var_dump($_SESSION['user']->getListBoards());die();
-    $this->view('dashboard.php', [
-        'user' => $_SESSION['user'],
-    ]);
-  }
+	/**
+	 * Show a view
+	 * Index, Default method of the controller
+	 */
+	public function index()
+	{
+		$this->view('dashboard.php', [
+			'user' => $_SESSION['user'],
+		]);
+	}
 
-  public function add($text,$id)
-  {
-    $f_text= trim(filter_var($text,FILTER_SANITIZE_SPECIAL_CHARS));
-    $bm = new BoardsManager();
-    $id = $bm->addBoard($f_text,$id);
-    return $id;
-  }
+	public function add($text, $id) //Function that add a new board
+	{
+		$f_text = trim($text);
+		$bm = new BoardsManager();
+		$id = $bm->addBoard($f_text, $id);
+		return $id;
+	}
 }

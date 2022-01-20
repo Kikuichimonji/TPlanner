@@ -13,7 +13,7 @@ Autoloader::register();
 // Start Controller : NAMESPACE\CLASSNAME
 $boardController = new BoardsController();
 $listsController = new ListsController();
-$cardController = new CardsController();
+$cardsController = new CardsController();
 
 
 // Call Controller method
@@ -36,7 +36,7 @@ if(!isset($_POST["act"])){
                     echo "false";
                 }else{
                     //var_dump($_POST);die();
-                    $listsController->editCardsPosition($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos'],$_GET["board"],$_POST["isArchive"]);
+                    $cardsController->editCardsPosition($_GET['card'],$_GET['list'],$_GET['oldList'],$_GET['pos'],$_GET["board"],$_POST["isArchive"]);
                 }
             }else{
                 echo "false";
@@ -59,7 +59,7 @@ if(!isset($_POST["act"])){
                     echo "false";
                 }else{
                     //var_dump($_GET["list"]);die();
-                    $cardController->add($_GET['list'],$_POST['text'],$_GET["board"]);
+                    $cardsController->add($_GET['list'],$_POST['text'],$_GET["board"]);
                 }
             }else{
                 echo "false";
@@ -68,13 +68,11 @@ if(!isset($_POST["act"])){
         case "deleteCard" :
             if(isset($_GET["card"]) && isset($_GET["pos"]) && isset($_GET["list"])){
                 if($_GET["card"] == "undefined" || $_GET["pos"] == -1 || $_GET["list"] == "undefined"){
-                    
-                    echo "false";
+                    echo "error:Un problème de paramètre est survenu";
                 }else{
-                    $cardController->deleteCard($_GET["card"],$_GET["pos"],$_GET["list"],$_GET["board"]);
+                    echo $cardsController->deleteCard($_GET["card"],$_GET["pos"],$_GET["list"],$_GET["board"]) ? "success:La carte a bien été supprimée" : "error:Une erreur est survenu lors de la suppression";
                 }
             }else{
-                //var_dump($_GET);die();
                 echo "false";
             }
             break;
@@ -91,10 +89,21 @@ if(!isset($_POST["act"])){
                     echo "false";
                 }else{
                     //var_dump($_GET);
-                    $listsController->deleteList($_GET["list"],$_GET["pos"],$_GET["board"]);
+                    echo $listsController->deleteList($_GET["list"],$_GET["pos"],$_GET["board"]) ? "success:La liste à bien été supprimée" : "error:La liste n'as aps pu être supprimée" ;
                 }
             }else{
                 var_dump($_GET);
+                echo "false";
+            }
+            break;
+        case "archiveDeleteList" :
+            if(isset($_GET["list"]) && isset($_GET["board"])){
+                if($_GET["list"] == "undefined" || $_GET["board"] == "undefined"){
+                    echo "false";
+                }else{
+                    echo $listsController->archiveDeleteList($_GET["list"],$_GET["board"]) ? "success:La liste à bien été supprimée" : "error:La liste n'as aps pu être supprimée" ;
+                }
+            }else{
                 echo "false";
             }
             break;
@@ -117,7 +126,7 @@ if(!isset($_POST["act"])){
         case "changeCard" :
             if(isset($_POST["text"]) && isset($_GET['card']) && isset($_GET["board"])){
                 if($_GET["board"] != "undefined"){
-                    $cardController->updateCardTitle($_GET['card'],$_POST['text'],$_GET["board"]);
+                    $cardsController->updateCardTitle($_GET['card'],$_POST['text'],$_GET["board"]);
                 }
             }else{
                 echo "false";
@@ -126,7 +135,7 @@ if(!isset($_POST["act"])){
         case "editCardDesc" :
             if(isset($_GET["card"]) && isset($_POST['text']) && isset($_GET["board"])){
                 if($_GET["board"] != "undefined"){
-                    $cardController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"]);
+                    $cardsController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"]);
                 }else{
                     echo "false";
                 }

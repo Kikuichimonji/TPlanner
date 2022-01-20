@@ -151,7 +151,7 @@
             $arg= ["idUser" => $idUser,
                     "idBoard" => $idBoard];
 
-            self::insert($sql,$arg);
+            return self::insert($sql,$arg);
         }
 
         public function getUsers($idBoard){

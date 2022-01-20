@@ -18,7 +18,7 @@
                         }
                     ?>
                 </span>
-                <div><div id="inviteButton"><span>+</span>Inviter</div></div><span id="error" class="error"></span>
+                <div><div id="inviteButton">+ Inviter</div></div><span id="error" class="error"></span>
             </div>
         </div>
         <div id="rightside">
@@ -42,7 +42,7 @@
                         }else{
                             $desc2 = $desc;
                         }
-                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody' originalText='{$desc}'>{$desc2}</p></li>";
+                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
                     } 
                 }
                 echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
@@ -50,7 +50,7 @@
         }
         ?>
         <div id="addList"><span>+ Add a list</span><span></span></div>
-        <div class="listContainer">
+        <div class="listContainer" id="archive">
             <div class='listHeader'>
                 <span>
                     <span class='picto'></span>
@@ -68,11 +68,11 @@
                             }else{
                                 $desc2 = $desc;
                             }
-                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><p class='cardBody'originalText='{$desc}'>{$desc2}</p></li>";
+                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
                         }
                         
                         foreach($board->getListsArchived() as $list){
-                            echo "<div class='listContainer'>
+                            echo "<div class='listContainer' id={$list->getId()}>
                                     <div class='listHeader' draggable='true'>
                                         <span>
                                             <span class='picto'></span>
@@ -101,7 +101,7 @@
         <li func='archive'><span>Archiver</span></li>
         <?php
             if($isCreator){
-                echo "<li func='delete'><span class='delete'><img src='".IMG_PATH."/skull.png'></span></li>";
+                echo "<li func='delete'><span class='delete'>Supprimer</span></li>";
             }
         ?>
     </ul>
@@ -113,7 +113,7 @@
         <li func='archive'><span>Archiver</span></li>
         <?php 
             if($isCreator){
-                echo "<li func='delete'><span class='delete'><img src='".IMG_PATH."/skull.png'></span></li>";
+                echo "<li func='delete'><span class='delete'>Supprimer</span></li>";
             }
         ?>
     </ul>

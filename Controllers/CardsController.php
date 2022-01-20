@@ -39,7 +39,7 @@ class CardsController extends Controller
     public function deleteCard($id, $pos, $list, $idBoard) //Function that delete the card
     {
         $cm = new CardsManager();
-        $cm->deleteCard($id, $pos, $list, $idBoard);
+        return $cm->deleteCard($id, $pos, $list, $idBoard);
     }
 
     public function updateCardTitle($id, $text, $board)//Function that update the card title
@@ -47,5 +47,21 @@ class CardsController extends Controller
         $f_text = trim($text);
         $lm = new CardsManager();
         $lm->updateTitle($id, $f_text, $board);
+    }
+
+    /**
+     * Change the card position
+     * @param int $card Card id
+     * @param int $list List id where the card landed
+     * @param int $oldList List id where the card came from
+     * @param int $pos Card position
+     * @param int $idBoard Board id
+     * @param bool $isArchive If the card will be archived
+     */
+    public function editCardsPosition($card,$list,$oldList,$pos,$idBoard,$isArchive)
+    {
+        $cm = new CardsManager();
+        $oldPos = $cm->getPos($card)['positions'];
+        $cm->edit($card,$list,$oldList,$pos,$oldPos,$idBoard,$isArchive);
     }
 }

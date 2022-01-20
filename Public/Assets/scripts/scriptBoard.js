@@ -39,6 +39,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     boardTitle = document.querySelector("#leftside div div:first-child");
     invButton = document.getElementById("inviteButton");
     archive = document.getElementById("rightside").firstElementChild;
+    archiveList = document.getElementById("archive").querySelectorAll(".listContainer");
     handler = function (ev) { //The function that change the board title into an input, then change it back into a clickable title
         let newBox = document.createElement("input"); //we create a new text input
         newBox.setAttribute("type", "text");
@@ -210,29 +211,35 @@ function init() { //Initialisation of all the basic elements, necessary to make 
             if (ev.target.hiddenType == "list" && ev.target.hiddenClass == "menu") {
                 let menu = document.getElementById("listMenu");
                 let list = ev.target.parentNode.parentNode;
-                menu.style.display = "block";
-                menu.list = list; //we attach the list id to the menu (passing the arg to the listener)
-                let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the list
-                menu.style.left = rect.x + 20 + "px";
-                menu.style.top = rect.y + 20 + "px";
-                menu.firstElementChild.textContent = "Paramètres " + ev.target.previousElementSibling.textContent //We change the title according to the list
-                for (let item of listOptions) //we put an event listener on each menu link
+                if (menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != list.hiddenId)) //if the menu is hidden or is open at another place
                 {
-                    item.list = list;
-                    item.addEventListener("click", ev => {
-                        let list = ev.currentTarget.list
-                        item.hiddenFunc == "archive" ? ev.target.nodeName == "SPAN" ? (archiveEl(list), menu.style.display = "none") : null : null;
-                        item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (youSure(deleteList,list), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
-                        item.hiddenFunc == "edit" ? ev.target.nodeName == "SPAN" ? (openEditor(list), menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
-                        ev.stopImmediatePropagation();
-                    })
-                };
+                    menu.style.display = "block";
+                    menu.list = list; //we attach the list id to the menu (passing the arg to the listener)
+                    menu.hiddenId = list.hiddenId;
+                    let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the list
+                    menu.style.left = rect.x + 20 + "px";
+                    menu.style.top = rect.y + 20 + "px";
+                    menu.firstElementChild.textContent = "Paramètres " + ev.target.previousElementSibling.textContent //We change the title according to the list
+                    for (let item of listOptions) //we put an event listener on each menu link
+                    {
+                        item.list = list;
+                        item.addEventListener("click", ev => {
+                            let list = ev.currentTarget.list
+                            item.hiddenFunc == "archive" ? ev.target.nodeName == "SPAN" ? (archiveEl(list), menu.style.display = "none") : null : null;
+                            item.hiddenFunc == "delete" ? ev.target.nodeName == "SPAN" ? (youSure(deleteList,list), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
+                            item.hiddenFunc == "edit" ? ev.target.nodeName == "SPAN" ? (openEditor(list), menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
+                            ev.stopImmediatePropagation();
+                        })
+                    };
+                }else { //if the menu is shown and click again on the card menu button
+                    menu.style.display = "none";
+                }
             }
         });
     });
     cards.forEach(item => item.addEventListener("click", (ev) => //Event for when we're gonna click on the cards
     {
-        if(ev.target.classList.contains("cardBody")) { // When we click on the body, we open the editor
+        if(ev.target.classList.contains("cardBody") || ev.target.parentNode.classList.contains("cardBody")) { // When we click on the body, we open the editor
             openEditor(item);
         } else if (ev.target.hiddenType == "card" && ev.target.hiddenClass == "menu") { //if we click on the card menu button
             let menu = document.getElementById("cardMenu");
@@ -250,15 +257,14 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     item.card = card; //we attach the card to the links for the listener
                     item.addEventListener("click", ev => {
                         let card = ev.currentTarget.card
-                        //console.log(item.hiddenFunc)
                         item.hiddenFunc == "archive" ? ev.target.nodeName == "SPAN" ? (archiveEl(card), menu.style.display = "none") : null : null;
-                        item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (youSure(deleteCard,card) ? null : null , menu.style.display = "none") : null : null;
+                        item.hiddenFunc == "delete" ? ev.target.nodeName == "SPAN" ? (youSure(deleteCard,card) ? null : null , menu.style.display = "none") : null : null;
                         //item.hiddenFunc == "delete" ? ev.target.nodeName == "IMG" ? (deleteCard(card), menu.style.display = "none") : null : null; //if we click on the delete part and it's actually the pic (not the full LI)
                         item.hiddenFunc == "edit" ? ev.target.nodeName == "SPAN" ? (openEditor(card), menu.style.display = "none") : null : null; // if we click on the edit span, and not the LI
                         ev.stopImmediatePropagation();
                     })
                 };
-            } else { //if the menu is shown and click again on the card menu button
+            } else { //if the menu is shown and click again on the list menu button
                 menu.style.display = "none";
             }
             //console.log(ev.target.parentNode.parentNode.parentNode)
@@ -272,6 +278,16 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     archive.addEventListener("click", ev => {
         arch = document.querySelector(".listContainer:last-child");
         arch.style.display == "block" ? (arch.style.display = "none", ev.target.classList.remove("purpleBorder")) : (arch.style.display = "block", ev.target.classList.add("purpleBorder"))
+    });
+    archiveList.forEach(list => {
+        list.hiddenId = list.id;
+        list.removeAttribute("id");
+        list.querySelector(".delete").addEventListener("click", ev => {
+            function findParentId(el){
+                return el.hiddenId ? el.hiddenId : findParentId(el.parentNode)
+            }
+            youSure(archiveDeleteList,findParentId(ev.target));
+        })
     });
 }
 function openEditor(el)// Function that open the card editor
@@ -353,6 +369,14 @@ function deleteCard(el) { //Function to delete a card
     //console.log(args)
     goFetch(args)
 }
+function archiveDeleteList(id) { // Function to definitely delete a list (from archive only)
+    let args = {
+        "type": "archiveDeleteList",
+        "idList": id,
+        "board": board.hiddenId
+    };
+    goFetch(args)
+}
 function deleteList(el) { // Function to delete a list 
     let list = el.parentNode.querySelectorAll(".listContainer");
     listArray = [...list];
@@ -400,6 +424,9 @@ function goFetch(args) // function that fetch the board content depending on the
                 break;
             case "deleteList":
                 link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"];
+                break
+            case "archiveDeleteList":
+                link = "board.php?list=" + args["idList"] + "&board=" + args["board"];
                 break
             case "changeBoard":
                 formData.append("text", args['text'])
@@ -449,9 +476,9 @@ function goFetch(args) // function that fetch the board content depending on the
                 error = response.split(":");
                 if (response === 'false') {  //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
                     console.log("Problème de paramètres");
-                } else if (error[0] === 'error') {
+                }else if (error[0] === 'error') {
                     callErrorModal(error[1]);
-                } else {
+                }else {
                     document.getElementById("error").innerHTML = "";
                     if (args["type"] == "reload") { //if we called the reload
                         document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
@@ -461,11 +488,11 @@ function goFetch(args) // function that fetch the board content depending on the
                         console.log("good doggy")
                     }
                     //if everything went okay and we got no errors
+                    error[0] === 'success' ? callSuccessModal(error[1]) : null;
                     isArchive = args["el"] ? (args["el"].hiddenFunc == "archive") : false;
-                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive) { //we reload in thoses cases
+                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList") { //we reload in thoses cases
                         args = { "type": "reload", 'board': board.hiddenId };
                         goFetch(args);
-                        //location.reload();
                     }
                 }
             })
@@ -535,6 +562,21 @@ function callErrorModal(message)
     if(!popup.classList.contains("popupUp")){
         popup.style.display = 'block';
         popup.classList.add("popupUp")
+        popup.classList.remove("success")
+        popup.innerHTML = message;
+        
+        setTimeout(() =>{
+            popup.classList.remove("popupUp");
+        },3000)
+    }
+}
+function callSuccessModal(message)
+{
+    popup = document.getElementById("popupModal")
+    if(!popup.classList.contains("popupUp")){
+        popup.style.display = 'block';
+        popup.classList.add("popupUp")
+        popup.classList.add("success")
         popup.innerHTML = message;
         
         setTimeout(() =>{

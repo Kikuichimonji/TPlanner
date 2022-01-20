@@ -372,9 +372,15 @@ DASHBOARD
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    width: 90%;
+    margin: auto;
+    box-shadow: var(--box-shadow);
 }
-#dashboardTop div:first-child{
+#dashboardTop input{
+    height: 40px;
+    margin: 0.5em 0.5em;
+}
+#dashboardTop div:first-child div{
     background-color: var(--main-color);
     color: white;
     padding-left: 1em;
@@ -383,12 +389,56 @@ DASHBOARD
     display:flex;
     align-items: center;
     cursor: pointer;
+    margin: 0.5em 0.5em;
 }
 #dashboardTop div:first-child:hover{
     box-shadow: var(--box-shadow);
 }
+#dashboardTop div:last-child{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 #dashboardTop span{
     margin-right: 0.5em;
+}
+#dashboard .boardContainer{
+    margin: auto;
+    display: flex;
+    flex-flow: row wrap;
+    box-shadow: var(--box-shadow);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 90%;
+}
+#dashboard h2,#dashboard h1{
+    text-align: center;
+}
+#dashboard a{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    height: 150px;
+    width: 150px;
+    border: 1px solid black;
+    margin-left: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+#dashboard a:hover{
+    background-color: var(--third-color);
+}
+#dashboard a:hover div{
+    background-color: white;
+}
+#dashboard a div{
+    width: 100%;
+    height: fit-content;
+    border-top: 1px solid black;
+}
+#dashboard a div{
+    text-align: center;
+    padding : 0.5em 0;
 }
 
 /*************************
@@ -624,7 +674,10 @@ BOARD
     display: block;
     width: 100%;
     min-height: 70px;
+}
+.card .cardBody p{
     margin: 0;
+    padding: 0.5em;
 }
 .card:hover .cardBody{
     background-color: var(--secondary-color);
@@ -784,6 +837,9 @@ BOARD
     animation: popDown 0.5s forwards;
     z-index: 10;
 }
+#popupModal.success{
+    color: green;
+}
 #popupModal.popupUp{
     animation: popUp 0.5s forwards;
 }
@@ -918,7 +974,8 @@ footer{
     right:45vw;
     background-color: white;
     padding: 0.5em 1em;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0 ;
+    box-shadow: var(--box-shadow);
 }
 
 

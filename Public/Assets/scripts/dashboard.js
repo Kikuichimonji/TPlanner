@@ -19,10 +19,14 @@ newBoard.addEventListener("click", ev =>{
     newBox.focus();
     ev.stopImmediatePropagation();
     newButton.addEventListener("click", (ev) => { //the click function to confirm the new title value
-        args = {"type" : "newBoard", 'text' : newBox.value, "id" : ev.target.hiddenId}; //the argument list for the fetch
-        if(newBox.value.trim()){
-            goFetch(args);  //we fetch the sql to save the value
-        }
+        if(newBox.value.trim()!=""){
+            args = {"type" : "newBoard", 'text' : newBox.value, "id" : ev.target.hiddenId}; //the argument list for the fetch
+            newBox.value.trim().length < 50 ? goFetch(args) : callErrorModal("Le titre ne peux pas dépasser 50 charactères") //we fetch the sql to save the value
+
+        }else{
+            callErrorModal("Le titre ne peux pas être vide")
+        }   
+        
         
     });
 });
@@ -76,4 +80,18 @@ function goFetch(args) // function that fetch the board content depending on the
         console.log("Link null")
     }
     
+}
+
+function callErrorModal(message)
+{
+    popup = document.getElementById("popupModal")
+    if(!popup.classList.contains("popupUp")){
+        popup.style.display = 'block';
+        popup.classList.add("popupUp")
+        popup.innerHTML = message;
+        
+        setTimeout(() =>{
+            popup.classList.remove("popupUp");
+        },3000)
+    }
 }

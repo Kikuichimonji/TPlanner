@@ -65,7 +65,7 @@ class BoardsController extends Controller
 			}
 			if (!$isInvited) { //If the user is not invited , we add him to the board
 				$bm = new BoardsManager();
-				$bm->inviteUser($idBoard, $user->getId());
+				return $bm->inviteUser($idBoard, $user->getId()) ? "success:L'utilisateur ".$user->getUsername()." a bien été invité" : "error:Une erreur est survenu lors de l'invitation" ;
 			} else {
 				return "error:Cet utilisateur à déjà été invité"; //I send the error this way because i didn't have enough time to fetch the whole documents as json
 			}
