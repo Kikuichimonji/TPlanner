@@ -355,20 +355,13 @@ LOGIN
     color: red;
     font-style: italic;
     text-align: center;
+    margin-top: 5%;
 }
 
 .success{
     color: green;
     font-style: italic;
     text-align: center;
-}
-#login p{
-    display: inline-block;
-    margin-right: 1em;
-}
-#login h5{
-    font-weight: normal;
-    font-size: 1em;
 }
 
 /*************************
