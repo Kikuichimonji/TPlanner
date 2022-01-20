@@ -67,6 +67,10 @@ class LoginController extends Controller
 				'error' => "Login error"
 			]);
 			die();
+		}else{
+			$this->view('login.php', [
+				'error' => "You must enter a mail"
+			]);
 		}
 
 		//header("Location:dashboard.php");
@@ -202,7 +206,7 @@ class LoginController extends Controller
 		$to_email = $mail;
 		$subject = "TPlanner : Votre nouveau mot de passe";
 		$message = '<html><body>'.
-					'<h1 style="color:#f40;">Votre nouveau mot de passe!</h1>'.
+					'<h2 style="color:#f40;">Votre nouveau mot de passe TPlanner!</h1>'.
 					"Voici votre nouveau mot de passe généré aléatoirement : <strong>$pass</strong>".
 					'</body></html>';
 		$headers = "From: admin@thomas-roess.fr"."\r\n".
