@@ -289,13 +289,70 @@ INDEX
 REGISTER
 *************************/
 
+#register h1 {
+    margin-top: 5%;
+    margin-bottom: -2%;
+    text-align: center;
+}
+
+.forms_container { /* sets main container width for the child */
+    width: 100%;
+}
+
+.forms { /* sets content size, positions it and adds a background */
+    width: 80%;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.fieldset_container { /* sets fieldsets' container size and center it and contains it in a white box */
+    width: 30%;
+    margin: auto;
+    align-items: left;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: none;
+}
+
+.fieldset_container fieldset { /* size of the fieldset */
+    width: 45%;
+    text-align: right;
+}
+
+#register p {
+    text-align: left;
+    color: var(--main-color);
+}
+
+.label_input { /* sets the size of all fields */
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+select, .label_input input { /* sets the height of all inputs */
+    width: 100%;
+    height: 40px;
+}
+
+#register button {
+    background-color: var(--main-color);
+    color: white;
+    font-family: 'Berlin sans FB';
+    font-size: 1.3rem;
+    padding: 1%;
+}
 
 
 /*************************
 LOGIN
 *************************/
 
-#login p.error,#register p,.error{
+#login p.error, .error{
     color: red;
     font-style: italic;
     text-align: center;

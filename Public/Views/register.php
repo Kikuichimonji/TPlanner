@@ -12,7 +12,7 @@
     </header>
 
     <main id="register">
-        <h1>REGISTER</h4>
+        <h1>Inscrivez-vous sur <span class="bauhaus">TPlanner</span></h1>
         <p>
         <?php
         if(isset($data)){
@@ -22,21 +22,30 @@
         }
         ?>
         </p>
+
+        <section class="forms_container">
+        <div class="forms">
         <form action="register.php?act=submit" method="post">
+        <fieldset class="fieldset_container">
             <label for="pseudo">Pseudo</label>
             <input type="text" name="pseudo" id="pseudo" <?php if(isset($data["pseudo"])){echo "value='{$data["pseudo"]}'"; } ?>>
+            </br>
             <label for="mail">Email</label>
             <input type="text" name="mail" id="mail" <?php if(isset($data["mail"])){echo "value='{$data["mail"]}'";} ?>>
-            <br>
-            <span>8 charactères minimum</span>
-            <br>
-            <label for="password">Password</label>
+            </br>
+            <label for="password">Password <span>(8 charactères minimum)</span></label>
             <input type="password" name="password" id="password">
+            </br>
             <label for="password2">Confirmez le Password</label>
             <input type="password" name="password2" id="password2">
-            <button type="submit">Connection</button>
+            <p>En vous inscrivant, vous confirmez avoir lu et accepté nos conditions de service et notre politique de confidentialité.</p>
+            <button type="submit">S'inscrire</button>
             <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
+            </br>
+            <a href='./login.php'>Vous avez déjà un compte ? Connectez-vous</a>
+        </fieldset>
         </form>
+
     </main>
 
     <?php require_once 'layout/footer.php'; ?>
