@@ -16,8 +16,8 @@
 
   <main id="admin">
 
-    <div class="mainheader_container">
-      <div class="mainheader">
+    <div class="admin_container">
+      <div class="admin">
         </br>
         <h1>Pannel Admin</h1>
         <h2>Liste des utilisateurs (<?= count($data['users']) ?>)</h2><a href="user.php?id="></a>
