@@ -17,7 +17,7 @@
         <?php
         if(isset($data)){
             if(isset($data["error"])){
-            echo $data["error"];
+            echo '<p class="error">'.$data["error"].'</p>';
             }
         }
         ?>
