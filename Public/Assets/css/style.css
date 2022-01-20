@@ -767,7 +767,21 @@ BOARD
     height: 40px;
     margin-top: 1em;
 }
-
+#popupModal{
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    padding: 1em 2em;
+    color: red;
+    border: 5px solid var(--secondary-color);
+    display: none;
+    animation: popDown 0.5s forwards;
+}
+#popupModal.popupUp{
+    animation: popUp 0.5s forwards;
+}
 /*************************
 USER
 *************************/
@@ -879,4 +893,29 @@ footer{
     background-color: white;
     padding: 0.5em 1em;
     border-radius: 5px;
+}
+
+
+@keyframes popUp 
+{
+    0% 
+    {
+        transform:translateY(-100%)
+    }
+    100% 
+    {
+        transform:translateY(0%)
+    }
+}
+
+@keyframes popDown
+{
+    0% 
+    {
+        transform:translateY(0%)
+    }
+    100% 
+    {
+        transform:translateY(-100%)
+    }
 }
