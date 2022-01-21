@@ -20,3 +20,30 @@ listMenu.forEach(item => {
         item.classList.add("active")
     })
 })
+
+pseudoButton = document.getElementById("pseudo").nextElementSibling
+pseudoButton.addEventListener("click", ev => {
+    
+    text = ev.target.previousElementSibling.value
+    if(text.trim() == ""){
+        ev.preventDefault();
+        callErrorModal("Le pseudo ne peut pas être vide")
+    }else if(text.trim().length > 50){
+        ev.preventDefault();
+        callErrorModal("Le pseudo dois contenir moins de 50 charactères (actuellement : " + text.trim().length + ")")
+    }
+})
+
+emailButton = document.getElementById("email").nextElementSibling
+emailButton.addEventListener("click", ev => {
+    
+    text = ev.target.previousElementSibling.value
+
+    if(text.trim() == ""){
+        ev.preventDefault();
+        callErrorModal("Le mail ne peut pas être vide")
+    }else if(!text.trim().toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+        ev.preventDefault();
+        callErrorModal("Cet email est invalide");
+    }
+})

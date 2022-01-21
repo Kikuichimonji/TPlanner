@@ -18,7 +18,6 @@
         require_once 'boardContent.php';
         require_once 'layout/footer.php'; 
     ?>
-    <div id="popupModal"></div>
     <script src="<?= JS_PATH ?>/scriptBoard.js"></script>
     <script src="<?= JS_PATH ?>/global.js"></script>
 </body>

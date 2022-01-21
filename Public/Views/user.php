@@ -58,11 +58,11 @@
             <div>
                 <form action="user.php" method="post">
                     <label for="password">Mot de passe actuel*</label>
-                    <input type="text" name="password" id="password">
+                    <input type="password" name="password" id="password">
                     <label for="passwordNew">Nouveau mot de passe*</label>
-                    <input type="text" name="passwordNew" id="passwordNew">
+                    <input type="password" name="passwordNew" id="passwordNew">
                     <label for="passwordNew2">Confirmation du nouveau mot de passe*</label>
-                    <input type="text" name="passwordNew2" id="passwordNew2">
+                    <input type="password" name="passwordNew2" id="passwordNew2">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
                     <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
                 </form>

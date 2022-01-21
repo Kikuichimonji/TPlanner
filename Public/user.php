@@ -13,7 +13,7 @@ $controller = new Controllers\UsersController();
 $id = isset($_GET["id"]) ? $_GET["id"] : null;
 
 if(isset($_POST["pseudo"])){
-    $controller->updateUsername($id,$_POST["pseudo"]);
+    $controller->updateUsername($id,$_POST["pseudo"]) ? null : null;
 }else if(isset($_POST["password"]) && isset($_POST["passwordNew"]) && isset($_POST["passwordNew2"])){
     $controller->updatePassword($id,$_POST["password"],$_POST["passwordNew"],$_POST["passwordNew2"],$_POST['token']);
 }else if(isset($_POST["color"])){

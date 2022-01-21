@@ -98,45 +98,44 @@ class LoginController extends Controller
 		}
 		if (isset($data)) { //if we got data from the form
 
-			$f_username = trim(filter_var($data["pseudo"], FILTER_SANITIZE_SPECIAL_CHARS));
-			$f_mail = trim(filter_var($data['mail'], FILTER_VALIDATE_EMAIL));
-			$f_password1 = filter_var($data["password"], FILTER_VALIDATE_REGEXP, [
+			$f_username = trim(filter_var($data["pseudo"], FILTER_SANITIZE_SPECIAL_CHARS)); //We remove all special chars
+			$f_mail = trim(filter_var($data['mail'], FILTER_VALIDATE_EMAIL)); //We check if the email is valid
+			$f_password1 = filter_var($data["password"], FILTER_VALIDATE_REGEXP, [  //if the password match the regex
 				"options" => array("regexp" => '/[A-Za-z0-9]{8,32}/')
 			]);
 			$f_password2 = filter_var($data["password2"], FILTER_VALIDATE_REGEXP, [
 				"options" => array("regexp" => '/[A-Za-z0-9]{8,32}/')
 			]);
-			if (filter_var($f_mail, FILTER_VALIDATE_EMAIL)) {
-				if ($f_username) {
-					if ($f_password1 && $f_password2) {
-						if ($f_password1 === $f_password2) {
+			if($f_mail) { //Si le mail est correct
+				if ($f_username) { // Si le nom de l'utilisateur n'est pas vide
+					if ($f_password1 && $f_password2) { //Si le mot de passe et la vérification ne sont pas vide
+						if ($f_password1 === $f_password2) { //Si le mot de passe et la vérification ne sont les mêmes
 							$um = new UsersManager();
-							$f_password = password_hash($f_password1, PASSWORD_ARGON2I);
-							$result = $um->getOneByMail($f_mail);
-							if ($result === null) {
+							$f_password = password_hash($f_password1, PASSWORD_ARGON2I); //We encrypt the password with argon2I
+							if (!$um->getOneByMail($f_mail)) { //If a user does not exist
 								$um->newUser($f_username, $f_password, $f_mail);
-								$user = $um->getOneByMail($f_mail);
+								$user = $um->getOneByMail($f_mail); //If everything does well we add the user to the session and relocate him to the dashboard
 								$this->session("id", $user->getId());
 								$this->session('user', $user);
 								$this->session('auth', true);
 								header("Location:dashboard.php");
+								die();
 							} else {
 								$error = "Cet email est déjà utilisé";
 							}
 						} else {
-							//var_dump($f_password1,$f_password2);die();
-							$error = "Password doesn't match";
+							$error = "Les mots de passes ne coresspondent pas";
 						}
 					} else {
-						$error = "Invalid Password";
+						$error = "Le mot de passe n'est pas valide";
 					}
 				} else {
-					$error = "Invalid Username";
+					$error = "Le pseudo n'est pas valide";
 				}
 			} else {
-				$error = "Invalid Email";
+				$error = "L'email n'est pas valide";
 			}
-			if (isset($error)) {
+			if (isset($error)) { //Si une erreur existe, we send him back to the form with the message and old datas
 				$this->view('register.php', [
 					'error' => $error,
 					"token" => $this->session()["token"],
@@ -148,7 +147,7 @@ class LoginController extends Controller
 		}
 	}
 
-	public function logout()
+	public function logout() //The logout function
 	{
 		if (isset($this->session()['auth'])) {
 			session_destroy();
@@ -160,13 +159,13 @@ class LoginController extends Controller
 	public function resetPassword($mail)
 	{
 		$um = new UsersManager();
-		if ($mail != "") {
+		if (trim($mail) != "") { //if the mail is not empty
 			$user = $um->getOneByMail($mail);
-			if ($user) {
-				$newpass = $this->generatePassword();
-				$hashPass = password_hash($newpass, PASSWORD_ARGON2I);
-				if ($this->sendPassMail($mail, $newpass)) {
-					$um->updatePassword($user->getId(), $hashPass);
+			if ($user) { //if the user exist
+				$newpass = $this->generatePassword(); // We generate a random password
+				$hashPass = password_hash($newpass, PASSWORD_ARGON2I); 
+				if ($this->sendPassMail($mail, $newpass)) { //if the mail is successfully sent
+					$um->updatePassword($user->getId(), $hashPass); //we save the new password in the db
 					$this->view('login.php', [
 						'success' => "Vous allez reçevoir un nouveau mot de passe sur votre boite mail",
 					]);
@@ -187,18 +186,18 @@ class LoginController extends Controller
 		}
 	}
 
-	public function generatePassword()
+	public function generatePassword() //Random password generator (found on stack overflow)
 	{
 		$keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$pass = '';
 		$max = strlen($keyspace) - 1;
-		for ($i = 0; $i < 12; ++$i) {
-			$pass .= $keyspace[random_int(0, $max)];
+		for ($i = 0; $i < 12; ++$i) { //I set the new password at 12 char
+			$pass .= $keyspace[random_int(0, $max)]; //We take a random char from the list
 		}
 		return $pass;
 	}
 
-	public function sendPassMail($mail, $pass)
+	public function sendPassMail($mail, $pass) //Function that send a formated mail with the password
 	{
 		$to_email = $mail;
 		$subject = "TPlanner : Votre nouveau mot de passe";

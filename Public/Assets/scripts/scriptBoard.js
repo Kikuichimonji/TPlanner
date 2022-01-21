@@ -187,11 +187,20 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 ev.target.appendChild(newButton);
                 newBox.focus();
                 newButton.addEventListener("click", (ev) => {
-                    args = { "type": "changeList", 'list': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
-                    goFetch(args); //we fetch the SQL to save
-                    ev.target.parentNode.classList.remove("specialInputOpen");
-                    ev.target.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back       
-                    ev.target.parentNode.textContent = newBox.value;
+                    if(newBox.value.trim() != ""){
+                        if(newBox.value.trim().length < 50){
+                            args = { "type": "changeList", 'list': ev.target.hiddenId, 'text': newBox.value, "idBoard": board.hiddenId }; //The arg list for the fetch
+                            goFetch(args); //we fetch the SQL to save
+                            ev.target.parentNode.classList.remove("specialInputOpen");
+                            ev.target.parentNode.parentNode.nextElementSibling.style.display = 'block'; //the menu icon comes back       
+                            ev.target.parentNode.textContent = newBox.value;
+                        }else{
+                            callErrorModal("Le titre ne peux pas dépasser les 50 charactères")
+                        }
+                    }else{
+                        callErrorModal("Le titre ne peux pas être vide")
+                    }
+                   
                     
                 });
             } 
@@ -579,57 +588,7 @@ function archiveEl(el) {
     //console.log(pos)
     goFetch(args);
 }
-function callErrorModal(message)
-{
-    popup = document.getElementById("popupModal")
-    if(!popup.classList.contains("popupUp")){
-        popup.style.display = 'block';
-        popup.classList.add("popupUp")
-        popup.classList.remove("success")
-        popup.innerHTML = message;
-        
-        setTimeout(() =>{
-            popup.classList.remove("popupUp");
-        },3000)
-    }
-}
-function callSuccessModal(message)
-{
-    popup = document.getElementById("popupModal")
-    if(!popup.classList.contains("popupUp")){
-        popup.style.display = 'block';
-        popup.classList.add("popupUp")
-        popup.classList.add("success")
-        popup.innerHTML = message;
-        
-        setTimeout(() =>{
-            popup.classList.remove("popupUp");
-        },3000)
-    }
-}
-function youSure(func,elem,message = null)
-{
-    let modal = document.createElement("div");
-    modal.classList.add("youSure");
-    let title = document.createElement("h4");
-    message ? title.innerHTML = message: title.innerHTML = "Etes vous sûr ?"
-    let buttonYes = document.createElement("button");
-    buttonYes.innerHTML = "Oui";
-    let buttonNo = document.createElement("button");
-    buttonNo.innerHTML = "Non";
 
-    modal.appendChild(title);
-    modal.appendChild(buttonYes);
-    modal.appendChild(buttonNo);
-    document.querySelector("body").appendChild(modal);
-    buttonYes.addEventListener("click", ev =>{
-        func(elem);
-        modal.outerHTML = "";
-    })
-    buttonNo.addEventListener("click", ev =>{
-        modal.outerHTML = "";
-    })
-}
 function events() { //all my general events
     document.addEventListener("dragstart", function (ev) { //Event trigger when we start dragging
         if (ev.target && (ev.target.hiddenType == "list" || ev.target.hiddenType == "card")) //If we drag something && we drag a card || we drag a list
