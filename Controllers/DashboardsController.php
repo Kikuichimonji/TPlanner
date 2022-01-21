@@ -16,7 +16,7 @@ class DashboardsController extends Controller
 
 	/**
 	 * Show a view
-	 * Index, Default method of the controller
+	 * Index, Default controller's method 
 	 */
 	public function index()
 	{

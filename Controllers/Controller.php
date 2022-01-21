@@ -137,12 +137,16 @@ class Controller
 	{
 		if (isset($this->session()["token"])) { //We check if the token already exist
 			if ($this->session()["token"] === null) {
-				return $this->session('token', bin2hex(random_bytes(32)));
+				$token = hash_hmac("sha256", "tralala", bin2hex(random_bytes(32)));
+				$this->session('token',$token);
+				return $token;
 			}else{
 				return $this->session()["token"];
 			}
 		} else {
-			return $this->session('token', bin2hex(random_bytes(32)));
+			$token = hash_hmac("sha256", "tralala", bin2hex(random_bytes(32)));
+			$this->session('token',$token);
+			return $token;
 		}
 	}
 

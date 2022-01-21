@@ -33,7 +33,7 @@
             <label for="mail">Email</label>
             <input type="text" name="mail" id="mail" <?php if(isset($data["mail"])){echo "value='{$data["mail"]}'";} ?>>
             </br>
-            <label for="password">Password <span>(8 charactères minimum)</span></label>
+            <label for="password">Password <span>(8 charactères minimum, pas de symboles)</span></label>
             <input type="password" name="password" id="password">
             </br>
             <label for="password2">Confirmez le Password</label>
