@@ -179,6 +179,18 @@
                 self::select($sql,$arg, false)
             );
         }
+
+        public function deleteBoard($id){
+
+            $sql = "DELETE
+                    FROM boards
+                    WHERE id = :id ";
+
+            $arg=  ["id" => $id,
+                    ];
+
+            return self::delete($sql,$arg);
+        }
     }
 
 ?>

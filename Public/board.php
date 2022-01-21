@@ -153,6 +153,18 @@ if(!isset($_POST["act"])){
                 echo "false";
             }
             break;
+        case "deleteBoard" :
+            if(isset($_GET["board"])){
+                if($_GET["board"] == "undefined"){
+                    echo "false";
+                }else{
+                    $result = $boardController->deleteBoard($_GET["board"]) ;
+                    echo $result ? "relocate:dashboard.php" : "error:Le tableau n'a pu être supprimé" ;
+                }
+            }else{
+                echo "false";
+            }
+            break;
         case "reload" :
             if(isset($_GET["id"])){
                 if($_GET["id"] == "undefined"){

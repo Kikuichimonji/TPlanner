@@ -40,6 +40,8 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     invButton = document.getElementById("inviteButton");
     archive = document.getElementById("rightside").firstElementChild;
     archiveList = document.getElementById("archive").querySelectorAll(".listContainer");
+    deleteBoardButton = document.querySelector("#rightside .delete");
+
     handler = function (ev) { //The function that change the board title into an input, then change it back into a clickable title
         let newBox = document.createElement("input"); //we create a new text input
         newBox.setAttribute("type", "text");
@@ -282,13 +284,22 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     archiveList.forEach(list => {
         list.hiddenId = list.id;
         list.removeAttribute("id");
-        list.querySelector(".delete").addEventListener("click", ev => {
-            function findParentId(el){
-                return el.hiddenId ? el.hiddenId : findParentId(el.parentNode)
-            }
-            youSure(archiveDeleteList,findParentId(ev.target));
-        })
+        if(list.querySelector(".delete")){
+            list.querySelector(".delete").addEventListener("click", ev => {
+                function findParentId(el){
+                    return el.hiddenId ? el.hiddenId : findParentId(el.parentNode)
+                }
+                youSure(archiveDeleteList,findParentId(ev.target));
+            })
+        }
+        
     });
+    if(deleteBoardButton){
+        deleteBoardButton.addEventListener("click", ev => {
+            youSure(deleteBoard,board.hiddenId,"La suppression du tableau est définitive, êtes vous sûr?");
+        })
+    }
+    
 }
 function openEditor(el)// Function that open the card editor
 {
@@ -377,6 +388,13 @@ function archiveDeleteList(id) { // Function to definitely delete a list (from a
     };
     goFetch(args)
 }
+function deleteBoard(id) { // Function to definitely delete a list (from archive only)
+    let args = {
+        "type": "deleteBoard",
+        "board": id
+    };
+    goFetch(args)
+}
 function deleteList(el) { // Function to delete a list 
     let list = el.parentNode.querySelectorAll(".listContainer");
     listArray = [...list];
@@ -448,6 +466,9 @@ function goFetch(args) // function that fetch the board content depending on the
                 formData.append("mail", args['mail'])
                 link = "board.php?&board=" + args["idBoard"]; //the link for changing the card description
                 break
+            case "deleteBoard":
+                link = "board.php?&board=" + args["board"];
+                break
             case "reload":
                 link = "board.php?id=" + args["board"];
                 break
@@ -478,6 +499,8 @@ function goFetch(args) // function that fetch the board content depending on the
                     console.log("Problème de paramètres");
                 }else if (error[0] === 'error') {
                     callErrorModal(error[1]);
+                }else if (error[0] === 'relocate') {
+                    window.location.href=error[1];
                 }else {
                     document.getElementById("error").innerHTML = "";
                     if (args["type"] == "reload") { //if we called the reload
@@ -584,12 +607,12 @@ function callSuccessModal(message)
         },3000)
     }
 }
-function youSure(func,elem)
+function youSure(func,elem,message = null)
 {
     let modal = document.createElement("div");
     modal.classList.add("youSure");
     let title = document.createElement("h4");
-    title.innerHTML = "Etes vous sûr ?"
+    message ? title.innerHTML = message: title.innerHTML = "Etes vous sûr ?"
     let buttonYes = document.createElement("button");
     buttonYes.innerHTML = "Oui";
     let buttonNo = document.createElement("button");

@@ -164,7 +164,7 @@
                     "pos" => $pos,
                     "idBoard"=> $board];
 
-            $cardSql = " DELETE
+           /* $cardSql = " DELETE
             FROM cards
             WHERE id IN(";
 
@@ -181,7 +181,7 @@
             if($count){
                 self::delete($cardSql);
             }
-                
+                */
             return self::delete($sql,$arg);
         }
         public function archiveDeleteList($id,$board){
@@ -193,7 +193,7 @@
             $arg=  ["id" => $id,
                     ];
 
-            $cardSql = " DELETE
+           /* $cardSql = " DELETE
             FROM cards
             WHERE id IN(";
 
@@ -209,7 +209,7 @@
             $cardSql.=")";
             if($count){
                 self::delete($cardSql);
-            }
+            }*/
             return self::delete($sql,$arg,$board);
         }
 

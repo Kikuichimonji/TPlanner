@@ -558,12 +558,17 @@ BOARD
     background-color: #f5f4f4;
     user-select: none;
 }
-#rightside div:last-child{
-    flex-direction: column;
+#rightside div.delete:hover{
+    cursor: pointer;
+    background-color: #f5f4f4;
+    user-select: none;
 }
-#rightside div:last-child span{
-    height: 20%;
-    font-weight:bold
+#rightside div.delete{
+    flex-direction: column;
+    justify-content: center;
+    font-weight:bold;
+    font-size: 2em;
+    padding: 0 0.5em;
 }
 
 .board{

@@ -91,4 +91,10 @@ class BoardsController extends Controller
 			'board' => $board,
 		]);
 	}
+
+	public function deleteBoard($idBoard) //Function that delete the card
+    {
+        $bm = new BoardsManager();
+        return $bm->deleteBoard($idBoard);
+    }
 }
