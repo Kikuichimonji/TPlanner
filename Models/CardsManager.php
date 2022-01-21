@@ -10,7 +10,7 @@ class CardsManager extends AbstractManager
         self::connect();
     }
 
-    public function getOneById($id){
+    public function getOneById($id){ //We fetch one with the given id
 
         $sql =   "SELECT *".
                 " FROM cards".
@@ -22,7 +22,7 @@ class CardsManager extends AbstractManager
             self::$classname
         );
     }
-    public function getPos($id){
+    public function getPos($id){ //We get the position of the card (order in the list)
 
         $sql =   "SELECT positions".
                 " FROM cards".
@@ -34,18 +34,8 @@ class CardsManager extends AbstractManager
         );
     }
 
-    public function findAll(){
-        $sql = "SELECT * FROM card";
+    public function edit($card,$list,$oldList,$pos,$oldPos,$idBoard,$isArchive){ //We edit the position of the card depending on how me move it
 
-        return self::getResults(
-            self::select($sql, null, true),
-            self::$classname
-        );
-    }
-
-    public function edit($card,$list,$oldList,$pos,$oldPos,$idBoard,$isArchive){
-
-        
         if($oldList != $list){ 
             /* Si on change la carte de liste 
             *  1) On monte toutes les cartes après la nouvelle d'un cran
@@ -112,20 +102,7 @@ class CardsManager extends AbstractManager
                 WHERE id = :card
                 END;
             }
-        }/*else{
-            $sql = "UPDATE cards".
-                    " SET isArchived = 1".
-                    " WHERE id = :card;".
-                    " UPDATE cards".
-                    " SET positions = positions-1".
-                    " WHERE positions >= :oldPosition".
-                    " AND list_id = :oldList;";
-            
-            $arg= ["oldPosition" => $oldPos,
-                    "oldList" => $oldList,
-                    "card" => $card];
-        }*/
-        
+        }
         
         $arg= ["position" => $pos,
                 "oldPosition" => $oldPos,
@@ -133,13 +110,10 @@ class CardsManager extends AbstractManager
                 "oldList" => $oldList,
                 "card" => $card];
 
-       /* var_dump($sql);
-        var_dump($arg);
-        die();*/
         return self::update($sql,$arg,$idBoard);
     }
 
-    public function getMaxPos($id){
+    public function getMaxPos($id){ //We fetch the hightest position in the list
 
         $sql = "SELECT MAX(positions) as max".
         " FROM cards".
@@ -151,8 +125,7 @@ class CardsManager extends AbstractManager
         );
     }
 
-    public function add($id,$title,$idBoard){
-
+    public function add($id,$title,$idBoard){ //We add a new card in a list
 
         $pos = isset($this->getMaxPos($id)['max'])? $this->getMaxPos($id)['max']+1 : 0;
         $sql= "INSERT INTO cards(title,positions,list_id)".
@@ -162,12 +135,10 @@ class CardsManager extends AbstractManager
                 "list_id" => $id,
                 "positions" => $pos];
 
-        //var_dump($arg);die();
-
         return self::insert($sql,$arg,$idBoard);
     }
 
-    public function deleteCard($id,$pos,$list,$idBoard){
+    public function deleteCard($id,$pos,$list,$idBoard){ //We remove a card from a list, then change the position of all the upper cards
 
         $sql = <<<END
         UPDATE cards
@@ -183,12 +154,10 @@ class CardsManager extends AbstractManager
                 "pos" => $pos,
                 "list"=> $list];
 
-        //var_dump($pos);die();
-
         return self::delete($sql,$arg,$idBoard);
     }
 
-    public function editCardDesc($id,$text,$idBoard){
+    public function editCardDesc($id,$text,$idBoard){ //We update the card's description
         
         $sql = "UPDATE cards
         SET description = :text
@@ -197,12 +166,11 @@ class CardsManager extends AbstractManager
         $arg= ["text" => $text,
                 "id" => $id,
             ];
-            //echo $sql2;
-        //var_dump($text);
+
         return self::update($sql,$arg,$idBoard);
     }
 
-    public function updateTitle($id,$text,$board){
+    public function updateTitle($id,$text,$board){ //We update the card's title
             
         $sql = "UPDATE cards".
         " SET title = :text".
@@ -215,4 +183,3 @@ class CardsManager extends AbstractManager
         return self::update($sql,$arg,$board);
     }
 }
-?>
