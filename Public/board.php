@@ -170,8 +170,8 @@ if(!isset($_POST["act"])){
                 if($_GET["id"] == "undefined" || $_POST["time"] == "undefined"){
                     echo "false";
                 }else{
-                    $result = $boardController->checkChange($_GET["id"],$_POST["time"])["lastChange"];
-                    echo $result ? null : "reload";
+                    $result = $boardController->checkChange($_GET["id"],$_POST["time"]);
+                    echo isset($result) ? null : "reload";
                 }
             }else{
                 echo "false";
