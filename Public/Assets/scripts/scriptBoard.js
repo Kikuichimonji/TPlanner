@@ -10,10 +10,14 @@ let options = null;
 let cardOptions = null;
 let target = null;
 let listoptions = null
-const stripHTML = (unsafe) => {
-    return unsafe.replace(/(<([^>]+)>)/gi, "");
-}
+let lastChangeTime = null;
+let busy = false;
+let timeToReload = 10000;
+
 function init() { //Initialisation of all the basic elements, necessary to make the board page work, can be recalled when the page is fetched
+    if(!document.querySelector(".board")){
+        isBusy(true);
+    }
     cards = document.querySelectorAll(".card"); //all the cards in the page
     lists = document.querySelectorAll(".list"); //all the lists in the page
     board = document.querySelector(".board");   //The board
@@ -41,8 +45,13 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     archive = document.getElementById("rightside").firstElementChild;
     archiveList = document.getElementById("archive").querySelectorAll(".listContainer");
     deleteBoardButton = document.querySelector("#rightside .delete");
-
+    lastChange = document.getElementById("lastChange");
+    lastChangeTime = lastChange.textContent;
+    lastChange.outerHTML = "";
+    isBusy(false);
+    
     handler = function (ev) { //The function that change the board title into an input, then change it back into a clickable title
+        isBusy(true);
         let newBox = document.createElement("input"); //we create a new text input
         newBox.setAttribute("type", "text");
         ev.target.id != "inviteButton" ? newBox.value = ev.target.textContent : newBox.placeholder = "Entrer un email";
@@ -70,6 +79,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     parent.firstElementChild.innerHTML = ev.target.hiddenclass == "inviteButton" ? "<span>+</span> Inviter" : newBox.value;
                     parent.firstElementChild.addEventListener("click", handler); // we reatach the click event on the new element
                     goFetch(args); //we fetch the sql to save the value
+                    isBusy(false);
                 }else{
                     callErrorModal("Le titre ne peux pas dépasser 50 charactères");
                 }
@@ -200,8 +210,6 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     }else{
                         callErrorModal("Le titre ne peux pas être vide")
                     }
-                   
-                    
                 });
             } 
         }
@@ -310,6 +318,22 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     }
     
 }
+function isBusy(status) //Stop or start the sync reload
+{
+    console.log(status)
+    if(typeof timerCheck !== "undefined"){
+        for(let i = 0; i <= timerCheck; i++)
+        {
+            window.clearInterval(i);
+        } 
+    }
+    if(!status){
+        timerCheck = setInterval(() => {
+            args = { "type": "checkChange", 'board': board.hiddenId };
+            goFetch(args);
+        }, timeToReload);
+    }
+}
 function openEditor(el)// Function that open the card editor
 {
     let modal = document.getElementById("cardDetail");
@@ -342,6 +366,7 @@ function openEditor(el)// Function that open the card editor
 }
 function addNewEl(el) // Function that add a new list or card
 {
+    isBusy(true);
     let newBox = document.createElement("input"); //new input 
     newBox.setAttribute("type", "text");
     newBox.setAttribute("placeholder", "Enter a title here");
@@ -369,6 +394,7 @@ function addNewEl(el) // Function that add a new list or card
         }
         if (elText.trim() !== "") { //if the text is not empty and less than 50 char we save it
             elText.trim().length <50 ? goFetch(args) : callErrorModal("Le titre ne peux pas dépasser 50 charactères");
+            isBusy(false);
         } else {
             callErrorModal("Le titre ne peux pas être vide");
         }
@@ -478,6 +504,10 @@ function goFetch(args) // function that fetch the board content depending on the
             case "deleteBoard":
                 link = "board.php?&board=" + args["board"];
                 break
+            case "checkChange":
+                formData.append("time", lastChangeTime)
+                link = "board.php?id=" + args["board"];
+                break
             case "reload":
                 link = "board.php?id=" + args["board"];
                 break
@@ -522,7 +552,7 @@ function goFetch(args) // function that fetch the board content depending on the
                     //if everything went okay and we got no errors
                     error[0] === 'success' ? callSuccessModal(error[1]) : null;
                     isArchive = args["el"] ? (args["el"].hiddenFunc == "archive") : false;
-                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList") { //we reload in thoses cases
+                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList" || response ==="reload") { //we reload in thoses cases
                         args = { "type": "reload", 'board': board.hiddenId };
                         goFetch(args);
                     }
@@ -735,6 +765,7 @@ function events() { //all my general events
             toClose = el.closest(".listTitle") ? el.closest(".listTitle") : toClose;
             toClose = el.closest(".cardTitle") ? el.closest(".cardTitle") : toClose;
             if (!toClose) {
+                isBusy(false);
                 for (let item of elList) {
                     item.classList.remove("inputOpen")
                     item.parentElement.innerHTML = item.parentNode.oldText;

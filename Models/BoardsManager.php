@@ -83,12 +83,13 @@ class BoardsManager extends AbstractManager
 
     public function addBoard($text, $id) //We add a new board
     {
-        $sql = "INSERT INTO boards(label,user_id)" .
-            " VALUES (:label,:idBoard)";
+        $sql = "INSERT INTO boards(label,user_id,lastChange)" .
+            " VALUES (:label,:idBoard,:time)";
 
         $arg = [
             "label" => $text,
-            "idBoard" => $id
+            "idBoard" => $id,
+            "time" => date("Y-m-d H:i:s")
         ];
 
         $idBoard = self::insertReturn($sql, $arg); //we use the id of the created board to create the mandatory archive list and attach it
@@ -174,5 +175,21 @@ class BoardsManager extends AbstractManager
         ];
 
         return self::delete($sql, $arg);
+    }
+    public function checkChange($id,$time) //We check if the time is different to reload the page
+    {
+
+        $sql = "SELECT lastChange".
+                " FROM boards".
+                " WHERE id = :id".
+                " AND lastChange = :time";
+
+        $arg =  [
+            "id" => $id,
+            "time" => $time
+        ];
+
+        return self::getValue(
+            self::select($sql, $arg, false));
     }
 }

@@ -97,4 +97,9 @@ class BoardsController extends Controller
         $bm = new BoardsManager();
         return $bm->deleteBoard($idBoard);
     }
+	public function checkChange($idBoard, $time) //Function that check if a change have been made on the board
+    {
+        $bm = new BoardsManager();
+        return $bm->checkChange($idBoard,$time);
+    }
 }

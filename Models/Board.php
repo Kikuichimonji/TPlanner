@@ -17,6 +17,7 @@ class Board extends AbstractEntity
     private $listLists;
     private $cardsArchived;
     private $listsArchived;
+    private $lastChange;
 
     public function __construct($data)
     {
@@ -152,6 +153,26 @@ class Board extends AbstractEntity
     public function setUsersList($usersList)
     {
         $this->usersList = $usersList;;
+        return $this;
+    }
+
+    /**
+     * Get the value of lastChange
+     */ 
+    public function getLastChange()
+    {
+        return $this->lastChange;
+    }
+
+    /**
+     * Set the value of lastChange
+     *
+     * @return  self
+     */ 
+    public function setLastChange($lastChange)
+    {
+        $this->lastChange = $lastChange;
+
         return $this;
     }
 }

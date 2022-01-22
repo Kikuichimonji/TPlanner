@@ -32,7 +32,7 @@ newBoard.addEventListener("click", ev =>{
 });
 
 
-function goFetch(args) // function that fetch the board content depending on the args
+function goFetch(args) // function that fetch result depending on the args
 {
 
     myHeaders = new Headers(); //If we want custom headers
@@ -80,18 +80,4 @@ function goFetch(args) // function that fetch the board content depending on the
         console.log("Link null")
     }
     
-}
-
-function callErrorModal(message)
-{
-    popup = document.getElementById("popupModal")
-    if(!popup.classList.contains("popupUp")){
-        popup.style.display = 'block';
-        popup.classList.add("popupUp")
-        popup.innerHTML = message;
-        
-        setTimeout(() =>{
-            popup.classList.remove("popupUp");
-        },3000)
-    }
 }

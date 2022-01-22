@@ -49,7 +49,6 @@
 			?>
 		</div>
 	</main>
-	<div id="popupModal"></div>
 	<?php require_once 'layout/footer.php'; ?>
 	<script src="<?= JS_PATH ?>/dashboard.js"></script>
 	<script src="<?= JS_PATH ?>/global.js"></script>

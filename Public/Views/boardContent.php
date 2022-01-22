@@ -1,3 +1,10 @@
+<?php
+    if(!isset($data['board'])){
+        echo "<h1>Le tableau à été supprimé</h1>";
+        echo "<a href='dashboard.php'>Retour au dashboard</a>";
+        die();
+    }
+?>
 <main id="<?= $_GET['id'] ?>">
     <?php
     if (isset($data)) {
@@ -5,7 +12,8 @@
         $board = $data['board'];
         $isCreator = $user->isCreator($board->getId());
     } ?>
-    <div id="boardHeader">
+    <div id="lastChange"><?= $board->getLastChange() ?></div>
+    <div id="boardHeader" >
         <div id="leftside">
             <div>
                 <div><?= e($board->getLabel()) ?></div>
