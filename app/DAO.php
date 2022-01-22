@@ -5,9 +5,9 @@
 
         protected static $link;
         const DB_HOST = "localhost";
-        const DB_NAME = "oflr1394_tplanner";
-        const DB_USER = "oflr1394_thomas ";
-        const DB_PASS = "T(cc9yBcWGH7";
+        const DB_NAME = "tplanner";
+        const DB_USER = "root";
+        const DB_PASS = "";
 
         public static function connect(){
             try{

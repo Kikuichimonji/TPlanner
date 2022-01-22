@@ -15,6 +15,7 @@ class Lists extends AbstractEntity
     private $label;
     private $listPosition;
     private $isArchived;
+    private $isArchiveList;
     private $listCards;
 
     public function __construct($data)
@@ -126,6 +127,26 @@ class Lists extends AbstractEntity
     public function setListCards($listCards)
     {
         $this->listCards = $listCards;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isArchiveList
+     */ 
+    public function getIsArchiveList()
+    {
+        return $this->isArchiveList;
+    }
+
+    /**
+     * Set the value of isArchiveList
+     *
+     * @return  self
+     */ 
+    public function setIsArchiveList($isArchiveList)
+    {
+        $this->isArchiveList = $isArchiveList;
 
         return $this;
     }

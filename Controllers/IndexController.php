@@ -4,17 +4,14 @@ namespace Controllers;
 
 class IndexController extends Controller
 {
-  /**
-   * Affiche une vue.
-   * "index" (convention d'écriture) Méthode par défaut d'appel d'un controleur
-   *
-   * @return void
-   */
-  public function index()
-  {
-    $this->view('index.php', [
-      'test' => 'Mon texte',
-      'var' => 45,
-    ]);
-  }
+	/**
+	 * Show a view
+	 * Index, Default controller's method
+	 */
+	public function index()
+	{
+		$this->setToken(); //We set a token when we land on the first page
+		$this->view('index.php', [
+		]);
+	}
 }

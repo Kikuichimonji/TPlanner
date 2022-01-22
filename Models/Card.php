@@ -8,7 +8,7 @@ class Card extends AbstractEntity
     /**
      * @inheritdoc
      */
-    protected $table = 'card';
+    protected $table = 'cards';
 
     private $id;
     private $title;
