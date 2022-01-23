@@ -135,6 +135,16 @@ class UsersController extends Controller
 		$f_mail = trim($mail);
 		$id = $id ? $id : $this->session()['user']->getId();
 		$um = new UsersManager();
-		$um->updateEmail($id, $f_mail) ? $this->session()['user']->setMail($f_mail) : null;
+		$user = $um->getOneByMail($f_mail);
+		if($user){
+			$this->view('user.php', [
+				'error' => "Cet email est déjà utilisé",
+				'user' => $this->session()['user']
+			]);
+			die();
+		}else{
+			$um->updateEmail($id, $f_mail) ? $this->session()['user']->setMail($f_mail) : null;
+		}
+		
 	}
 }

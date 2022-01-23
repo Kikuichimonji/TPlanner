@@ -83,7 +83,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 if(newBox.value.trim().length <50 || ev.target.hiddenclass == "inviteButton"){
                     parent = ev.target.parentNode;
                     parent.innerHTML = ev.target.oldElement
-                    parent.firstElementChild.innerHTML = ev.target.hiddenclass == "inviteButton" ? "<span>+</span> Inviter" : newBox.value;
+                    parent.firstElementChild.innerHTML = ev.target.hiddenclass == "inviteButton" ? "+ Inviter" : newBox.value;
                     parent.firstElementChild.addEventListener("click", handler); // we reatach the click event on the new element
                     goFetch(args); //we fetch the sql to save the value
                     isBusy(false);
