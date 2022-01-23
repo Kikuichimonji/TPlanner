@@ -133,9 +133,9 @@ if(!isset($_POST["act"])){
             }
             break;
         case "editCardDesc" :
-            if(isset($_GET["card"]) && isset($_POST['text']) && isset($_GET["board"])){
+            if(isset($_GET["card"]) && isset($_POST['text']) && isset($_GET["board"]) && isset($_POST["color"])){
                 if($_GET["board"] != "undefined"){
-                    $cardsController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"]);
+                    $cardsController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"],$_POST["color"]);
                 }else{
                     echo "false";
                 }

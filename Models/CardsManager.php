@@ -157,14 +157,15 @@ class CardsManager extends AbstractManager
         return self::delete($sql,$arg,$idBoard);
     }
 
-    public function editCardDesc($id,$text,$idBoard){ //We update the card's description
+    public function editCardDesc($id,$text,$idBoard,$color){ //We update the card's elements
         
-        $sql = "UPDATE cards
-        SET description = :text
-        WHERE id = :id";
+        $sql = "UPDATE cards".
+        " SET description = :text, color = :color".
+        " WHERE id = :id";
         
         $arg= ["text" => $text,
                 "id" => $id,
+                "color" => $color,
             ];
 
         return self::update($sql,$arg,$idBoard);

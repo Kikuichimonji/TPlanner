@@ -714,7 +714,8 @@ BOARD
 }
 .card .menu,.listHeader .menu{
     margin-right: 0.5em;
-    
+    font-weight: normal;
+    padding: 0 0.5em;
 }
 .card .menu:hover,.listHeader .menu:hover{
     box-shadow: var(--box-shadow);
