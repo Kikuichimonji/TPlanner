@@ -66,7 +66,7 @@ class ListsManager extends AbstractManager
                     " WHERE listPosition > :position".
                     " AND board_id = :idBoard;".
                     " UPDATE lists".
-                    " SET isArchived = 1".
+                    " SET isArchived = 1, listPosition = -2".
                     " WHERE id = :list";
 
             $arg = [

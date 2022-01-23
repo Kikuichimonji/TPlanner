@@ -681,7 +681,7 @@ BOARD
     border-radius: 2px;
     box-shadow: var(--box-shadow);
     cursor: pointer;
-    min-height: 100px;
+    height: fit-content;
     word-break: break-word;
 }
 .card .menu{
@@ -690,7 +690,7 @@ BOARD
 .card .cardBody{
     display: block;
     width: 100%;
-    min-height: 70px;
+    min-height: 1em;
 }
 .card .cardBody p{
     margin: 0;

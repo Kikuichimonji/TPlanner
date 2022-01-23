@@ -398,7 +398,10 @@ function openEditor(el)// Function that open the card editor
         {
             goFetch(args); //we fetch the SQL to save
             modal.el.querySelector(".cardHeader").setAttribute("style","background-color:"+modal.querySelector("input").value)
-            modal.el.querySelector(".cardBody").textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
+            bodyText = document.createElement("p")
+            bodyText.textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
+            modal.el.querySelector(".cardBody").innerHTML = "";
+            modal.el.querySelector(".cardBody").appendChild(bodyText);
             modal.el.originalText = textarea.value;
             modal.style.display = "none";
         }else{
