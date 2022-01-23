@@ -29,11 +29,11 @@ class CardsController extends Controller
         $cm->add($id, $f_text, $idBoard);
     }
 
-    public function editCardDesc($id, $text, $idBoard) //Function that change the card Description
+    public function editCardDesc($id, $text, $idBoard,$color) //Function that change the card Description
     {
         $f_text = trim($text);
         $cm = new CardsManager();
-        $cm->editCardDesc($id, $f_text, $idBoard);
+        $cm->editCardDesc($id, $f_text, $idBoard,$color);
     }
 
     public function deleteCard($id, $pos, $list, $idBoard) //Function that delete the card

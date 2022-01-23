@@ -57,7 +57,7 @@
                         }else{
                             $desc2 = $desc;
                         }
-                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
+                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader' style='background-color:{$card->getColor()}'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
                     } 
                 }
                 echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
@@ -83,7 +83,7 @@
                             }else{
                                 $desc2 = $desc;
                             }
-                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
+                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader' style='background-color:{$card->getColor()}'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
                         }
                         
                         foreach($board->getListsArchived() as $list){
@@ -124,7 +124,7 @@
 <div class="modalMenu" id="listMenu">
     <p>Paramètres</p>
     <ul>
-        <li func='edit'><span>Modifier</span></li>
+        <!--<li func='edit'><span>Modifier</span></li>-->
         <li func='archive'><span>Archiver</span></li>
         <?php 
             if($isCreator){
@@ -142,7 +142,7 @@
                 <textarea name="cardDescription" id="cardDescription" cols="30" rows="10" placeholder="Description"></textarea>
             </div>
             <ul>
-                <li func='color'>Couleur de l'en-tête</li>
+                <li func='color'>Couleur <input type="color"></li>
                 <li func='tag'>étiquettes</li>
                 <li func='move'>Déplacer</li>
                 <li func='assign'>Assigner</li>

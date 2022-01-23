@@ -381,6 +381,9 @@ function openEditor(el)// Function that open the card editor
     modal.el = el //again we pass the el here to grab it again in the listeners
     textarea = modal.querySelector("#cardDescription");
     textarea.value = el.originalText; // we put the text from the description into the textarea
+    modal.color = el.querySelector(".cardHeader").getAttribute("style").split(':')
+    modal.color = modal.color[modal.color.indexOf("background-color") + 1]
+    modal.querySelector("input").value = modal.color;
     for (let item of cardOptions) //We put a listener on each editor link 
     {
         item.addEventListener("click", ev => {
@@ -389,11 +392,12 @@ function openEditor(el)// Function that open the card editor
         })
     }
     modal.querySelector("button").addEventListener("click", ev => {
-        args = { "type": "editCardDesc", 'card': modal.el, "text": textarea.value, "idBoard": board.hiddenId }; //the args for the fetch
+        args = { "type": "editCardDesc", 'card': modal.el, "text": textarea.value, "idBoard": board.hiddenId, 'color': modal.querySelector("input").value }; //the args for the fetch
         ev.stopImmediatePropagation();
         if(textarea.value.length < 500) //We limite the length to 500 char for now, need more testing
         {
             goFetch(args); //we fetch the SQL to save
+            modal.el.querySelector(".cardHeader").setAttribute("style","background-color:"+modal.querySelector("input").value)
             modal.el.querySelector(".cardBody").textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
             modal.el.originalText = textarea.value;
             modal.style.display = "none";
@@ -541,7 +545,8 @@ function goFetch(args) // function that fetch the board content depending on the
                 break
             case "editCardDesc":
                 formData.append("text", args['text'])
-                link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"]; //the link for changing the card description
+                formData.append("color", args['color'])
+                link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"] ; //the link for changing the card description
                 break
             case "invite":
                 formData.append("mail", args['mail'])
