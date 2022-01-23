@@ -153,6 +153,16 @@ if(!isset($_POST["act"])){
                 echo "false";
             }
             break;
+        case "removeInvitedUser" :
+            if(isset($_POST["mail"]) && isset($_GET["board"])){
+                if($_GET["board"] != "undefined"){
+                    $result = $boardController->removeUser($_GET["board"],$_POST['mail']);
+                    echo $result;
+                }
+            }else{
+                echo "false";
+            }
+            break;
         case "deleteBoard" :
             if(isset($_GET["board"])){
                 if($_GET["board"] == "undefined"){

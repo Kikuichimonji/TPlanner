@@ -135,6 +135,21 @@ class BoardsManager extends AbstractManager
         return self::insert($sql, $arg);
     }
 
+    public function removeUser($idBoard, $idUser) //We add the user to the users_boards list so it can access the board
+    {
+        $sql = "DELETE".
+                " FROM users_boards".
+                " WHERE user_id = :idUser ".
+                " AND board_id = :idBoard ";
+
+        $arg = [
+            "idUser" => $idUser,
+            "idBoard" => $idBoard
+        ];
+
+        return self::delete($sql, $arg);
+    }
+
     public function getUsers($idBoard) //fetch the users from a board
     {
         $sql = "SELECT u.id, u.username, u.mail, u.color FROM users u" .
