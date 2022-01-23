@@ -293,8 +293,6 @@ function init() { //Initialisation of all the basic elements, necessary to make 
             } else { //if the menu is shown and click again on the list menu button
                 menu.style.display = "none";
             }
-            //console.log(ev.target.parentNode.parentNode.parentNode)
-            //
         }
     }));
     newListButton.addEventListener("click", (ev) => {
@@ -359,7 +357,6 @@ function init() { //Initialisation of all the basic elements, necessary to make 
 }
 function isBusy(status) //Stop or start the sync reload
 {
-    console.log(status)
     if(typeof timerCheck !== "undefined"){
         for(let i = 0; i <= timerCheck; i++)
         {
@@ -387,7 +384,6 @@ function openEditor(el)// Function that open the card editor
     for (let item of cardOptions) //We put a listener on each editor link 
     {
         item.addEventListener("click", ev => {
-            console.log(ev.target)
             ev.stopImmediatePropagation();
         })
     }
@@ -398,7 +394,10 @@ function openEditor(el)// Function that open the card editor
         {
             goFetch(args); //we fetch the SQL to save
             modal.el.querySelector(".cardHeader").setAttribute("style","background-color:"+modal.querySelector("input").value)
-            modal.el.querySelector(".cardBody").textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
+            bodyText = document.createElement("p")
+            bodyText.textContent = textarea.value.length > 200 ? textarea.value.substring(0, 200) + "..." : textarea.value;
+            modal.el.querySelector(".cardBody").innerHTML = "";
+            modal.el.querySelector(".cardBody").appendChild(bodyText);
             modal.el.originalText = textarea.value;
             modal.style.display = "none";
         }else{
@@ -455,7 +454,6 @@ function deleteCard(el) { //Function to delete a card
         "list": el.parentNode.hiddenId,
         "idBoard": board.hiddenId
     };
-    //console.log(args)
     goFetch(args)
 }
 function archiveDeleteList(id) { // Function to definitely delete a list (from archive only)
@@ -571,7 +569,7 @@ function goFetch(args) // function that fetch the board content depending on the
         }
     } else {
         link = null;
-        console.log("goFetch need a type to operate");
+        //console.log("goFetch need a type to operate");
     }
     let myInit = {
         method: 'POST', //Fetch settings
@@ -586,11 +584,11 @@ function goFetch(args) // function that fetch the board content depending on the
         fetch(myRequest).then((response) => { //We fetch the result
             response.text().then(response => {
                 if (args["type"] != "reload") { //if we reload we dn't show the whole thing in console
-                    console.log(response) //My check of the controler response
+                   // console.log(response) //My check of the controler response
                 }
                 error = response.split(":");
                 if (response === 'false') {  //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
-                    console.log("Problème de paramètres");
+                    //console.log("Problème de paramètres");
                 }else if (error[0] === 'error') {
                     callErrorModal(error[1]);
                 }else if (error[0] === 'relocate') {
@@ -600,9 +598,9 @@ function goFetch(args) // function that fetch the board content depending on the
                     if (args["type"] == "reload") { //if we called the reload
                         document.getElementsByTagName("main")[0].outerHTML = response; // we get the text in the response and paste it in the main to refresh actual board
                         init();
-                        console.log("good reload")
+                        //console.log("good reload")
                     } else {
-                        console.log("good doggy")
+                        //console.log("good doggy")
                     }
                     //if everything went okay and we got no errors
                     error[0] === 'success' ? callSuccessModal(error[1]) : null;
@@ -614,11 +612,11 @@ function goFetch(args) // function that fetch the board content depending on the
                 }
             })
             if (!response.ok) { // If fetch failed somehow , maybe permission? dunno
-                console.log("Mauvaise réponse du réseau")
+                //console.log("Mauvaise réponse du réseau")
             }
         })
     } else {
-        console.log("Link null")
+        //console.log("Link null")
     }
 }
 function findParentList(el) //Function made to find the list starting from a child (a card)
@@ -649,7 +647,6 @@ function getDraggedParent(el) //Function to get the parent of the element dragge
             target = getDraggedParent(el.parentNode)
         }
     }
-    //console.log(target.isCard)
     return target;
 }
 function archiveEl(el) {
@@ -670,7 +667,6 @@ function archiveEl(el) {
     pos = listArray.indexOf(elem);
     let args = { "type": type, "el": el, "pos": pos, "idBoard": board.hiddenId };
     el.listId = document.querySelector(".listContainer:last-child").firstElementChild.hiddenId
-    //console.log(pos)
     goFetch(args);
 }
 
@@ -679,11 +675,9 @@ function events() { //all my general events
         if (ev.target && (ev.target.hiddenType == "list" || ev.target.hiddenType == "card")) //If we drag something && we drag a card || we drag a list
         {
             draggedElement = ev.target; //For better clarity
-            //console.log(draggedElement)
             if (draggedElement.hiddenType == "card") {
                 draggedElement.style.backgroundColor = "lightgray";
                 draggedElement.oldList = draggedElement.parentNode.hiddenId //We save the old list position
-                //console.log(draggedElement.oldList)
                 ev.dataTransfer.setDragImage(draggedElement, -10, -10);
             } else if (draggedElement.classList.contains('listHeader')) { //Nothing to do in it for now
                 draggedElement.style.backgroundColor = "#2C233F";
@@ -699,16 +693,13 @@ function events() { //all my general events
         if (ev.target && (ev.target.hiddenType == "card" || ev.target.hiddenType == "list" || ev.target.classList.contains('listHeader')) && draggedElement) //If we drag into something && we drag into a card || we drag into a list
         {
             draggedInto = getDraggedParent(ev.target);
-            //console.log(draggedInto)
             if (draggedInto.hiddenType == "list") //if we drag into a list
             {
                 if (!draggedElement.classList.contains("listHeader") && !draggedInto.classList.contains("listHeader") && !draggedInto.classList.contains("addCard")) { //if we drag something else than a list (can only be a card)
                     draggedInto.appendChild(draggedElement); //If the card is dragged over a list we attach it to the end of the list (kinda like a preview)
                 }
             }
-            //console.log(draggedInto)
             if (draggedInto.hiddenId !== draggedElement.hiddenId && !draggedElement.classList.contains("listHeader") && draggedInto.hiddenType == "card") { //D&D code for card dragging
-                //console.log(ev.target)
                 let ep = draggedInto.previousElementSibling;
                 let en = draggedInto.nextElementSibling;
                 let dp = draggedElement.previousElementSibling;
@@ -743,29 +734,23 @@ function events() { //all my general events
                 let dpn = draggedParent.nextElementSibling;
                 if (!dip && !dpn) {
                     draggedIntoContainer.insertAdjacentElement("beforebegin", draggedParent);
-                    //console.log('!ep !dpn')
                 }
                 else if (!din && !dpp) {
                     draggedIntoContainer.insertAdjacentElement("afterend", draggedParent);
-                    // console.log('!din !dpp')
                 }
                 else if (dip && dip != draggedParent) {
                     dip.insertAdjacentElement("afterend", draggedParent);
                     draggedParent.insertAdjacentElement("afterend", draggedIntoContainer);
-                    //console.log('dip dip')
                 }
                 else if (!dip) {
                     draggedIntoContainer.insertAdjacentElement("beforebegin", draggedParent);
-                    //console.log('!dip')
                 }
                 else if (din && din != draggedParent) {
                     dip.insertAdjacentElement("beforebegin", draggedParent);
                     draggedParent.insertAdjacentElement("beforebegin", draggedIntoContainer);
-                    //console.log('din din')
                 }
                 else if (!din) {
                     dpp.insertAdjacentElement("afterend", draggedIntoContainer);
-                    //console.log('!din')
                 }
             }
         }
