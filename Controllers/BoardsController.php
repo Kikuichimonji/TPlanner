@@ -80,6 +80,21 @@ class BoardsController extends Controller
 		}
 	}
 
+	public function removeUser($idBoard, $mail) //Function that remove a user from the board
+	{
+		$f_mail = trim($mail);
+		$um = new UsersManager();
+		$user = $um->getOneByMail($f_mail);
+		if($user){
+			$bm = new BoardsManager();
+			$bm->removeUser($idBoard, $user->getId());
+			return "success:L'utilisateur ".$user->getUsername()." à bien été retiré";
+		}else{
+			return "error:Cet utilisateur n'existe plus";
+		}
+		
+	}
+
 	public function reload($id) //We reload the board content (either for some operation or when the fetch find new content)
 	{
 		$user = $this->session()['user'];

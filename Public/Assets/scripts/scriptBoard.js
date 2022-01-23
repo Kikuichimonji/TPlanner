@@ -13,11 +13,17 @@ let listoptions = null
 let lastChangeTime = null;
 let busy = false;
 let timeToReload = 10000;
+let creator = null;
+let user = null;
 
 function init() { //Initialisation of all the basic elements, necessary to make the board page work, can be recalled when the page is fetched
     if(!document.querySelector(".board")){
         isBusy(true);
     }
+
+    creator = document.getElementById("creator").querySelector(".tooltiptext").lastChild.textContent
+    user = document.querySelector("main").getAttribute("creator");
+    document.querySelector("main").removeAttribute("creator")
     cards = document.querySelectorAll(".card"); //all the cards in the page
     lists = document.querySelectorAll(".list"); //all the lists in the page
     board = document.querySelector(".board");   //The board
@@ -48,6 +54,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
     lastChange = document.getElementById("lastChange");
     lastChangeTime = lastChange.textContent;
     lastChange.outerHTML = "";
+    userIcons = document.getElementsByClassName("tooltip")
     isBusy(false);
     
     handler = function (ev) { //The function that change the board title into an input, then change it back into a clickable title
@@ -316,7 +323,39 @@ function init() { //Initialisation of all the basic elements, necessary to make 
             youSure(deleteBoard,board.hiddenId,"La suppression du tableau est définitive, êtes vous sûr?");
         })
     }
-    
+    let creatorDiv = document.getElementById("creator")
+    document.querySelector("#listUser > .icon").removeChild(creatorDiv)
+    document.querySelector("#listUser > .icon").prepend(creatorDiv) //We put the creator in the front of the user list
+    if(user){
+        for (let user of userIcons) { //We create the menu when we click on the user
+            user.addEventListener("click", ev =>{
+                if(document.querySelector(".userIcon")){
+                    document.querySelector(".userIcon").outerHTML="";
+                }
+                uiMenu = document.createElement("div");
+                uiMenu.classList.add("modalMenu");
+                uiMenu.classList.add("userIcon");
+                document.querySelector("body").appendChild(uiMenu)
+                uiTitle = document.createElement("p")
+                mail = ev.target.querySelector(".tooltiptext").lastChild.textContent;
+                uiTitle.innerHTML = "Paramètres <br>'" + mail + "'"
+                uiTitle.classList.add("userIcon");
+                uiMenu.appendChild(uiTitle);
+                uiDelete = document.createElement("span");
+                uiDelete.textContent = "Retirer du tableau"
+                uiDelete.classList.add("userIcon");
+                uiDelete.mail = mail;
+                uiMenu.appendChild(uiDelete);
+                let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the card
+                uiMenu.style.left = rect.x + 20 + "px";
+                uiMenu.style.top = rect.y + 20 + "px";
+                uiMenu.style.display = "block";
+                uiDelete.addEventListener("click", ev => {
+                    youSure(removeInvitedUser,ev.target.mail)
+                })
+            })
+        }
+    }
 }
 function isBusy(status) //Stop or start the sync reload
 {
@@ -430,6 +469,13 @@ function deleteBoard(id) { // Function to definitely delete a list (from archive
     };
     goFetch(args)
 }
+function removeInvitedUser(mail) { // Function to definitely delete a list (from archive only)
+    let args = {
+        "type": "removeInvitedUser",
+        "mail": mail
+    };
+    creator == mail ? callErrorModal("Vous ne pouvez pas retirer le createur du tableau") : goFetch(args) ;
+}
 function deleteList(el) { // Function to delete a list 
     let list = el.parentNode.querySelectorAll(".listContainer");
     listArray = [...list];
@@ -503,6 +549,10 @@ function goFetch(args) // function that fetch the board content depending on the
                 break
             case "deleteBoard":
                 link = "board.php?&board=" + args["board"];
+                break
+            case "removeInvitedUser":
+                formData.append("mail", args['mail'])
+                link = "board.php?&board=" + board.hiddenId;
                 break
             case "checkChange":
                 formData.append("time", lastChangeTime)
@@ -788,6 +838,12 @@ function events() { //all my general events
         menu = document.getElementById("listMenu");
         if (!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu")) {
             menu.style.display = "none";
+        }
+        menu = document.querySelector(".userIcon");
+        if (!ev.target.classList.contains("userIcon") && !ev.target.classList.contains("tooltip")) {
+            if(menu){
+                menu.outerHTML="";
+            }
         }
     });
 }

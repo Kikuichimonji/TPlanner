@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<?= CSS_PATH ?>/style.css">
-  <link rel="icon" type="image/svg" href="<?= IMG_PATH ?>/T_logo.svg" alt="favicon logo simplifié de N.pi"/>
+  <link rel="icon" type="image/svg" href="<?= IMG_PATH ?>/T_logo.svg" alt="favicon logo simplifié de TPlanner"/>
   <title>Pannel Admin</title>
 </head>
 
@@ -21,17 +21,24 @@
         </br>
         <h1>Pannel Admin</h1>
         <h2>Liste des utilisateurs (<?= count($data['users']) ?>)</h2><a href="user.php?id="></a>
+        <div class='users'>
         <?php
             foreach($data['users'] as $user)
             {
-                echo "<br><a href='user.php?id={$user->getid()}'>{$user->getUsername()}</a><span class='delete'><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?user={$user->getid()}'><img src='".IMG_PATH."/skull.png'></a></span>";
+                echo "<div class='user'>
+                <span class='icon'>
+                  <span style='background-color:".$user->getColor()."'>".strtoupper(substr($user->getUsername(),0,2))."</span>
+                </span>
+                <a href='user.php?id={$user->getid()}'>{$user->getUsername()}</a><span class='delete' ><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?user={$user->getId()}'><img src='".IMG_PATH."/skull.png' id='{$user->getId()}'></a></span>
+                </div>";
             }
         ?>
+        </div>
         <h2>Listes sans Créateurs (<?= count($data['boards']) ?>)</h2><a href="user.php?id="></a>
         <?php
             foreach($data['boards'] as $board)
             {
-                echo "<br><a href=''>{$board->getLabel()}</a><span class='delete'><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?board={$board->getid()}'><img src='".IMG_PATH."/skull.png'></a></span>";
+                echo "<br><a href=''>{$board->getLabel()}</a><span class='delete' id='{$board->getId()}'><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?board={$board->getId()}'><img src='".IMG_PATH."/skull.png'></a></span>";
             }
         ?>
       </div>
@@ -41,6 +48,7 @@
 
   <?php require_once 'layout/footer.php'; ?>
   <script src="<?=JS_PATH ?>/global.js"></script>
+  <script src="<?=JS_PATH ?>/adminScript.js"></script>
 </body>
 
 </html>
