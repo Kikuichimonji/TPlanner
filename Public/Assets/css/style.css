@@ -569,6 +569,7 @@ BOARD
     font-weight:bold;
     font-size: 2em;
     padding: 0 0.5em;
+    color: red;
 }
 
 .board{
@@ -604,6 +605,11 @@ BOARD
 .listContainer:last-child:not(.Archive .listContainer:last-child){
     display:none;
 }
+.Archive .delete{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: red;
+}
 .listHeader{
     width: 100%;
     background-color: white;
@@ -629,6 +635,9 @@ BOARD
     margin-left: 0.5em;
     margin-right: 0.25em;
     border-radius: 3px;
+}
+.listHeader .menu{
+    padding: 0 0.5em;
 }
 .listContainer .addCard{
     height: 40px;
@@ -784,6 +793,16 @@ BOARD
     cursor: pointer;
 }
 .modalMenu li:hover{
+    text-decoration: underline;
+}
+.modalMenu.userIcon span{
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 1em 0;
+}
+.modalMenu.userIcon span:hover{
+    cursor: pointer;
     text-decoration: underline;
 }
 #cardDetail{
@@ -968,6 +987,37 @@ USER
     height: 25px;
     border-radius: 5px;
     vertical-align: middle;
+}
+/*************************
+ADMIN
+*************************/
+#admin{
+
+}
+#admin{
+    text-align: center;
+}
+#admin .user{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    padding: 1em 0;
+    width: 90%;
+    border-bottom: 1px solid lightgrey;
+}
+#admin .user:last-child{
+    border: none;
+}
+#admin .users{
+    box-shadow: var(--box-shadow);
+    width: 400px;
+    margin: auto;
+    padding: 0.5em 0;
+}
+#admin .user a,#admin .user span{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 /*************************
 FOOTER

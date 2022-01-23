@@ -37,7 +37,7 @@
         }
 
         public function findAll(){ //We fetch all the users in the DB (admin panel)
-            $sql = "SELECT * FROM users";
+            $sql = "SELECT * FROM users ORDER BY username";
 
             return self::getResults(
                 self::select($sql, null, true),

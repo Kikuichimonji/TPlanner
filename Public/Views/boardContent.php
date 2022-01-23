@@ -4,14 +4,13 @@
         echo "<a href='dashboard.php'>Retour au dashboard</a>";
         die();
     }
-?>
-<main id="<?= $_GET['id'] ?>">
-    <?php
     if (isset($data)) {
         $user = $data['user'];
         $board = $data['board'];
         $isCreator = $user->isCreator($board->getId());
     } ?>
+<main id="<?= $_GET['id'] ?>" creator="<?= $isCreator ?>">
+    
     <div id="lastChange"><?= $board->getLastChange() ?></div>
     <div id="boardHeader" >
         <div id="leftside">
@@ -22,7 +21,11 @@
                 <span class='icon'>
                     <?php
                         foreach($board->getUsersList() as $user){
-                            echo "<span class='tooltip' style='background-color:" . $user->getColor() . "'>" . htmlspecialchars(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
+                            if($user->isCreator($board->getId())){
+                                echo "<span id='creator' class='tooltip' style='background-color:" . $user->getColor() . "'>" . htmlspecialchars(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
+                            }else{
+                                echo "<span class='tooltip' style='background-color:" . $user->getColor() . "'>" . htmlspecialchars(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
+                            }   
                         }
                     ?>
                 </span>
@@ -91,7 +94,7 @@
                                             <span>".e($list->getLabel())."</span>
                                         </span>";
                             if($isCreator){
-                                echo "<span class='delete'><img src='".IMG_PATH."/skull.png'></span>";
+                                echo "<span class='delete'>X</span>";
                             }
                                     echo "<span class='menu'>...</span>
                                     </div>
