@@ -84,7 +84,10 @@
                             }else{
                                 $desc2 = $desc;
                             }
-                            echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader' style='background-color:{$card->getColor()}'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
+                            echo "<li draggable='true' class='card' id='{$card->getId()}'>
+                            <span class='cardHeader' style='background-color:{$card->getColor()}'>
+                            <span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span>
+                            </span><span class='cardBody' originalText='{$desc}'><p>{$desc2}</p></span></li>";
                         }
                         
                         foreach($board->getListsArchived() as $list){
