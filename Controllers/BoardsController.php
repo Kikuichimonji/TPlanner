@@ -17,6 +17,7 @@ class BoardsController extends Controller
 
 	/**
 	 * Show the board view, or dashboard if the board do not exist
+	 * @param int $idBoard Id Board
 	 * @return void
 	 */
 	public function index($idBoard = null)
