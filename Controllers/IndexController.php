@@ -5,8 +5,8 @@ namespace Controllers;
 class IndexController extends Controller
 {
 	/**
-	 * Show a view
-	 * Index, Default controller's method
+	 * Show index view
+	 * @return void
 	 */
 	public function index()
 	{

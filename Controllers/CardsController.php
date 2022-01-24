@@ -21,6 +21,7 @@ class CardsController extends Controller
      * @param int $id The list ID
      * @param string $title The title of the card 
      * @param int $idBoard The board ID
+     * @return void
      */
     public function add($id, $title, $idBoard)
     {
@@ -29,20 +30,43 @@ class CardsController extends Controller
         $cm->add($id, $f_text, $idBoard);
     }
 
-    public function editCardDesc($id, $text, $idBoard,$color) //Function that change the card Description
+    /**
+     * Change the card infos
+     * @param int $id The card ID
+     * @param string $text The description of the card 
+     * @param int $idBoard The board ID
+     * @param string $color The hexa code of the card
+     * @return void
+     */
+    public function editCardDesc($id, $text, $idBoard,$color)
     {
         $f_text = trim($text);
         $cm = new CardsManager();
         $cm->editCardDesc($id, $f_text, $idBoard,$color);
     }
 
-    public function deleteCard($id, $pos, $list, $idBoard) //Function that delete the card
+    /**
+     * Delete the card
+     * @param int $id The card ID
+     * @param int $pos The position of the card inside the list
+     * @param int $list The list ID
+     * @param int $idBoard The board ID
+     * @return void
+     */
+    public function deleteCard($id, $pos, $list, $idBoard)
     {
         $cm = new CardsManager();
         return $cm->deleteCard($id, $pos, $list, $idBoard);
     }
 
-    public function updateCardTitle($id, $text, $board)//Function that update the card title
+    /**
+     * Update the card title
+     * @param int $id The card ID
+     * @param string $text The new title
+     * @param int $board The board ID
+     * @return void
+     */
+    public function updateCardTitle($id, $text, $board)
     {
         $f_text = trim($text);
         $lm = new CardsManager();

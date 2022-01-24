@@ -19,8 +19,8 @@ class AdminController extends Controller
 	}
 
 	/**
-	 * Show a view
-	 * Index, Default method of the controller
+	 * Show admin view
+	 * @return void
 	 */
 	public function index() //By default we show all Users and orphan Boards
 	{
@@ -35,11 +35,15 @@ class AdminController extends Controller
 		]);
 	}
 
+	/**
+	 * Delete user from DB and redirect to the admin page
+	 * @return void
+	 */
 	public function deleteUser($id) //Only the admin can delete a User
 	{
 		$um = new UsersManager();
 		if ($id != "null") {
-			$result = $um->deleteUser($id);
+			$um->deleteUser($id);
 		}
 		header("Location: admin~LP9fsDOQnEuHPRbTHfn5.php"); //we need to reload all users again
 	}

@@ -8,7 +8,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\AbstractEntity\u003A\u003Ahydrate\u0028\u0029",
             "name": "hydrate",
-            "summary": "",
+            "summary": "Hydrate\u0020object\u0020with\u0020data",
             "url": "classes/App-AbstractEntity.html#method_hydrate"
         },                {
             "fqsen": "\\App\\AbstractManager",
@@ -18,67 +18,62 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Aconnect\u0028\u0029",
             "name": "connect",
-            "summary": "",
+            "summary": "Establish\u0020connection\u0020to\u0020the\u0020database",
             "url": "classes/App-AbstractManager.html#method_connect"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Adisconnect\u0028\u0029",
             "name": "disconnect",
-            "summary": "",
+            "summary": "Severe\u0020the\u0020connection\u0020to\u0020the\u0020database",
             "url": "classes/App-AbstractManager.html#method_disconnect"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003AgetOneOrNullResult\u0028\u0029",
             "name": "getOneOrNullResult",
-            "summary": "",
+            "summary": "Create\u0020and\u0020return\u0020an\u0020object\u0020from\u0020a\u0020single\u0020row,\u0020or\u0020return\u0020null",
             "url": "classes/App-AbstractManager.html#method_getOneOrNullResult"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003AgetResults\u0028\u0029",
             "name": "getResults",
-            "summary": "",
+            "summary": "Create\u0020and\u0020return\u0020objects\u0020from\u0020multiple\u0020rows",
             "url": "classes/App-AbstractManager.html#method_getResults"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Return\u0020a\u0020row\u0020from\u0020database\u0020without\u0020hydratation",
             "url": "classes/App-AbstractManager.html#method_getValue"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Aselect\u0028\u0029",
             "name": "select",
-            "summary": "",
+            "summary": "The\u0020general\u0020SELECT\u0020function",
             "url": "classes/App-AbstractManager.html#method_select"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
-            "summary": "",
+            "summary": "General\u0020INSERT\u0020function",
             "url": "classes/App-AbstractManager.html#method_insert"
-        },                {
-            "fqsen": "\\App\\AbstractManager\u003A\u003AinsertNoChange\u0028\u0029",
-            "name": "insertNoChange",
-            "summary": "",
-            "url": "classes/App-AbstractManager.html#method_insertNoChange"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003AinsertReturn\u0028\u0029",
             "name": "insertReturn",
-            "summary": "",
+            "summary": "INSERT\u0020function\u0020that\u0020return\u0020the\u0020latest\u0020id",
             "url": "classes/App-AbstractManager.html#method_insertReturn"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Aupdate\u0028\u0029",
             "name": "update",
-            "summary": "",
+            "summary": "General\u0020UPDATE\u0020function",
             "url": "classes/App-AbstractManager.html#method_update"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
-            "summary": "",
+            "summary": "General\u0020DELETE\u0020function",
             "url": "classes/App-AbstractManager.html#method_delete"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003Atransaction\u0028\u0029",
             "name": "transaction",
-            "summary": "",
+            "summary": "General\u0020TRANSACTION\u0020function",
             "url": "classes/App-AbstractManager.html#method_transaction"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003AsetChange\u0028\u0029",
             "name": "setChange",
-            "summary": "",
+            "summary": "Set\u0020a\u0020new\u0020date\u0020in\u0020the\u0020DB",
             "url": "classes/App-AbstractManager.html#method_setChange"
         },                {
             "fqsen": "\\App\\AbstractManager\u003A\u003A\u0024connection",
@@ -95,6 +90,11 @@ Search.appendIndex(
             "name": "connect",
             "summary": "",
             "url": "classes/App-DAO.html#method_connect"
+        },                {
+            "fqsen": "\\App\\DAO\u003A\u003Adisconnect\u0028\u0029",
+            "name": "disconnect",
+            "summary": "",
+            "url": "classes/App-DAO.html#method_disconnect"
         },                {
             "fqsen": "\\App\\DAO\u003A\u003ADB_HOST",
             "name": "DB_HOST",
@@ -121,11 +121,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-DAO.html#property_link"
         },                {
-            "fqsen": "\\App\\DAO\u003A\u003Adisconnect\u0028\u0029",
-            "name": "disconnect",
-            "summary": "",
-            "url": "classes/App-DAO.html#method_disconnect"
-        },                {
             "fqsen": "\\Controllers\\AdminController",
             "name": "AdminController",
             "summary": "",
@@ -138,12 +133,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\AdminController\u003A\u003Aindex\u0028\u0029",
             "name": "index",
-            "summary": "Show\u0020a\u0020view\nIndex,\u0020Default\u0020method\u0020of\u0020the\u0020controller",
+            "summary": "Show\u0020admin\u0020view",
             "url": "classes/Controllers-AdminController.html#method_index"
         },                {
             "fqsen": "\\Controllers\\AdminController\u003A\u003AdeleteUser\u0028\u0029",
             "name": "deleteUser",
-            "summary": "",
+            "summary": "Delete\u0020user\u0020from\u0020DB\u0020and\u0020redirect\u0020to\u0020the\u0020admin\u0020page",
             "url": "classes/Controllers-AdminController.html#method_deleteUser"
         },                {
             "fqsen": "\\Controllers\\BoardsController",
@@ -158,37 +153,37 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003Aindex\u0028\u0029",
             "name": "index",
-            "summary": "Show\u0020a\u0020view\nIndex,\u0020Default\u0020method\u0020of\u0020the\u0020controller",
+            "summary": "Show\u0020the\u0020board\u0020view,\u0020or\u0020dashboard\u0020if\u0020the\u0020board\u0020do\u0020not\u0020exist",
             "url": "classes/Controllers-BoardsController.html#method_index"
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003AupdateTitle\u0028\u0029",
             "name": "updateTitle",
-            "summary": "",
+            "summary": "Update\u0020the\u0020title\u0020of\u0020the\u0020board",
             "url": "classes/Controllers-BoardsController.html#method_updateTitle"
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003AinviteUser\u0028\u0029",
             "name": "inviteUser",
-            "summary": "",
+            "summary": "Add\u0020someone\u0020to\u0020the\u0020board",
             "url": "classes/Controllers-BoardsController.html#method_inviteUser"
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003AremoveUser\u0028\u0029",
             "name": "removeUser",
-            "summary": "",
+            "summary": "Remove\u0020a\u0020user\u0020from\u0020the\u0020board",
             "url": "classes/Controllers-BoardsController.html#method_removeUser"
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003Areload\u0028\u0029",
             "name": "reload",
-            "summary": "",
+            "summary": "Reload\u0020the\u0020board\u0020content\u0020by\u0020return\u0020a\u0020view",
             "url": "classes/Controllers-BoardsController.html#method_reload"
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003AdeleteBoard\u0028\u0029",
             "name": "deleteBoard",
-            "summary": "",
+            "summary": "Delete\u0020the\u0020board",
             "url": "classes/Controllers-BoardsController.html#method_deleteBoard"
         },                {
             "fqsen": "\\Controllers\\BoardsController\u003A\u003AcheckChange\u0028\u0029",
             "name": "checkChange",
-            "summary": "",
+            "summary": "Check\u0020if\u0020a\u0020change\u0020has\u0020been\u0020made\u0020on\u0020the\u0020board",
             "url": "classes/Controllers-BoardsController.html#method_checkChange"
         },                {
             "fqsen": "\\Controllers\\CardsController",
@@ -208,17 +203,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\CardsController\u003A\u003AeditCardDesc\u0028\u0029",
             "name": "editCardDesc",
-            "summary": "",
+            "summary": "Change\u0020the\u0020card\u0020infos",
             "url": "classes/Controllers-CardsController.html#method_editCardDesc"
         },                {
             "fqsen": "\\Controllers\\CardsController\u003A\u003AdeleteCard\u0028\u0029",
             "name": "deleteCard",
-            "summary": "",
+            "summary": "Delete\u0020the\u0020card",
             "url": "classes/Controllers-CardsController.html#method_deleteCard"
         },                {
             "fqsen": "\\Controllers\\CardsController\u003A\u003AupdateCardTitle\u0028\u0029",
             "name": "updateCardTitle",
-            "summary": "",
+            "summary": "Update\u0020the\u0020card\u0020title",
             "url": "classes/Controllers-CardsController.html#method_updateCardTitle"
         },                {
             "fqsen": "\\Controllers\\CardsController\u003A\u003AeditCardsPosition\u0028\u0029",
@@ -283,12 +278,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\Controller\u003A\u003AcsrfCheck\u0028\u0029",
             "name": "csrfCheck",
-            "summary": "Compare\u0020the\u0020CSRF\u0020token\u0020between\u0020the\u0020user\u0020and\u0020the\u0020form",
+            "summary": "Compare\u0020form\u0020and\u0020session\u0020token",
             "url": "classes/Controllers-Controller.html#method_csrfCheck"
         },                {
             "fqsen": "\\Controllers\\Controller\u003A\u003AisDisabled\u0028\u0029",
             "name": "isDisabled",
-            "summary": "",
+            "summary": "Check\u0020if\u0020user\u0020account\u0020is\u0020disabled",
             "url": "classes/Controllers-Controller.html#method_isDisabled"
         },                {
             "fqsen": "\\Controllers\\Controller\u003A\u003AVIEW_PATH",
@@ -318,12 +313,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\DashboardsController\u003A\u003Aindex\u0028\u0029",
             "name": "index",
-            "summary": "Show\u0020a\u0020view\nIndex,\u0020Default\u0020controller\u0027s\u0020method",
+            "summary": "Show\u0020dashboard\u0020view",
             "url": "classes/Controllers-DashboardsController.html#method_index"
         },                {
             "fqsen": "\\Controllers\\DashboardsController\u003A\u003Aadd\u0028\u0029",
             "name": "add",
-            "summary": "",
+            "summary": "Create\u0020a\u0020new\u0020board",
             "url": "classes/Controllers-DashboardsController.html#method_add"
         },                {
             "fqsen": "\\Controllers\\IndexController",
@@ -333,7 +328,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\IndexController\u003A\u003Aindex\u0028\u0029",
             "name": "index",
-            "summary": "Show\u0020a\u0020view\nIndex,\u0020Default\u0020controller\u0027s\u0020method",
+            "summary": "Show\u0020index\u0020view",
             "url": "classes/Controllers-IndexController.html#method_index"
         },                {
             "fqsen": "\\Controllers\\ListsController",
@@ -348,27 +343,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\ListsController\u003A\u003AeditPosition\u0028\u0029",
             "name": "editPosition",
-            "summary": "",
+            "summary": "Change\u0020list\u0020position",
             "url": "classes/Controllers-ListsController.html#method_editPosition"
         },                {
             "fqsen": "\\Controllers\\ListsController\u003A\u003Aadd\u0028\u0029",
             "name": "add",
-            "summary": "",
+            "summary": "Create\u0020a\u0020new\u0020list",
             "url": "classes/Controllers-ListsController.html#method_add"
         },                {
             "fqsen": "\\Controllers\\ListsController\u003A\u003AdeleteList\u0028\u0029",
             "name": "deleteList",
-            "summary": "",
+            "summary": "Delete\u0020a\u0020list",
             "url": "classes/Controllers-ListsController.html#method_deleteList"
         },                {
             "fqsen": "\\Controllers\\ListsController\u003A\u003AarchiveDeleteList\u0028\u0029",
             "name": "archiveDeleteList",
-            "summary": "",
+            "summary": "Delete\u0020a\u0020list\u0020from\u0020archive\u0020list",
             "url": "classes/Controllers-ListsController.html#method_archiveDeleteList"
         },                {
             "fqsen": "\\Controllers\\ListsController\u003A\u003AupdateListTitle\u0028\u0029",
             "name": "updateListTitle",
-            "summary": "",
+            "summary": "Update\u0020the\u0020list\u0027s\u0020title",
             "url": "classes/Controllers-ListsController.html#method_updateListTitle"
         },                {
             "fqsen": "\\Controllers\\LoginController",
@@ -383,27 +378,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003AnotFound\u0028\u0029",
             "name": "notFound",
-            "summary": "",
+            "summary": "Redirect\u0020to\u0020a\u0020custom\u0020404\u0020page",
             "url": "classes/Controllers-LoginController.html#method_notFound"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003Alogin\u0028\u0029",
             "name": "login",
-            "summary": "",
+            "summary": "Check\u0020if\u0020all\u0020login\u0020parameters\u0020are\u0020validn\u0020save\u0020datas\u0020in\u0020session,\u0020then\u0020redirect\u0020the\u0020user\u0020on\u0020the\u0020dashboard",
             "url": "classes/Controllers-LoginController.html#method_login"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003AshowRegister\u0028\u0029",
             "name": "showRegister",
-            "summary": "",
+            "summary": "Show\u0020the\u0020register\u0020view",
             "url": "classes/Controllers-LoginController.html#method_showRegister"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003AshowReset\u0028\u0029",
             "name": "showReset",
-            "summary": "",
+            "summary": "Redirect\u0020to\u0020the\u0020resepPassword\u0020view",
             "url": "classes/Controllers-LoginController.html#method_showReset"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003Aregister\u0028\u0029",
             "name": "register",
-            "summary": "",
+            "summary": "Register\u0020the\u0020user",
             "url": "classes/Controllers-LoginController.html#method_register"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003Alogout\u0028\u0029",

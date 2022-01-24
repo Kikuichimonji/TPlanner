@@ -15,8 +15,7 @@ class DashboardsController extends Controller
 	}
 
 	/**
-	 * Show a view
-	 * Index, Default controller's method 
+	 * Show dashboard view
 	 */
 	public function index()
 	{
@@ -24,12 +23,17 @@ class DashboardsController extends Controller
 			'user' => $_SESSION['user'],
 		]);
 	}
-
-	public function add($text, $id) //Function that add a new board
+	/**
+	* Create a new board
+	*
+	* @param int $id ID if the user
+	* @param string $text Board title
+	* @return bool
+	*/
+	public function add($text, $id)
 	{
 		$f_text = trim($text);
 		$bm = new BoardsManager();
-		$id = $bm->addBoard($f_text, $id);
-		return $id;
+		return $bm->addBoard($f_text, $id);
 	}
 }

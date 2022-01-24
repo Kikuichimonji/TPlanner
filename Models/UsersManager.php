@@ -85,7 +85,7 @@
                     "date" => date("Y-m-d"),
                     "role" => $role];
 
-            return self::insertNoChange($sql,$arg);
+            return self::insert($sql,$arg);
         }
 
         public function deleteUser($id){ //We delete the user, and severe the link between him and the boards

@@ -19,12 +19,7 @@ $cardsController = new CardsController();
 // Call Controller method
 
 if(!isset($_POST["act"])){
-    if(isset($_GET['id'])){
-        $boardController->index($_GET['id']);
-    }else{
-        $boardController->index();
-    }
-    
+    $boardController->index($_GET['id'] ?? null);
 }else{
 
     switch($_POST["act"]){

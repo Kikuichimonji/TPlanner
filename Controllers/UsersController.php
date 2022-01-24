@@ -26,7 +26,7 @@ class UsersController extends Controller
 		$user = $um->getOneById($id);
 
 		$this->view('user.php', [
-			'user' => $user,
+			'user' => $id ? $user : $_SESSION['user']->getId(),
 			"token" => $this->session()["token"],
 		]);
 	}

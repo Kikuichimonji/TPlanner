@@ -26,19 +26,18 @@ abstract class Autoloader{
 
     public static function autoload($class)
     {
-        /*var_dump($class);
-        die();*/
+
         $parts = preg_split('#\\\#', $class);
 			//$parts = ['Controllers', 'BoardController']
 
 			$className = array_pop($parts);
 			//$className = BoardController
 
-			// on créé le chemin vers la classe
-			// on utilise DS car plus propre et meilleure portabilité entre les différents systèmes (windows/linux) 
+			// We create the file path
+			// DS is used because it's a proper way to differentiate what system we're on (windows/linux) 
 
-			//avant : ['Controllers']
-			//après implode : "Controllers"
+			//before : ['Controllers']
+			//after implode : "Controllers"
 			$path = implode(DS, $parts);
 			
 			$file = $className.'.php';
@@ -47,12 +46,12 @@ abstract class Autoloader{
 			$filepath = ROOT.$path.DS.$file;
 			//$filepath = ..\Controllers\IndexController.php
 
-			//var_dump($filepath);die();
 			if(file_exists($filepath)){
 				require_once $filepath;
 			}
     }
 }
+
 function dd(...$data)
 {
 	foreach(func_get_args() as $arg){

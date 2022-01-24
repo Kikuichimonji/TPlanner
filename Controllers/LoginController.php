@@ -22,11 +22,19 @@ class LoginController extends Controller
 		]);
 	}
 
+	/**
+	* Redirect to a custom 404 page
+	*/
 	public function notFound() //If Controller.php do not find the view we redirect  it on a custom 404
 	{
 		$this->view('404.php', []);
 	}
 
+	/**
+	* Check if all login parameters are validn save datas in session, then redirect the user on the dashboard
+	*
+	* @param array $data POST data from form
+	*/	
 	public function login($data)
 	{
 		if (!$this->csrfCheck($data['token'])) { //If the token we sent to the form is not the same that the user, we kick him out
@@ -42,12 +50,14 @@ class LoginController extends Controller
 			if ($user !== null) { //If the user exist
 				if (!$this->isDisabled($user)) { //We check if the account is disabled
 					$this->view('login.php', [
+						"token" => $this->session()["token"],
 						'error' => "Your account is disabled"
 					]);
 					die();
 				}
 				if (!password_verify($data['password'], $user->getPassword())) { //If the passwords do not match
 					$this->view('login.php', [
+						"token" => $this->session()["token"],
 						'error' => "Login error"
 					]);
 					die();
@@ -60,17 +70,22 @@ class LoginController extends Controller
 				}
 			} else { //If no user exist with the mail
 				$this->view('login.php', [
+					"token" => $this->session()["token"],
 					'error' => "This email does not match any account on this website"
 				]);
 				die();
 			}
 		} else { //If the mail is not valid
 			$this->view('login.php', [
+				"token" => $this->session()["token"],
 				'error' => "You must enter a valid email"
 			]);
 		}
 	}
 
+	/**
+	* Show the register view
+	*/
 	public function showRegister() //Redirect to the register page with a token
 	{
 		$token = $this->session()['token'];
@@ -79,11 +94,23 @@ class LoginController extends Controller
 		]);
 	}
 
+	/**
+	* Redirect to the resepPassword view
+	*/
 	public function showReset()
 	{
-		$this->view('resetPassword.php', []);
+		$this->view('resetPassword.php', [
+			"token" => $this->session()["token"]
+		]);
 	}
 
+	/**
+	* Register the user
+	*
+	* @param array $data Data table from database
+	* @param object $object Object to hydrate
+	* @return void
+	*/
 	public function register($data)
 	{
 		if (!$this->csrfCheck($this->session()["token"])) { //If the token we sent to the form is not the same that the user, we kick him out
@@ -147,7 +174,12 @@ class LoginController extends Controller
 		}
 	}
 
-	public function logout() //The logout function
+	
+	/**
+	* Logout the user by destroying his SESSION 
+	* @return void
+	*/
+	public function logout() //We redirect the user to the index
 	{
 		if (isset($this->session()['auth'])) {
 			session_destroy();
@@ -156,6 +188,13 @@ class LoginController extends Controller
 		}
 	}
 
+	/**
+	* Reset the user password and send a mail with the new one
+	*
+	* @param array $data Data table from database
+	* @param object $object Object to hydrate
+	* @return void
+	*/
 	public function resetPassword($mail)
 	{
 		$um = new UsersManager();
@@ -167,20 +206,24 @@ class LoginController extends Controller
 				if ($this->sendPassMail($mail, $newpass)) { //if the mail is successfully sent
 					$um->updatePassword($user->getId(), $hashPass); //we save the new password in the db
 					$this->view('login.php', [
+						"token" => $this->session()["token"],
 						'success' => "Vous allez reçevoir un nouveau mot de passe sur votre boite mail",
 					]);
 				} else {
 					$this->view('resetPassword.php', [
+						"token" => $this->session()["token"],
 						'error' => "Un problème est survenu lors de l'envoi du mail",
 					]);
 				}
 			} else {
 				$this->view('resetPassword.php', [
+					"token" => $this->session()["token"],
 					'error' => "Désolé, cet email n'est pas lié à un compte utilisateur",
 				]);
 			}
 		} else {
 			$this->view('resetPassword.php', [
+				"token" => $this->session()["token"],
 				'error' => "Veuillez entrer un email",
 			]);
 		}

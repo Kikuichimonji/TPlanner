@@ -1,12 +1,14 @@
 <?php
 
+use Controllers\UsersController;
+
 // Load App
 require_once 'autoloader.php';
 Autoloader::register();
 
 //var_dump("ddd");die();
 // Start Controller : NAMESPACE\CLASSNAME
-$controller = new Controllers\UsersController();
+$controller = new UsersController();
 
 // Call Controller method
 
@@ -22,7 +24,9 @@ if(isset($_POST["pseudo"])){
     $controller->disableAccount($id);
 }else if(isset($_POST["email"])){
     $controller->updateEmail($id,$_POST["email"]);
+}else{
+    $controller->index($id);
 }
-$controller->index($id);
+
 // END SCRIPT
 //

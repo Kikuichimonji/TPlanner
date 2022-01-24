@@ -16,10 +16,10 @@ class BoardsController extends Controller
 	}
 
 	/**
-	 * Show a view
-	 * Index, Default method of the controller
+	 * Show the board view, or dashboard if the board do not exist
+	 * @return void
 	 */
-	public function index($idBoard = null) //redirect to the dashboard if there is a problem, otherwise redirect to the specific board
+	public function index($idBoard = null)
 	{
 		$user = $this->session()["user"];  //We get back the user from the session
 		if ($idBoard !== null) { //If we don't have a board id we get redirected to the dashboard
@@ -42,14 +42,28 @@ class BoardsController extends Controller
 		}
 	}
 
-	public function updateTitle($id, $text) //Function that update the title of the board
+	/**
+	* Update the title of the board
+	*
+	* @param int $id ID if the board
+	* @param string $text New title
+	* @return bool
+	*/
+	public function updateTitle($id, $text)
 	{
 		$f_text = trim($text);
 		$bm = new BoardsManager();
-		$bm->updateTitle($id, $f_text);
+		return $bm->updateTitle($id, $f_text);
 	}
 
-	public function inviteUser($idBoard, $mail) //Function that add someone to a board after a user clicked on "inviter"
+	/**
+	* Add someone to the board 
+	*
+	* @param int $idBoard ID if the board
+	* @param string $mail Mail of the user to invite
+	* @return string "success|error:Message"
+	*/
+	public function inviteUser($idBoard, $mail) // add someone to a board after a user clicked on "inviter"
 	{
 		$f_mail = trim($mail);
 		$um = new UsersManager();
@@ -80,7 +94,14 @@ class BoardsController extends Controller
 		}
 	}
 
-	public function removeUser($idBoard, $mail) //Function that remove a user from the board
+	/**
+	* Remove a user from the board
+	*
+	* @param int $idBoard ID if the board
+	* @param string $mail Mail of the user to invite
+	* @return string "success|error:Message"
+	*/
+	public function removeUser($idBoard, $mail)
 	{
 		$f_mail = trim($mail);
 		$um = new UsersManager();
@@ -95,6 +116,12 @@ class BoardsController extends Controller
 		
 	}
 
+	/**
+	* Reload the board content by return a view
+	*
+	* @param int $id ID if the board
+	* @return view boardContent.php
+	*/
 	public function reload($id) //We reload the board content (either for some operation or when the fetch find new content)
 	{
 		$user = $this->session()['user'];
@@ -107,12 +134,26 @@ class BoardsController extends Controller
 		]);
 	}
 
-	public function deleteBoard($idBoard) //Function that delete the card
+	/**
+	* Delete the board
+	*
+	* @param int $idBoard ID if the board
+	* @return bool
+	*/
+	public function deleteBoard($idBoard)
     {
         $bm = new BoardsManager();
         return $bm->deleteBoard($idBoard);
     }
-	public function checkChange($idBoard, $time) //Function that check if a change have been made on the board
+
+	/**
+	* Check if a change has been made on the board
+	*
+	* @param int $idBoard ID if the board
+	* @param string $time
+	* @return bool
+	*/
+	public function checkChange($idBoard, $time) //compare saved time in the board and the one in DB
     {
         $bm = new BoardsManager();
         return $bm->checkChange($idBoard,$time);

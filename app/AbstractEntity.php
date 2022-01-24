@@ -3,9 +3,14 @@
 
     abstract class AbstractEntity
     {
-        
-        protected static function hydrate($data, $object){ //$data = Data from DB, $object = object to hydrate
-            
+        /**
+         * Hydrate object with data
+         *
+         * @param array $data Data table from database
+         * @param object $object Object to hydrate
+         * @return void
+         */
+        protected static function hydrate($data, $object){ 
             foreach($data as $field => $value){ // check if they keys are a DB field
                /* $fieldArray = explode("_",$field);  //NOT USED ANYMORE, WILL BREAK THIS PROJECT
                 if(isset($fieldArray[1]) && $fieldArray[1] === "id") //if we find a foreigner key (we have to end it with _id)

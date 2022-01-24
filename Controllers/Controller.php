@@ -164,8 +164,11 @@ class Controller
 	}
 
 	/**
-	 * Compare the CSRF token between the user and the form
-	 */
+	* Compare form and session token
+	*
+	* @param string $token The session token
+	* @return bool
+	*/
 	protected function csrfCheck($token) // We check the token between the form and the one in session
 	{
 		try {
@@ -180,12 +183,17 @@ class Controller
 			die();
 		}
 	}
-
+	/**
+	* Check if user account is disabled
+	*
+	* @param object $user Instance of the user
+	* @return bool
+	*/
 	protected function isDisabled($user) //Check if the user account is disabled (User deleted his own account)
 	{
 		try {
 			if (is_array(json_decode($user->getRole()))) { //The user is considered disabled when his 'user' role is stripped
-				return in_array("user", json_decode($user->getRole()));
+				return in_array("user", json_decode($user->getRole())); 
 			} else {
 				return false;
 			}

@@ -84,11 +84,11 @@ class BoardsManager extends AbstractManager
     public function addBoard($text, $id) //We add a new board
     {
         $sql = "INSERT INTO boards(label,user_id,lastChange)" .
-            " VALUES (:label,:idBoard,:time)";
+            " VALUES (:label,:id,:time)";
 
         $arg = [
             "label" => $text,
-            "idBoard" => $id,
+            "id" => $id,
             "time" => date("Y-m-d H:i:s")
         ];
 
@@ -107,7 +107,7 @@ class BoardsManager extends AbstractManager
             "isArch" => 1,
         ];
 
-        self::insertNoChange($sql, $arg);
+        self::insert($sql, $arg);
 
         return $idBoard;
     }
@@ -167,7 +167,6 @@ class BoardsManager extends AbstractManager
 
     public function getCreator($id) //fetch the creator of the board
     {
-
         $sql =   "SELECT user_id" .
             " FROM boards" .
             " WHERE id = :id";

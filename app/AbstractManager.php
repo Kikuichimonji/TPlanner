@@ -3,22 +3,36 @@
 namespace App;
 
 use Exception;
+use PDOException;
 
 abstract class AbstractManager
 {
     private static $connection;
 
-    protected static function connect() //We connect to the DB
+    /**
+     * Establish connection to the database
+     */
+    protected static function connect()
     {
         self::$connection = DAO::connect();
     }
 
-    protected static function disconnect() // We disconnect the DB
+    /**
+     * Severe the connection to the database
+     */
+    protected static function disconnect()
     {
         self::$connection = DAO::disconnect();
     }
 
-    protected static function getOneOrNullResult($row, $class) //We return either a single result or null
+    /**
+    * Create and return an object from a single row, or return null
+    *
+    * @param array $row Datas from database
+    * @param string $class Class to call (ex. "Models\Board")
+    * @return null|object
+    */
+    protected static function getOneOrNullResult($row, $class) 
     {
         if ($row != null) {
             return new $class($row);
@@ -26,7 +40,14 @@ abstract class AbstractManager
         return null;
     }
 
-    protected static function getResults($rows, $class) //We return multiple result
+    /**
+    * Create and return objects from multiple rows
+    *
+    * @param array $rows Datas from database
+    * @param string $class Class to call (ex. "Models\Board")
+    * @return array
+    */
+    protected static function getResults($rows, $class)
     {
         $results = [];
         if ($rows != null) {
@@ -37,7 +58,13 @@ abstract class AbstractManager
         return $results;
     }
 
-    protected static function getValue($row) //We return a single value without hydratation
+    /**
+    * Return a row from database without hydratation
+    *
+    * @param array $row single data from database
+    * @return array|null
+    */
+    protected static function getValue($row)
     {
         if ($row != null) {
             return $row;
@@ -45,7 +72,15 @@ abstract class AbstractManager
         return null;
     }
 
-    protected static function select($sql, $params = null, $multiple = true)//The general SELECT function
+    /**
+    * The general SELECT function
+    *
+    * @param string $sql Sql request
+    * @param array $params Sql parameters
+    * @param bool $multiple False for fetch(), True for fetchAll()
+    * @return array
+    */
+    protected static function select($sql, $params = null, $multiple = true)
     { 
         try {
             $stmt = self::$connection->prepare($sql); //We prepare the query (protection against sql injection)
@@ -55,34 +90,39 @@ abstract class AbstractManager
                 return $stmt->fetchAll();
             }
             return $stmt->fetch();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();  //Basic error shown
         }
     }
 
-    protected static function insert($sql, $params, $idBoard = null) // The general INSERT function
+    /**
+    * General INSERT function
+    *
+    * @param string $sql Sql request
+    * @param array $params Sql parameters
+    * @param int $idBoard Board ID
+    * @return bool
+    */
+    protected static function insert($sql, $params, $idBoard = null)
     { 
         try {
             $stmt = self::$connection->prepare($sql);
-            $id = $idBoard ? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null);
+            $id = $idBoard ? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null); //we check if we can find a board ID
             $id ? self::setChange($id) : null; //this method is called to indicate a change has been made
             return $stmt->execute($params);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();  //Basic error shown
         }
     }
 
-    protected static function insertNoChange($sql, $params) // The INSERT function that do not trigger the change function
-    { 
-        try {
-            $stmt = self::$connection->prepare($sql);
-            return $stmt->execute($params);
-        } catch (\PDOException $e) {
-            echo $e->getMessage();  //Basic error shown
-        }
-    }
-
-    protected static function insertReturn($sql, $params) //The other INSERT function, insert and return the last ID inserted (does not trigger change cause it's only use when we create a new board)
+    /**
+    * INSERT function that return the latest id
+    *
+    * @param string $sql Sql request
+    * @param array $params Sql parameters
+    * @return bool
+    */
+    protected static function insertReturn($sql, $params)
     { 
         try {
             $stmt = self::$connection->prepare($sql);
@@ -90,12 +130,20 @@ abstract class AbstractManager
             $id = self::$connection->lastInsertId();
 
             return $id;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();  //Basic error shown
         }
     }
 
-    protected static function update($sql, $params, $idBoard = null) // The general UPDATE function
+    /**
+    * General UPDATE function 
+    *
+    * @param string $sql Sql request
+    * @param array $params Sql parameters
+    * @param int $idBoard Board ID
+    * @return bool
+    */
+    protected static function update($sql, $params, $idBoard = null)
     { 
         try {
             $stmt = self::$connection->prepare($sql);
@@ -104,12 +152,20 @@ abstract class AbstractManager
             $id = $idBoard ? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null); //if no id board is provided, we do not trigger a change
             $id ? self::setChange($id) : null;
             return $stmt;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();  //Basic error shown
         }
     }
 
-    protected static function delete($sql, $params = null, $idBoard = null) // The general DELETE function
+    /**
+    * General DELETE function 
+    *
+    * @param string $sql Sql request
+    * @param array $params Sql parameters
+    * @param int $idBoard Board ID
+    * @return bool
+    */
+    protected static function delete($sql, $params = null, $idBoard = null)
     { 
         try {
             $stmt = self::$connection->prepare($sql);
@@ -118,12 +174,20 @@ abstract class AbstractManager
             $id = $idBoard ? $idBoard : (isset($params["idBoard"]) ? $params["idBoard"] : null);
             $id ? self::setChange($id) : null;
             return $stmt;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();  //Basic error shown
         }
     }
 
-    protected static function transaction($sqls, $params = null, $idBoard = null) // Transaction function
+    /**
+    * General TRANSACTION function 
+    *
+    * @param string $sql Sql request
+    * @param array $params Sql parameters
+    * @param int $idBoard Board ID
+    * @return bool
+    */
+    protected static function transaction($sqls, $params = null, $idBoard = null)
     { 
         try {
             self::$connection->beginTransaction();
@@ -140,12 +204,18 @@ abstract class AbstractManager
             $id ? self::setChange($id) : null;
 
             return $stmt;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             self::$connection->rollback(); //if an error occured we rollback everything 
             echo $e->getMessage();  //Basic error shown
         }
     }
 
+    /**
+    * Set a new date in the DB
+    *
+    * @param int $id The board ID
+    * @return bool
+    */
     protected static function setChange($id) //The function used to indicate a change has been made (for refresh purpose)
     { 
         $sql =  "UPDATE boards" .

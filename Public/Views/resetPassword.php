@@ -29,16 +29,16 @@
         <section class="forms_container">
         <div class="forms">
         <form action="login.php?act=submit" method="post">
-        <fieldset class="fieldset_container">
-        <p>Vous avez oublié votre mot de passe ? Nous vous en envoyons un nouveau par mail.</p>
-        <!--You forgot your password? We're gonna send you a new one by email.-->
-            <label for="mail">Email</label>
-            <input type="text" name="mail" id="mail">
-            </br></br>
-            <button type="submit">Envoyer un nouveau mot de passe</button>
-            <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
-            <input type="hidden" name="reset" id="reset"/>
-        </fieldset>
+            <fieldset class="fieldset_container">
+            <p>Vous avez oublié votre mot de passe ? Nous vous en envoyons un nouveau par mail.</p>
+            <!--You forgot your password? We're gonna send you a new one by email.-->
+                <label for="mail">Email</label>
+                <input type="text" name="mail" id="mail">
+                </br></br>
+                <button type="submit">Envoyer un nouveau mot de passe</button>
+                <input type="hidden" name="token" id="token" value="<?= $data['token']; ?>" />
+                <input type="hidden" name="reset" id="reset"/>
+            </fieldset>
         </form>
     </main>
 
