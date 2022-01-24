@@ -63,6 +63,7 @@ function dd(...$data)
 }
 function e($text)
 {
-	return htmlspecialchars($text);
+	
+	return $text ? htmlspecialchars($text) : null;
 }
 

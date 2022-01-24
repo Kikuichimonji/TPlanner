@@ -22,9 +22,9 @@
                     <?php
                         foreach($board->getUsersList() as $user){
                             if($user->isCreator($board->getId())){
-                                echo "<span id='creator' class='tooltip' style='background-color:" . $user->getColor() . "'>" . htmlspecialchars(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
+                                echo "<span id='creator' class='tooltip' style='background-color:" . $user->getColor() . "'>" . e(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
                             }else{
-                                echo "<span class='tooltip' style='background-color:" . $user->getColor() . "'>" . htmlspecialchars(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
+                                echo "<span class='tooltip' style='background-color:" . $user->getColor() . "'>" . e(strtoupper(substr($user->getUsername(), 0, 2))) . "<span class='tooltiptext'>{$user->getUsername()}<br>{$user->getMail()}</span></span>";
                             }   
                         }
                     ?>
@@ -52,6 +52,7 @@
                 foreach ($list->getListCards() as $card) {
                     if(!$card->getIsArchived()){
                         $desc = e($card->getDescription());
+                        $desc = $desc ? $desc : "";
                         if(strlen($desc) > 200){
                             $desc2 = substr($desc,0,200)."...";
                         }else{
