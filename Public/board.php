@@ -4,6 +4,7 @@
 
 use Controllers\CardsController;
 use Controllers\BoardsController;
+use Controllers\Controller;
 use Controllers\ListsController;
 
 require_once 'autoloader.php';
@@ -16,10 +17,17 @@ $listsController = new ListsController();
 $cardsController = new CardsController();
 
 
+
 // Call Controller method
 
 if(!isset($_POST["act"])){
-    $boardController->index($_GET['id'] ?? null);
+    if(isset($_GET['id'])){
+        $canView = $_SESSION["user"]->isCreator($_GET['id']);
+        foreach($_SESSION["user"]->getInvitedBoards() as $board){
+            $canView  = $_GET['id'] == $board->getId() ? true : $canView ;
+        }
+    }
+    $boardController->index($canView ? $_GET['id'] : null);
 }else{
 
     switch($_POST["act"]){

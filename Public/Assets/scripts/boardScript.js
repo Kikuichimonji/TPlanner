@@ -357,13 +357,16 @@ function init() { //Initialisation of all the basic elements, necessary to make 
 }
 function isBusy(status) //Stop or start the sync reload
 {
+    
     if(typeof timerCheck !== "undefined"){
+        console.log("busy")
         for(let i = 0; i <= timerCheck; i++)
         {
             window.clearInterval(i);
         } 
     }
     if(!status){
+        console.log("not busy")
         timerCheck = setInterval(() => {
             args = { "type": "checkChange", 'board': board.hiddenId };
             goFetch(args);

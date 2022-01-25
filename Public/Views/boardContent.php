@@ -34,7 +34,6 @@
         </div>
         <div id="rightside">
             <div>Eléments archivés</div>
-            <div>Filtre</div>
             <?php
                 if($isCreator){
                     echo "<div class='delete'>X</div>";
