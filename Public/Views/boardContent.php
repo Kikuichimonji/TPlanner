@@ -47,7 +47,7 @@
         <?php
         foreach ($board->getListLists() as $list) {
             if(!$list->getIsArchiveList() && !$list->getIsArchived()){
-                echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><img src='".IMG_PATH."/tplanner_picto_list.svg' class='picto'><span class='listTitle'>".e($list->getLabel())."</span></span><span class='menu'>...</span></div>";
+                echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><img src='".IMG_PATH."/tplanner_picto_list1.svg' class='picto'><span class='listTitle'>".e($list->getLabel())."</span></span><span class='menu'>...</span></div>";
                 echo "<ul class='list' id='{$list->getId()}'>";
                 foreach ($list->getListCards() as $card) {
                     if(!$card->getIsArchived()){
