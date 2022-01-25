@@ -633,7 +633,7 @@ BOARD
 .listHeader .picto{
     height: 25px;
     min-width: 25px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     display: inline-block;
     margin-left: 0.5em;
     margin-right: 0.25em;
