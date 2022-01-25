@@ -191,8 +191,7 @@ class LoginController extends Controller
 	/**
 	* Reset the user password and send a mail with the new one
 	*
-	* @param array $data Data table from database
-	* @param object $object Object to hydrate
+	* @param string $mail User mail
 	* @return void
 	*/
 	public function resetPassword($mail)
@@ -229,6 +228,11 @@ class LoginController extends Controller
 		}
 	}
 
+	/**
+	* Generate a random password
+	*
+	* @return string
+	*/
 	public function generatePassword() //Random password generator (found on stack overflow)
 	{
 		$keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -239,8 +243,14 @@ class LoginController extends Controller
 		}
 		return $pass;
 	}
-
-	public function sendPassMail($mail, $pass) //Function that send a formated mail with the password
+	/**
+	* Send a mail to the user with a password in it
+	*
+	* @param string $mail User mail
+	* @param string $pass The password to send
+	* @return bool Mail sending success
+	*/
+	public function sendPassMail($mail, $pass) //Function that send a formated mail with the new password
 	{
 		$to_email = $mail;
 		$subject = "TPlanner : Votre nouveau mot de passe";

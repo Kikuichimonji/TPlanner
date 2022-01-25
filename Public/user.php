@@ -24,9 +24,7 @@ if(isset($_POST["pseudo"])){
     $controller->disableAccount($id);
 }else if(isset($_POST["email"])){
     $controller->updateEmail($id,$_POST["email"]);
-}else{
-    $controller->index($id);
 }
-
+$controller->index($id);
 // END SCRIPT
 //

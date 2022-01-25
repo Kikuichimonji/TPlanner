@@ -373,6 +373,7 @@ function isBusy(status) //Stop or start the sync reload
 function openEditor(el)// Function that open the card editor
 {
     let modal = document.getElementById("cardDetail");
+    
     modal.querySelector(".modalMenu").firstElementChild.textContent = el.querySelector(".cardHeader").firstElementChild.textContent //e change the menu title to match the card title
     modal.style.display = "block";
     modal.el = el //again we pass the el here to grab it again in the listeners
@@ -383,8 +384,13 @@ function openEditor(el)// Function that open the card editor
     modal.querySelector("input").value = modal.color;
     for (let item of cardOptions) //We put a listener on each editor link 
     {
+        item.card = el;
         item.addEventListener("click", ev => {
             ev.stopImmediatePropagation();
+            if(ev.target.hiddenFunc == "delete"){
+                youSure(deleteCard,ev.target.card)
+                modal.style.display = "none";
+            }
         })
     }
     modal.querySelector("button").addEventListener("click", ev => {
@@ -443,7 +449,7 @@ function addNewEl(el) // Function that add a new list or card
     })
 }
 function deleteCard(el) { //Function to delete a card
-    let card = el
+    let card = el.hiddenId
     let list = el.parentNode.querySelectorAll(".card") ;
     listArray = [...list]; //we transform the htmlCollection into an array to use indexOf to get the position of the item in the list
     pos = listArray.indexOf(el); 
@@ -521,7 +527,7 @@ function goFetch(args) // function that fetch the board content depending on the
                 link = "board.php?list=" + listId + "&pos=" + args["pos"] + "&card=" + args["el"].hiddenId + "&oldList=" + args["el"].oldList + "&board=" + args["idBoard"];
                 break
             case "deleteCard":
-                link = "board.php?card=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&list=" + args["list"] + "&board=" + args["idBoard"];
+                link = "board.php?card=" + args["el"] + "&pos=" + args["pos"] + "&list=" + args["list"] + "&board=" + args["idBoard"];
                 break;
             case "deleteList":
                 link = "board.php?list=" + args["el"].hiddenId + "&pos=" + args["pos"] + "&board=" + args["board"];

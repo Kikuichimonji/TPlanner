@@ -18,7 +18,7 @@
         <h2>Désolé, cette page n'existe pas</h2>
     </main>
     <?php require_once 'layout/footer.php'; ?>
-    <script src="<?= JS_PATH ?>/global.js"></script>
+    <script src="<?= JS_PATH ?>/globalScript.js"></script>
 </body>
 
 </html>

@@ -403,22 +403,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003Alogout\u0028\u0029",
             "name": "logout",
-            "summary": "",
+            "summary": "Logout\u0020the\u0020user\u0020by\u0020destroying\u0020his\u0020SESSION",
             "url": "classes/Controllers-LoginController.html#method_logout"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003AresetPassword\u0028\u0029",
             "name": "resetPassword",
-            "summary": "",
+            "summary": "Reset\u0020the\u0020user\u0020password\u0020and\u0020send\u0020a\u0020mail\u0020with\u0020the\u0020new\u0020one",
             "url": "classes/Controllers-LoginController.html#method_resetPassword"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003AgeneratePassword\u0028\u0029",
             "name": "generatePassword",
-            "summary": "",
+            "summary": "Generate\u0020a\u0020random\u0020password",
             "url": "classes/Controllers-LoginController.html#method_generatePassword"
         },                {
             "fqsen": "\\Controllers\\LoginController\u003A\u003AsendPassMail\u0028\u0029",
             "name": "sendPassMail",
-            "summary": "",
+            "summary": "Send\u0020a\u0020mail\u0020to\u0020the\u0020user\u0020with\u0020a\u0020password\u0020in\u0020it",
             "url": "classes/Controllers-LoginController.html#method_sendPassMail"
         },                {
             "fqsen": "\\Controllers\\UsersController",
@@ -433,32 +433,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Controllers\\UsersController\u003A\u003Aindex\u0028\u0029",
             "name": "index",
-            "summary": "Show\u0020a\u0020view\nIndex,\u0020Default\u0020controller\u0027s\u0020method",
+            "summary": "Show\u0020a\u0020user\u0020profil,\u0020only\u0020admin\u0020can\u0020see\u0020other\u0020users\u0020profile",
             "url": "classes/Controllers-UsersController.html#method_index"
         },                {
             "fqsen": "\\Controllers\\UsersController\u003A\u003AupdateUsername\u0028\u0029",
             "name": "updateUsername",
-            "summary": "",
+            "summary": "Update\u0020a\u0020user\u0027s\u0020username",
             "url": "classes/Controllers-UsersController.html#method_updateUsername"
         },                {
             "fqsen": "\\Controllers\\UsersController\u003A\u003AupdateColor\u0028\u0029",
             "name": "updateColor",
-            "summary": "",
+            "summary": "Update\u0020user\u0027s\u0020Color",
             "url": "classes/Controllers-UsersController.html#method_updateColor"
         },                {
             "fqsen": "\\Controllers\\UsersController\u003A\u003AupdatePassword\u0028\u0029",
             "name": "updatePassword",
-            "summary": "",
+            "summary": "Update\u0020user\u0027s\u0020Password",
             "url": "classes/Controllers-UsersController.html#method_updatePassword"
         },                {
             "fqsen": "\\Controllers\\UsersController\u003A\u003AdisableAccount\u0028\u0029",
             "name": "disableAccount",
-            "summary": "",
+            "summary": "Disable\u0020user\u0020account\u0020by\u0020stripping\u0020his\u0020\u0022user\u0022\u0020role,\u0020then\u0020logout",
             "url": "classes/Controllers-UsersController.html#method_disableAccount"
         },                {
             "fqsen": "\\Controllers\\UsersController\u003A\u003AupdateEmail\u0028\u0029",
             "name": "updateEmail",
-            "summary": "",
+            "summary": "Update\u0020user\u0020email",
             "url": "classes/Controllers-UsersController.html#method_updateEmail"
         },                {
             "fqsen": "\\Models\\Board",

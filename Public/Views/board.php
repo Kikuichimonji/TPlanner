@@ -19,7 +19,7 @@
         require_once 'boardContent.php';
         require_once 'layout/footer.php'; 
     ?>
-    <script src="<?= JS_PATH ?>/scriptBoard.js"></script>
-    <script src="<?= JS_PATH ?>/global.js"></script>
+    <script src="<?= JS_PATH ?>/boardScript.js"></script>
+    <script src="<?= JS_PATH ?>/globalScript.js"></script>
 </body>
 </html>

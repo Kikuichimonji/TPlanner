@@ -51,8 +51,8 @@
 		</div>
 	</main>
 	<?php require_once 'layout/footer.php'; ?>
-	<script src="<?= JS_PATH ?>/dashboard.js"></script>
-	<script src="<?= JS_PATH ?>/global.js"></script>
+	<script src="<?= JS_PATH ?>/dashboardScript.js"></script>
+	<script src="<?= JS_PATH ?>/globalScript.js"></script>
 </body>
 
 </html>

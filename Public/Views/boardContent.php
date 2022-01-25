@@ -47,7 +47,11 @@
         <?php
         foreach ($board->getListLists() as $list) {
             if(!$list->getIsArchiveList() && !$list->getIsArchived()){
+<<<<<<< HEAD
                 echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><img src='".IMG_PATH."/tplanner_picto_list1.svg' class='picto'><span class='listTitle'>".e($list->getLabel())."</span></span><span class='menu'>...</span></div>";
+=======
+                echo "<div class='listContainer'><div class='listHeader' draggable='true'><span><img draggable='false' src='".IMG_PATH."/tplanner_picto_list1.svg' class='picto'><span class='listTitle'>".e($list->getLabel())."</span></span><span class='menu'>...</span></div>";
+>>>>>>> 2f4e48812d610a1161aa23be7584a961897f0ddc
                 echo "<ul class='list' id='{$list->getId()}'>";
                 foreach ($list->getListCards() as $card) {
                     if(!$card->getIsArchived()){
@@ -69,7 +73,7 @@
         <div class="listContainer" id="archive">
             <div class='listHeader'>
                 <span>
-                    <span class='picto'></span>
+                    <img src='<?= IMG_PATH?>/tplanner_picto_list1.svg' class='picto'>
                     <span>Elements archivé</span>
                 </span>
             </div>
@@ -94,7 +98,7 @@
                             echo "<div class='listContainer' id={$list->getId()}>
                                     <div class='listHeader' draggable='true'>
                                         <span>
-                                            <span class='picto'></span>
+                                            <img draggable='false' src='".IMG_PATH."/tplanner_picto_list1.svg' class='picto'>
                                             <span>".e($list->getLabel())."</span>
                                         </span>";
                             if($isCreator){
@@ -152,7 +156,7 @@
                 <li func='assign'>Assigner</li>
                 <?php 
                     if($isCreator){
-                        echo "<li func='delete'><span class='delete'><img src='".IMG_PATH."/skull.png'></span></li>";
+                        echo "<li func='delete' class='delete'>Supprimer</li>";
                     }
                 ?>
             </ul>

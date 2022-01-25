@@ -613,6 +613,9 @@ BOARD
     font-weight: bold;
     color: red;
 }
+#archive .listHeader{
+    cursor:default
+}
 .listHeader{
     width: 100%;
     background-color: white;
@@ -633,11 +636,19 @@ BOARD
 .listHeader .picto{
     height: 25px;
     min-width: 25px;
+<<<<<<< HEAD
     /*border: 1px solid black;*/
+=======
+>>>>>>> 2f4e48812d610a1161aa23be7584a961897f0ddc
     display: inline-block;
     margin-left: 0.5em;
     margin-right: 0.25em;
     border-radius: 3px;
+    cursor: default;
+    -webkit-user-drag: none; 
+    -khtml-user-drag: none; 
+    -moz-user-drag: none; 
+    -o-user-drag: none; 
 }
 .listHeader .menu{
     padding: 0 0.5em;
@@ -998,8 +1009,13 @@ USER
 /*************************
 ADMIN
 *************************/
-#admin{
-
+#admin .disabled{
+    color: lightgrey;
+    font-style: italic;
+}
+#admin .adminSpan{
+    color: red;
+    font-style: italic;
 }
 #admin{
     text-align: center;
