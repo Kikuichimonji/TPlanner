@@ -1,3 +1,6 @@
+<?php 
+    $id =  $_GET ? '?id='.$_GET["id"]??null : null;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +37,7 @@
         <div id="userContent">
             <div>
                 <p>Votre Pseudo actuel est '<span><?= e($data['user']->getUsername()) ?></span>'</p>
-                <form action="user.php" method="post">
+                <form action="user.php<?= $id  ?>" method="post">
                     <label for="pseudo">Nouveau Pseudo</label>
                     <input type="text" name="pseudo" id="pseudo">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
@@ -42,7 +45,7 @@
             </div>
             <div>
                 <p>Votre adresse Email actuelle est '<?= e($data['user']->getMail()) ?>'</p>
-                <form action="user.php" method="post">
+                <form action="user.php<?= $id  ?>" method="post">
                     <label for="email">Nouvelle adresse email</label>
                     <input type="text" name="email" id="email">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
@@ -50,14 +53,14 @@
             </div>
             <div>
                 <p>Votre couleur est <span id='userColor' style='background-color:<?= $data['user']->getColor() ?>'></span></p>
-                <form action="user.php" method="post">
+                <form action="user.php<?= $id  ?>" method="post">
                     <label for="color">Nouvelle couleur (Temporairement)</label>
                     <input type="color" name="color" id="color" value="<?= $data['user']->getColor() ?>">
                     <input type="submit" value="Enregistrer les modifications" class="confirmButton">
                 </form>
             </div>
             <div>
-                <form action="user.php" method="post">
+                <form action="user.php<?= $id  ?>" method="post">
                     <label for="password">Mot de passe actuel*</label>
                     <input type="password" name="password" id="password">
                     <label for="passwordNew">Nouveau mot de passe*</label>
@@ -69,7 +72,7 @@
                 </form>
             </div>
             <div>
-                <form action="user.php" method="post">
+                <form action="user.php<?= $id  ?>" method="post">
                     <p class='smaller'>Date de creation du compte : <?= date("d/m/Y",strtotime($data['user']->getDateCreation()))?></p>
                     <p>Lorsque vous supprimez votre compte, vous perdez l'accès aux services associés aux comptes TPlanner, et nous supprimons définitivement vos données personnelles. Vous disposez de 14 jours pour annuler la suppression</p>
                     <input type="hidden" name="token" id="token" value="<?php echo $data['token']; ?>" />
