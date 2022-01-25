@@ -630,6 +630,17 @@ BOARD
     font-size: 1.5em;
     font-weight: bold;
     color: red;
+    padding: 0 5px;
+}
+.Archive .delete:hover,.Archive .unArchive:hover{
+    cursor: pointer;
+    box-shadow: var(--box-shadow);
+}
+.Archive .unArchive{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: green;
+    padding: 0 5px;
 }
 #archive .listHeader{
     cursor:default
@@ -696,7 +707,7 @@ BOARD
     min-height: 100px;
     border:1px solid black;
     overflow-y: auto;
-    max-height: 90%;
+    max-height: 80%;
 }
 
 .card{
@@ -1055,6 +1066,9 @@ ADMIN
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+#admin .user a:hover{
+    text-decoration: underline;
 }
 /*************************
 FOOTER

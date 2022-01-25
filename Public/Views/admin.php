@@ -37,12 +37,16 @@
         ?>
         </div>
         <h2>Listes sans Créateurs (<?= count($data['boards']) ?>)</h2><a href="user.php?id="></a>
+        <div class='users'>
         <?php
             foreach($data['boards'] as $board)
             {
-                echo "<br><a href='board.php?id={$board->getId()}'>{$board->getLabel()}</a><span class='delete' id='{$board->getId()}'><a href='board?id={$board->getId()}'><img src='".IMG_PATH."/skull.png'></a></span>";
+                echo "<div class='user'>
+                <a href='board.php?id={$board->getId()}'>{$board->getLabel()}</a><span class='delete' id='{$board->getId()}'><a href='board?id={$board->getId()}'><img src='".IMG_PATH."/skull.png'></a></span>
+                      </div>";
             }
         ?>
+        </div>
       </div>
     </div>
 

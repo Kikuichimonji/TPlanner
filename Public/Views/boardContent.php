@@ -100,7 +100,7 @@
                             if($isCreator || $isAdmin){
                                 echo "<span class='delete'>X</span>";
                             }
-                                    echo "<span class='menu'>...</span>
+                                    echo "<span class='unArchive'>◄</span>
                                     </div>
                                 </div>";
                         }
