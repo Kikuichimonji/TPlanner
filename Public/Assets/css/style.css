@@ -636,10 +636,6 @@ BOARD
 .listHeader .picto{
     height: 25px;
     min-width: 25px;
-<<<<<<< HEAD
-    /*border: 1px solid black;*/
-=======
->>>>>>> 2f4e48812d610a1161aa23be7584a961897f0ddc
     display: inline-block;
     margin-left: 0.5em;
     margin-right: 0.25em;
