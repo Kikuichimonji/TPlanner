@@ -1005,8 +1005,13 @@ USER
 /*************************
 ADMIN
 *************************/
-#admin{
-
+#admin .disabled{
+    color: lightgrey;
+    font-style: italic;
+}
+#admin .adminSpan{
+    color: red;
+    font-style: italic;
 }
 #admin{
     text-align: center;

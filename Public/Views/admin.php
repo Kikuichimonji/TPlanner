@@ -25,11 +25,13 @@
         <?php
             foreach($data['users'] as $user)
             {
+              $isBanned = in_array("user",json_decode($user->getRole())) ? null : "<span class='disabled'>(disabled)</span>";
+              $isAdmin = in_array("admin",json_decode($user->getRole())) ? "<span class='adminSpan'>Admin</span>" : null;
                 echo "<div class='user'>
                 <span class='icon'>
                   <span style='background-color:".$user->getColor()."'>".strtoupper(substr($user->getUsername(),0,2))."</span>
                 </span>
-                <a href='user.php?id={$user->getid()}'>{$user->getUsername()}</a><span class='delete' ><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?user={$user->getId()}'><img src='".IMG_PATH."/skull.png' id='{$user->getId()}'></a></span>
+                <a href='user.php?id={$user->getid()}'>{$user->getUsername()} {$isBanned} {$isAdmin}</a><span class='delete' ><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?user={$user->getId()}'><img src='".IMG_PATH."/skull.png' id='{$user->getId()}'></a></span>
                 </div>";
             }
         ?>
