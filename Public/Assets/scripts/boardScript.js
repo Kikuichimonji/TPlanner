@@ -363,12 +363,14 @@ function isBusy(status) //Stop or start the sync reload
 {
     
     if(typeof timerCheck !== "undefined"){
+        //console.log("busy")
         for(let i = 0; i <= timerCheck; i++)
         {
             window.clearInterval(i);
         } 
     }
     if(!status){
+        //console.log("not busy")
         timerCheck = setInterval(() => {
             args = { "type": "checkChange", 'board': board.hiddenId };
             goFetch(args);
@@ -683,6 +685,7 @@ function archiveEl(el) {
 
 function events() { //all my general events
     document.addEventListener("dragstart", function (ev) { //Event trigger when we start dragging
+        isBusy(true);
         if (ev.target && (ev.target.hiddenType == "list" || ev.target.hiddenType == "card")) //If we drag something && we drag a card || we drag a list
         {
             draggedElement = ev.target; //For better clarity
@@ -773,6 +776,7 @@ function events() { //all my general events
         ev.preventDefault();
     });
     document.addEventListener("drop", function (ev) {
+        isBusy(false);
         if (!draggedElement) { //if we drag something not authorized , we stop everythin
             return;
         }

@@ -78,7 +78,25 @@ nav img{
     transform: translate(-0,-50%);
 }
 #headerContainer{
+    display: flex;
     position: relative;
+}
+#headerContainer div:first-child{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0.5em;
+    margin-right: 1em;
+    border: 5px solid var(--secondary-color);
+    background-color: white;
+    border-radius: 5px;
+}
+#headerContainer div:first-child a{
+    transform: translateY(-0.5em);
+    color: var(--main-color);
+}
+#headerContainer div:first-child a:hover{
+    text-decoration: underline;
 }
 #popUpProfile{
     display: none;
