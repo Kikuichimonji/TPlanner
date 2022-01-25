@@ -47,7 +47,7 @@
   </main>
 
   <?php require_once 'layout/footer.php'; ?>
-  <script src="<?=JS_PATH ?>/global.js"></script>
+  <script src="<?=JS_PATH ?>/globalScript.js"></script>
   <script src="<?=JS_PATH ?>/adminScript.js"></script>
 </body>
 

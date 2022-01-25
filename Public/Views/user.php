@@ -92,7 +92,7 @@
     </main>
 
     <?php require_once 'layout/footer.php'; ?>
-    <script src="<?= JS_PATH ?>/global.js"></script>
-    <script src="<?= JS_PATH ?>/userProfile.js"></script>
+    <script src="<?= JS_PATH ?>/globalScript.js"></script>
+    <script src="<?= JS_PATH ?>/userScript.js"></script>
 </body>
 </html>
