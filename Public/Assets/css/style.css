@@ -613,7 +613,10 @@ BOARD
     font-weight: bold;
     color: red;
 }
-.listHeader:not(.listHeader .picto){
+#archive .listHeader{
+    cursor:default
+}
+.listHeader{
     width: 100%;
     background-color: white;
     cursor: pointer;
@@ -637,6 +640,11 @@ BOARD
     margin-left: 0.5em;
     margin-right: 0.25em;
     border-radius: 3px;
+    cursor: default;
+    -webkit-user-drag: none; 
+    -khtml-user-drag: none; 
+    -moz-user-drag: none; 
+    -o-user-drag: none; 
 }
 .listHeader .menu{
     padding: 0 0.5em;
