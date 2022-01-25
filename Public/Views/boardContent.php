@@ -8,6 +8,7 @@
         $user = $data['user'];
         $board = $data['board'];
         $isCreator = $user->isCreator($board->getId());
+        $isAdmin = $user->isAdmin();
     } ?>
 <main id="<?= $_GET['id'] ?>" creator="<?= $isCreator ?>">
     
@@ -35,7 +36,7 @@
         <div id="rightside">
             <div>Eléments archivés</div>
             <?php
-                if($isCreator){
+                if($isCreator || $isAdmin){
                     echo "<div class='delete'>X</div>";
                 }
             ?>
@@ -96,7 +97,7 @@
                                             <img draggable='false' src='".IMG_PATH."/tplanner_picto_list1.svg' class='picto'>
                                             <span>".e($list->getLabel())."</span>
                                         </span>";
-                            if($isCreator){
+                            if($isCreator || $isAdmin){
                                 echo "<span class='delete'>X</span>";
                             }
                                     echo "<span class='menu'>...</span>
@@ -118,7 +119,7 @@
         <li func='edit'><span>Modifier</span></li>
         <li func='archive'><span>Archiver</span></li>
         <?php
-            if($isCreator){
+            if($isCreator || $isAdmin){
                 echo "<li func='delete'><span class='delete'>Supprimer</span></li>";
             }
         ?>
@@ -130,7 +131,7 @@
         <!--<li func='edit'><span>Modifier</span></li>-->
         <li func='archive'><span>Archiver</span></li>
         <?php 
-            if($isCreator){
+            if($isCreator || $isAdmin){
                 echo "<li func='delete'><span class='delete'>Supprimer</span></li>";
             }
         ?>
@@ -150,7 +151,7 @@
                 <li func='move'>Déplacer</li>
                 <li func='assign'>Assigner</li>
                 <?php 
-                    if($isCreator){
+                    if($isCreator || $isAdmin){
                         echo "<li func='delete' class='delete'>Supprimer</li>";
                     }
                 ?>

@@ -1,232 +1,236 @@
 <?php
 
 namespace Models;
+
 use App\AbstractEntity;
 use Models\UsersManager;
 
 class User extends AbstractEntity
 {
-  /**
-   * @inheritdoc
-   */
-  protected $table = 'users';
+	/**
+	 * @inheritdoc
+	 */
+	protected $table = 'users';
 
-  private $id;
-  private $username;
-  private $password;
-  private $mail;
-  private $role;
-  private $dateCreation;
-  private $color;
-  private $listBoards;
-  private $invitedBoards;
-  private $isCreator;
+	private $id;
+	private $username;
+	private $password;
+	private $mail;
+	private $role;
+	private $dateCreation;
+	private $color;
+	private $listBoards;
+	private $invitedBoards;
+	private $isCreator;
 
-  public function __construct($data)
-  {
-    parent::hydrate($data,$this);
-  }
-  
-  public function __toString()
-  {
-    return "Cet utilisateur s'appel {$this->getUsername()} et est {$this->getRole()}";
-  }
+	public function __construct($data)
+	{
+		parent::hydrate($data, $this);
+	}
 
-  /**
-   * Get the value of id
-   */ 
-  public function getId()
-  {
-    return $this->id;
-  }
+	public function __toString()
+	{
+		return "Cet utilisateur s'appel {$this->getUsername()} et est {$this->getRole()}";
+	}
 
-  /**
-   * Set the value of id
-   *
-   * @return  self
-   */ 
-  public function setId($id)
-  {
-    $this->id = $id;
+	/**
+	 * Get the value of id
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of id
+	 *
+	 * @return  self
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
 
-  /**
-   * Get the value of mail
-   */ 
-  public function getMail()
-  {
-    return $this->mail;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of mail
-   *
-   * @return  self
-   */ 
-  public function setMail($mail)
-  {
-    $this->mail = $mail;
+	/**
+	 * Get the value of mail
+	 */
+	public function getMail()
+	{
+		return $this->mail;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of mail
+	 *
+	 * @return  self
+	 */
+	public function setMail($mail)
+	{
+		$this->mail = $mail;
 
-  /**
-   * Get the value of role
-   */ 
-  public function getRole()
-  {
-    return $this->role;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of role
-   *
-   * @return  self
-   */ 
-  public function setRole($role)
-  {
-    $this->role = $role;
+	/**
+	 * Get the value of role
+	 */
+	public function getRole()
+	{
+		return $this->role;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of role
+	 *
+	 * @return  self
+	 */
+	public function setRole($role)
+	{
+		$this->role = $role;
 
-  /**
-   * Get the value of password
-   */ 
-  public function getPassword()
-  {
-    return $this->password;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of password
-   *
-   * @return  self
-   */ 
-  public function setPassword($password)
-  {
-    $this->password = $password;
+	/**
+	 * Get the value of password
+	 */
+	public function getPassword()
+	{
+		return $this->password;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of password
+	 *
+	 * @return  self
+	 */
+	public function setPassword($password)
+	{
+		$this->password = $password;
 
-  /**
-   * Get the value of username
-   */ 
-  public function getUsername()
-  {
-    return $this->username;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of username
-   *
-   * @return  self
-   */ 
-  public function setUsername($username)
-  {
-    $this->username = $username;
+	/**
+	 * Get the value of username
+	 */
+	public function getUsername()
+	{
+		return $this->username;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of username
+	 *
+	 * @return  self
+	 */
+	public function setUsername($username)
+	{
+		$this->username = $username;
 
-  /**
-   * Get the value of dateCreation
-   */ 
-  public function getDateCreation()
-  {
-    return $this->dateCreation;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of dateCreation
-   *
-   * @return  self
-   */ 
-  public function setDateCreation($dateCreation)
-  {
-    $this->dateCreation = $dateCreation;
+	/**
+	 * Get the value of dateCreation
+	 */
+	public function getDateCreation()
+	{
+		return $this->dateCreation;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of dateCreation
+	 *
+	 * @return  self
+	 */
+	public function setDateCreation($dateCreation)
+	{
+		$this->dateCreation = $dateCreation;
 
-  /**
-   * Get the value of listBoards
-   */ 
-  public function getListBoards()
-  {
-    $um = new UsersManager();
-    $this->listBoards = $um->getBoards($this->id);
-    //var_dump($this->listBoards);die();
-    return $this->listBoards;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of listBoards
-   *
-   * @return  self
-   */ 
-  public function setListBoards($listBoards)
-  {
-    $this->listBoards = $listBoards;
+	/**
+	 * Get the value of listBoards
+	 */
+	public function getListBoards()
+	{
+		$um = new UsersManager();
+		$this->listBoards = $um->getBoards($this->id);
+		//var_dump($this->listBoards);die();
+		return $this->listBoards;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of listBoards
+	 *
+	 * @return  self
+	 */
+	public function setListBoards($listBoards)
+	{
+		$this->listBoards = $listBoards;
 
-  /**
-   * Get the value of color
-   */ 
-  public function getColor()
-  {
-    return $this->color;
-  }
+		return $this;
+	}
 
-  /**
-   * Set the value of color
-   *
-   * @return  self
-   */ 
-  public function setColor($color)
-  {
-    $this->color = $color;
+	/**
+	 * Get the value of color
+	 */
+	public function getColor()
+	{
+		return $this->color;
+	}
 
-    return $this;
-  }
+	/**
+	 * Set the value of color
+	 *
+	 * @return  self
+	 */
+	public function setColor($color)
+	{
+		$this->color = $color;
+
+		return $this;
+	}
 
 
-  /**
-   * Get the value of invitedBoards
-   */ 
-  public function getInvitedBoards()
-  {
-    $um = new UsersManager();
-    $this->invitedBoards = $um->getInvitedBoards($this->id);
-    return $this->invitedBoards;
-  }
+	/**
+	 * Get the value of invitedBoards
+	 */
+	public function getInvitedBoards()
+	{
+		$um = new UsersManager();
+		$this->invitedBoards = $um->getInvitedBoards($this->id);
+		return $this->invitedBoards;
+	}
 
-  /**
-   * Set the value of invitedBoards
-   *
-   * @return  self
-   */ 
-  public function setInvitedBoards($invitedBoards)
-  {
-    $this->invitedBoards = $invitedBoards;
+	/**
+	 * Set the value of invitedBoards
+	 *
+	 * @return  self
+	 */
+	public function setInvitedBoards($invitedBoards)
+	{
+		$this->invitedBoards = $invitedBoards;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get the value of isCreator
-   */ 
-  public function isCreator($board)
-  {
-    $bm = new BoardsManager();
-    
-    $this->isCreator = $bm->getCreator($board)["user_id"] == $this->id;
-    return $this->isCreator;
-  }
+	/**
+	 * Get the value of isCreator
+	 */
+	public function isCreator($board)
+	{
+		$bm = new BoardsManager();
 
+		$this->isCreator = $bm->getCreator($board)["user_id"] == $this->id;
+		return $this->isCreator;
+	}
+	public function isAdmin()
+	{
+		return in_array("admin",json_decode($this->getRole()));
+	}
 }

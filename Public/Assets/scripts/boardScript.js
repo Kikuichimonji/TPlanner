@@ -21,7 +21,9 @@ function init() { //Initialisation of all the basic elements, necessary to make 
         isBusy(true);
     }
 
-    creator = document.getElementById("creator").querySelector(".tooltiptext").lastChild.textContent
+
+    creator = document.getElementById("creator") ? document.getElementById("creator").querySelector(".tooltiptext").lastChild.textContent : null;
+
     user = document.querySelector("main").getAttribute("creator");
     document.querySelector("main").removeAttribute("creator")
     cards = document.querySelectorAll(".card"); //all the cards in the page
@@ -321,9 +323,11 @@ function init() { //Initialisation of all the basic elements, necessary to make 
             youSure(deleteBoard,board.hiddenId,"La suppression du tableau est définitive, êtes vous sûr?");
         })
     }
-    let creatorDiv = document.getElementById("creator")
-    document.querySelector("#listUser > .icon").removeChild(creatorDiv)
-    document.querySelector("#listUser > .icon").prepend(creatorDiv) //We put the creator in the front of the user list
+    if(document.getElementById("creator")){
+        let creatorDiv = document.getElementById("creator")
+        document.querySelector("#listUser > .icon").removeChild(creatorDiv)
+        document.querySelector("#listUser > .icon").prepend(creatorDiv) //We put the creator in the front of the user list
+    }   
     if(user){
         for (let user of userIcons) { //We create the menu when we click on the user
             user.addEventListener("click", ev =>{
@@ -359,14 +363,12 @@ function isBusy(status) //Stop or start the sync reload
 {
     
     if(typeof timerCheck !== "undefined"){
-        console.log("busy")
         for(let i = 0; i <= timerCheck; i++)
         {
             window.clearInterval(i);
         } 
     }
     if(!status){
-        console.log("not busy")
         timerCheck = setInterval(() => {
             args = { "type": "checkChange", 'board': board.hiddenId };
             goFetch(args);

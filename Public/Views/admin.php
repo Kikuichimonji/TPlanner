@@ -40,7 +40,7 @@
         <?php
             foreach($data['boards'] as $board)
             {
-                echo "<br><a href=''>{$board->getLabel()}</a><span class='delete' id='{$board->getId()}'><a href='admin~LP9fsDOQnEuHPRbTHfn5.php?board={$board->getId()}'><img src='".IMG_PATH."/skull.png'></a></span>";
+                echo "<br><a href='board.php?id={$board->getId()}'>{$board->getLabel()}</a><span class='delete' id='{$board->getId()}'><a href='board?id={$board->getId()}'><img src='".IMG_PATH."/skull.png'></a></span>";
             }
         ?>
       </div>

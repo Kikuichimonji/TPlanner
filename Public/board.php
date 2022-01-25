@@ -20,13 +20,15 @@ $cardsController = new CardsController();
 
 // Call Controller method
 
-if(!isset($_POST["act"])){
+if(!isset($_POST["act"])){ 
+    $canView = false;
     if(isset($_GET['id'])){
-        $canView = $_SESSION["user"]->isCreator($_GET['id']);
+        $canView = $_SESSION["user"]->isCreator($_GET['id']); //check if the user have the right to access this board
         foreach($_SESSION["user"]->getInvitedBoards() as $board){
             $canView  = $_GET['id'] == $board->getId() ? true : $canView ;
         }
     }
+    $canView = $_SESSION["user"]->isAdmin();
     $boardController->index($canView ? $_GET['id'] : null);
 }else{
 
