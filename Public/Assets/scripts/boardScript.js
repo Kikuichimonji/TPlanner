@@ -251,7 +251,7 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     console.log(window.innerWidth)
                     console.log(window.innerWidth - (rect.x + menu.offsetWidth))
                     isTooBig = (window.innerWidth - (rect.x + menu.offsetWidth))
-                    menu.style.left = isTooBig > 0 ? rect.x + 20 + "px" : menu.style.left = rect.x + isTooBig + "px";
+                    menu.style.left = isTooBig > 0 ? rect.x + 20 + "px" : menu.style.left = (rect.x + isTooBig - 10) + "px";
                     menu.style.top = rect.y + 20 + "px";
  
                     menu.firstElementChild.textContent = "Paramètres " + ev.target.previousElementSibling.textContent //We change the title according to the list
@@ -284,7 +284,8 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 menu.style.display = "block";
                 menu.hiddenId = card.hiddenId; //we attach the card id to the menu (passing the arg to the listener)
                 let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the card
-                menu.style.left = rect.x + 20 + "px";
+                isTooBig = (window.innerWidth - (rect.x + menu.offsetWidth))
+                menu.style.left = isTooBig > 0 ? rect.x + 20 + "px" : menu.style.left = (rect.x + isTooBig - 10) + "px";
                 menu.style.top = rect.y + 20 + "px";
                 menu.firstElementChild.textContent = "Paramètres " + ev.target.previousElementSibling.textContent //We change the title according to the card
                 for (let item of options) //we put an event listener on each menu link
@@ -356,7 +357,8 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 uiDelete.mail = mail;
                 uiMenu.appendChild(uiDelete);
                 let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the card
-                uiMenu.style.left = rect.x + 20 + "px";
+                isTooBig = (window.innerWidth - (rect.x + uiMenu.offsetWidth))
+                uiMenu.style.left = isTooBig > 0 ? rect.x + 20 + "px" : menu.style.left = (rect.x + isTooBig - 10) + "px";
                 uiMenu.style.top = rect.y + 20 + "px";
                 uiMenu.style.display = "block";
                 uiDelete.addEventListener("click", ev => {
