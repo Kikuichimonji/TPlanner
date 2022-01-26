@@ -21,7 +21,7 @@ define("VIEW_PATH", ROOT."Views".DS);
 abstract class Autoloader{
     public static function register()
     {
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        spl_autoload_register(array(__CLASS__, 'autoload')); //Call this function everytime the autoloader load a page
     }
 
     public static function autoload($class)
