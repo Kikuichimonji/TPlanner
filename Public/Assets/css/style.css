@@ -672,6 +672,7 @@ BOARD
     border-bottom: 0;
     justify-content: space-between;
     word-break: break-all;
+    border-radius: 2px 2px 0 0;
 }
 .listHeader span:first-child:not(.listHeader span span:first-child){
     display: flex;
@@ -702,6 +703,7 @@ BOARD
     width: 100%;
     border: 1px solid black;
     border-top: 0;
+    border-radius: 0 0 2px 2px;
 }
 .listContainer .addCard span{
     padding-left: 0.5em;
@@ -727,7 +729,7 @@ BOARD
 
 .card{
     background-color: white;
-    width: 200px;
+    width: 215px;
     /*border: 1px solid black;*/
     margin:1em;
     z-index: 1;
@@ -763,6 +765,7 @@ BOARD
     min-height: 30px;
     font-weight: bold;
     box-shadow: 0px -2px 4px lightgray;
+    border-radius: 2px 2px 0 0;
 }
 .card .cardHeader span:first-child{
     padding-left: 1em;
