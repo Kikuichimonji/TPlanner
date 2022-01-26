@@ -17,7 +17,7 @@
 
     <?php
         require_once 'boardContent.php';
-        require_once 'layout/footer.php'; 
+        /*require_once 'layout/footer.php'; */
     ?>
     <script src="<?= JS_PATH ?>/boardScript.js"></script>
     <script src="<?= JS_PATH ?>/globalScript.js"></script>

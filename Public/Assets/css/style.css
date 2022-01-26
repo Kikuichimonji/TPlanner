@@ -4,7 +4,7 @@
     --main-color: #2C233F;
     --secondary-color : #AC98D6;
     --third-color : #594D6C;
-    --box-shadow : 0 0 6px lightgray;
+    --box-shadow : 0 2px 4px lightgray;
     --gradient : linear-gradient(90deg, rgba(89,77,108,1) 0%, rgba(125,92,175,1) 100%);
 }
 body
@@ -100,9 +100,10 @@ nav img{
 }
 #popUpProfile{
     display: none;
-    right: 100%;
+    right: 2%;
     width: 200px;
     border: 5px solid var(--secondary-color);
+    top: 115%;
 }
 
 .icon{
@@ -532,7 +533,7 @@ BOARD
     padding-left: 0.5em;
     padding-right: 0.5em;
     height: 100%;
-    box-shadow: 0 3px 6px lightgray;
+    box-shadow: var(--box-shadow);
     
 }
 #boardHeader #leftside div div:first-child:hover{
@@ -547,7 +548,7 @@ BOARD
     height: 40px;
 }
 #boardHeader .icon{
-    /*box-shadow: 0 3px 6px lightgray;*/
+    /*box-shadow: var(--box-shadow);*/
 }
 #boardHeader .icon span:not(.tooltiptext){
     font-size: 0.9em ;
@@ -817,7 +818,7 @@ BOARD
     background-color: white;
     font-size: 20px;
     color: var(--main-color);
-    box-shadow: 0 3px 6px lightgray ;
+    box-shadow: var(--box-shadow);
     z-index: 3;
 }
 .modalMenu p{
