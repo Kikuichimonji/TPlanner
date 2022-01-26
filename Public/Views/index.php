@@ -26,7 +26,7 @@
           <p>Découvrez notre site : il est gratuit et facile d'utilisation. </p>
           </br>
           <a class="button" href='./register.php'>Inscrivez-vous gratuitement</a> </br>
-          </br></br>
+          </br>
           <a class="link" href='./login.php'>Ou connectez-vous !</a>
         </div>
         <?php //isset($data) ? var_dump($data) : null; ?>
