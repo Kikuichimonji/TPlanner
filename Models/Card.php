@@ -15,7 +15,6 @@ class Card extends AbstractEntity
     private $description;
     private $positions;
     private $color;
-    private $picture;
     private $deadline;
     private $isArchived;
 
@@ -127,26 +126,6 @@ class Card extends AbstractEntity
     public function setColor($color)
     {
         $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of picture
-     */ 
-    public function getPicture()
-    {
-        return $this->picture;
-    }
-
-    /**
-     * Set the value of picture
-     *
-     * @return  self
-     */ 
-    public function setPicture($picture)
-    {
-        $this->picture = $picture;
 
         return $this;
     }
