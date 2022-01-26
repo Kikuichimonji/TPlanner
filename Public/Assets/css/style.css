@@ -240,21 +240,26 @@ INDEX
 .article_container {
     width: 100%;
     margin: auto;
-    padding-bottom: 2%;
+    padding-bottom: 3%;
 }
 
 .article {
-    width: 60%;
+    width: 80%;
     margin: auto;
     display: flex;
     flex-direction: row;
-    margin-bottom: 2%;
+    margin-bottom: 3%;
 }
 
 .article div {
     padding: 2%;
     text-align: center;
-    margin-top: 10%;
+    margin-top: 5%;
+}
+
+.screenshot{
+    width: 60%;
+    filter: drop-shadow(2px 4px 6px #707070);
 }
 
 .prefooter_container {

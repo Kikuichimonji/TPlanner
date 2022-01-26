@@ -38,7 +38,7 @@
 
     <section class="article_container">
       <div class="article">
-        <img src="./Assets/img/tplanner_image_screenshot1.svg" alt="separation" />
+        <img class="screenshot" src="./Assets/img/tplanner_image_screenshot1.svg" alt="separation" />
         <div>
           <h3>Ici, pas de fonctionnalités compliquées. </h3>
           <p>L'application est tournée vers les tâches, l'équipe et vous aide à gérer les tests et votre temps. </br>
@@ -58,7 +58,7 @@
             Le tout gratuitement et simplement ! 
           </p>
         </div>
-        <img src="./Assets/img/tplanner_image_screenshot2.svg" alt="separation" />
+        <img class="screenshot" src="./Assets/img/tplanner_image_screenshot2.svg" alt="separation" />
       </div>
     </section>
 
