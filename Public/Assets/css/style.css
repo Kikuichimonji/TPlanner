@@ -674,7 +674,7 @@ BOARD
     border: 1px solid #707070;
     border-bottom: 0;
     justify-content: space-between;
-    word-break: break-all;
+    word-break: break-word;
     border-radius: 2px 2px 0 0;
 }
 .listHeader span:first-child:not(.listHeader span span:first-child){
@@ -743,7 +743,7 @@ BOARD
     height: fit-content;
     word-break: break-word;
 }
-.card .menu{
+.menu{
     word-break: keep-all;
 }
 .card .cardBody{
