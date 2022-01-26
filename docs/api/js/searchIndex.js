@@ -726,16 +726,6 @@ Search.appendIndex(
             "summary": "Set\u0020the\u0020value\u0020of\u0020color",
             "url": "classes/Models-Card.html#method_setColor"
         },                {
-            "fqsen": "\\Models\\Card\u003A\u003AgetPicture\u0028\u0029",
-            "name": "getPicture",
-            "summary": "Get\u0020the\u0020value\u0020of\u0020picture",
-            "url": "classes/Models-Card.html#method_getPicture"
-        },                {
-            "fqsen": "\\Models\\Card\u003A\u003AsetPicture\u0028\u0029",
-            "name": "setPicture",
-            "summary": "Set\u0020the\u0020value\u0020of\u0020picture",
-            "url": "classes/Models-Card.html#method_setPicture"
-        },                {
             "fqsen": "\\Models\\Card\u003A\u003AgetDeadline\u0028\u0029",
             "name": "getDeadline",
             "summary": "Get\u0020the\u0020value\u0020of\u0020deadline",
@@ -785,11 +775,6 @@ Search.appendIndex(
             "name": "color",
             "summary": "",
             "url": "classes/Models-Card.html#property_color"
-        },                {
-            "fqsen": "\\Models\\Card\u003A\u003A\u0024picture",
-            "name": "picture",
-            "summary": "",
-            "url": "classes/Models-Card.html#property_picture"
         },                {
             "fqsen": "\\Models\\Card\u003A\u003A\u0024deadline",
             "name": "deadline",
@@ -1136,6 +1121,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Models-User.html#property_isCreator"
         },                {
+            "fqsen": "\\Models\\User\u003A\u003AisAdmin\u0028\u0029",
+            "name": "isAdmin",
+            "summary": "",
+            "url": "classes/Models-User.html#method_isAdmin"
+        },                {
             "fqsen": "\\Models\\User\u003A\u003A\u0024table",
             "name": "table",
             "summary": "",
@@ -1340,6 +1330,36 @@ Search.appendIndex(
             "name": "autoload",
             "summary": "",
             "url": "classes/Autoloader.html#method_autoload"
+        },                {
+            "fqsen": "\\Controllers\\aboutProjectController",
+            "name": "aboutProjectController",
+            "summary": "",
+            "url": "classes/Controllers-aboutProjectController.html"
+        },                {
+            "fqsen": "\\Controllers\\aboutProjectController\u003A\u003AaboutProject\u0028\u0029",
+            "name": "aboutProject",
+            "summary": "Show\u0020aboutProject\u0020view",
+            "url": "classes/Controllers-aboutProjectController.html#method_aboutProject"
+        },                {
+            "fqsen": "\\Controllers\\legalController",
+            "name": "legalController",
+            "summary": "",
+            "url": "classes/Controllers-legalController.html"
+        },                {
+            "fqsen": "\\Controllers\\legalController\u003A\u003Alegal\u0028\u0029",
+            "name": "legal",
+            "summary": "Show\u0020index\u0020view",
+            "url": "classes/Controllers-legalController.html#method_legal"
+        },                {
+            "fqsen": "\\Controllers\\privacyController",
+            "name": "privacyController",
+            "summary": "",
+            "url": "classes/Controllers-privacyController.html"
+        },                {
+            "fqsen": "\\Controllers\\privacyController\u003A\u003Aprivacy\u0028\u0029",
+            "name": "privacy",
+            "summary": "Show\u0020privacy\u0020view",
+            "url": "classes/Controllers-privacyController.html#method_privacy"
         },                {
             "fqsen": "\\",
             "name": "\\",
