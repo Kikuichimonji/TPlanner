@@ -67,7 +67,7 @@
         <ul>
           <li><h3>TPlanner</h3></li>
           <li>A Propos</li>
-          <li>Contact</li>
+          <!--<li>Contact</li>-->
           <li>Mentions légales</li>
           <li>Politique de confidentialité</li>
         </ul>
