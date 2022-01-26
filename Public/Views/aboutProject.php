@@ -20,6 +20,9 @@
       <div class="paragraph">
         </br>
         <h1>A Propos du Projet</h1>
+          <p>Pour nous contacter :</p>
+          <p>Code : ROESS Thomas - <a href="mailto: thomas_roess@hotmail.fr">thomas_roess@hotmail.fr</a></p>
+          <p>Design : NGAU Epiphanie - <a href="mailto: npi2050.office@gmail.com">npi2050.office@gmail.com</a></p>
         <h2>Sujet du projet n°2 : TRELLO LIKE</h2>
           <p>Une récente startup veut créer une nouvelle plateforme de gestionnaire de versions type GIT adaptée à un public
             plus large. Ils souhaitent intégrer leur propre solution Kanban. Vous avez gagné l’appel d’offre et devrez donc
