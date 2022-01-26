@@ -444,7 +444,7 @@ DASHBOARD
     justify-content: flex-end;
     height: 150px;
     width: 150px;
-    border: 1px solid black;
+    border: 1px solid #707070;
     margin-left: 1em;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -464,7 +464,7 @@ DASHBOARD
 #dashboard a div{
     width: 100%;
     height: fit-content;
-    border-top: 1px solid black;
+    border-top: 1px solid #707070;
 }
 #dashboard a div{
     text-align: center;
@@ -534,7 +534,7 @@ BOARD
     margin-right: 5px;
 }
 #boardHeader #leftside div:first-child:not(#boardHeader #leftside div div:first-child){
-    border-right: 1px solid black;
+    border-right: 1px solid #707070;
     height: 80%;
     min-width: 100px;
     margin-left: 0;
@@ -636,7 +636,7 @@ BOARD
     padding: 0;
     list-style: none;
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid #707070;
 }
 .listContainer:last-child:not(.Archive .listContainer:last-child){
     display:none;
@@ -668,7 +668,7 @@ BOARD
     align-items: center;
     min-height: 40px;
     font-size: 20px;
-    border: 1px solid black;
+    border: 1px solid #707070;
     border-bottom: 0;
     justify-content: space-between;
     word-break: break-all;
@@ -701,7 +701,7 @@ BOARD
     display: flex;
     align-items: center;
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid #707070;
     border-top: 0;
     border-radius: 0 0 2px 2px;
 }
@@ -722,7 +722,7 @@ BOARD
     position: relative;
     background-color: white;
     min-height: 100px;
-    border:1px solid black;
+    border:1px solid #707070;
     overflow-y: auto;
     max-height: 80%;
 }
@@ -730,7 +730,7 @@ BOARD
 .card{
     background-color: white;
     width: 215px;
-    /*border: 1px solid black;*/
+    /*border: 1px solid #707070;*/
     margin:1em;
     z-index: 1;
     position: relative;
@@ -757,7 +757,7 @@ BOARD
 }
 .card .cardHeader{
     display: flex;
-    /*border-bottom: 1px solid black;*/
+    /*border-bottom: 1px solid #707070;*/
     width: 100%;
     justify-content: space-between;
     align-items: center;
@@ -795,7 +795,7 @@ BOARD
     flex-flow: row wrap;
     align-items: center;
     height: 80px;
-    border: 1px solid black;
+    border: 1px solid #707070;
     opacity: 0.5;
 }
 #addList:hover{
@@ -808,7 +808,7 @@ BOARD
     height: 40px;
     width: 100%;
     font-size: 20px;
-    border-bottom:1px solid black;
+    border-bottom:1px solid #707070;
 }
 #addList span:first-child{
     display: flex;
@@ -843,7 +843,7 @@ BOARD
     margin: auto;
     text-align: center;
     padding: 0.5em 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #707070;
     width: 90%;
 }
 .modalMenu ul{
