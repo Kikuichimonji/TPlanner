@@ -66,10 +66,10 @@
       <div class="prefooter">
         <ul>
           <li><h3>TPlanner</h3></li>
-          <li>A Propos</li>
+          <li><a class="link" href='./aboutProject.php'>A Propos du projet</a></li>
           <!--<li>Contact</li>-->
-          <li>Mentions légales</li>
-          <li>Politique de confidentialité</li>
+          <li><a class="link" href='./legal.php'>Mentions légales</a></li>
+          <li><a class="link" href='./privacy.php'>Politique de confidentialité</a></li>
         </ul>
 
         <a href="https://fr-fr.facebook.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_facebook.svg" alt="logo facebook" /></a>

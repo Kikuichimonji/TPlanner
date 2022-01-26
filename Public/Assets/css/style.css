@@ -394,6 +394,39 @@ LOGIN
 }
 
 /*************************
+ABOUT PROJECT + LEGAL + PRIVACY 
+*************************/
+
+.paragraph_container {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 5%;
+}
+
+.paragraph{ 
+    width: 80%;
+    margin: auto;
+    text-align: left;
+}
+
+.paragraph_container h1 {
+    font-family: "Bauhaus 93";
+    font-size: 2.5rem;
+}
+
+.paragraph_container h2 {
+    font-family: "Berlin Sans FB";
+    font-weight: normal;
+    font-size: 2rem;
+}
+
+.paragraph_container h3 {
+    font-family: "Berlin Sans FB";
+    font-weight: normal;
+    font-size: 1.5rem;
+}
+
+/*************************
 DASHBOARD
 *************************/
 
