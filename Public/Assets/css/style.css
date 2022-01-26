@@ -629,7 +629,7 @@ BOARD
     margin-bottom: 1em;
     margin-right: 1em;
     margin-left: 1em;
-    border-bottom: 1px solid var(--main-color);
+    border-bottom: 1px solid #707070;
 }
 .listContainer ul{
     margin: 0;
