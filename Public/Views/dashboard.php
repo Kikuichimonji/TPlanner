@@ -23,7 +23,7 @@
 			<div>
 				<div user="<?= $user->getId() ?>">+ Nouveau Tableau</div>
 			</div>
-			<div>Trier ↓ </div>
+			<!--<div>Trier ↓ </div>-->
 		</div>
 		<h2>Mes boards (<?= count($user->getListBoards())?>)</h2>
 		<div class='boardContainer'>
