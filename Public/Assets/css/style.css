@@ -652,10 +652,13 @@ BOARD
     box-shadow: var(--box-shadow);
 }
 .Archive .unArchive{
-    font-size: 1.5em;
+    /*font-size: 1.5em;
     font-weight: bold;
-    color: green;
-    padding: 0 5px;
+    color: green;*/
+    padding: 5px 2px;
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
 }
 #archive .listHeader{
     cursor:default
