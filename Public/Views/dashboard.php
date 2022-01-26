@@ -30,6 +30,7 @@
 			<?php
 			foreach ($user->getListBoards() as $board) {
 				echo 	"<a href='board.php?id={$board->getId()}'>
+							<img draggable='false' src='".IMG_PATH."/tplanner_picto_board.svg' class='boardImage'>
 							<div>".
 								"<span>".e($board->getLabel())."</span>".
 							"</div>".
@@ -42,6 +43,7 @@
 			<?php
 			foreach ($user->getInvitedBoards() as $board) {
 				echo 	"<a href='board.php?id={$board->getId()}'>
+				<img draggable='false' src='".IMG_PATH."/tplanner_picto_boardInv.svg' class='boardImage'>
 							<div>".
 								"<span>".e($board->getLabel())."</span>".
 							"</div>".

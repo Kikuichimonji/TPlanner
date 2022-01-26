@@ -462,6 +462,12 @@ DASHBOARD
     text-align: center;
     padding : 0.5em 0;
 }
+.boardImage {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    justify-content: space-around;
+}
 
 /*************************
 BOARD
