@@ -446,9 +446,15 @@ DASHBOARD
     margin-left: 1em;
     margin-top: 1em;
     margin-bottom: 1em;
+    background:center no-repeat url("/Assets/img/T_logo_white.svg") var(--third-color) ;
+    background-size: 80%;
+    background-position: 15px 10px;
+}
+#dashboard a div{
+    background-color: white;
 }
 #dashboard a:hover{
-    background-color: var(--third-color);
+    background:  var(--third-color);
 }
 #dashboard a:hover div{
     background-color: white;

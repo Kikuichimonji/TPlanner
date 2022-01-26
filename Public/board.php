@@ -4,7 +4,6 @@
 
 use Controllers\CardsController;
 use Controllers\BoardsController;
-use Controllers\Controller;
 use Controllers\ListsController;
 
 require_once 'autoloader.php';
@@ -28,7 +27,7 @@ if(!isset($_POST["act"])){
             $canView  = $_GET['id'] == $board->getId() ? true : $canView ;
         }
     }
-    $canView = $_SESSION["user"]->isAdmin();
+    $canView = $_SESSION["user"]->isAdmin() ? true : $canView;
     $boardController->index($canView ? $_GET['id'] : null);
 }else{
 
