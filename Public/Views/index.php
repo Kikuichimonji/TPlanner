@@ -24,7 +24,7 @@
         <div>
           <h3>Bienvenue sur TPlanner cher visiteur ! </h3>
           <p>Découvrez notre site : il est gratuit et facile d'utilisation. </p>
-          </br>
+          </br></br>
           <a class="button" href='./register.php'>Inscrivez-vous gratuitement</a> </br>
           </br>
           <a class="link" href='./login.php'>Ou connectez-vous !</a>
