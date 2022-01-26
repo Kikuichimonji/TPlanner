@@ -251,14 +251,9 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                     console.log(window.innerWidth)
                     console.log(window.innerWidth - (rect.x + menu.offsetWidth))
                     isTooBig = (window.innerWidth - (rect.x + menu.offsetWidth))
-                    if(isTooBig > 0){
-                        menu.style.left = rect.x + 20 + "px";
-                        menu.style.top = rect.y + 20 + "px";
-                    }else{
-                        menu.style.left = rect.x + isTooBig + "px";
-                        menu.style.top = rect.y + 20 + "px";
-                    }
-                  
+                    menu.style.left = isTooBig > 0 ? rect.x + 20 + "px" : menu.style.left = rect.x + isTooBig + "px";
+                    menu.style.top = rect.y + 20 + "px";
+ 
                     menu.firstElementChild.textContent = "Paramètres " + ev.target.previousElementSibling.textContent //We change the title according to the list
                     for (let item of listOptions) //we put an event listener on each menu link
                     {
