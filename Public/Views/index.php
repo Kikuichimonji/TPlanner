@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./Assets/css/style.css">
+  <link rel="stylesheet" href="<?= CSS_PATH ?>/style.css">
   <link rel="icon" type="image/svg" href="<?= IMG_PATH ?>/T_logo.svg" alt="favicon logo simplifié de TPlanner"/>
   <title>TPLanner</title>
 </head>
@@ -31,14 +31,14 @@
         </div>
         <?php //isset($data) ? var_dump($data) : null; ?>
       </div>
-      <img id="main_left" src="./Assets/img/tplanner_image_relax-gauche.svg" alt="image zen de la page d'accueil" />
-      <img id="main_right" src="./Assets/img/tplanner_image_relax-droite.svg" alt="image zen de la page d'accueil" />
-      <img id="separation" src="./Assets/img/tplanner_background_separation-vague.svg" alt="separation" />
+      <img id="main_left" src="<?= IMG_PATH ?>/tplanner_image_relax-gauche.svg" alt="image zen de la page d'accueil" />
+      <img id="main_right" src="<?= IMG_PATH ?>/tplanner_image_relax-droite.svg" alt="image zen de la page d'accueil" />
+      <img id="separation" src="<?= IMG_PATH ?>/tplanner_background_separation-vague.svg" alt="separation" />
     </section>
 
     <section class="article_container">
       <div class="article">
-        <img class="screenshot" src="./Assets/img/tplanner_image_screenshot1.svg" alt="separation" />
+        <img class="screenshot" src="<?= IMG_PATH ?>/tplanner_image_screenshot1.svg" alt="separation" />
         <div>
           <h3>Ici, pas de fonctionnalités compliquées. </h3>
           <p>L'application est tournée vers les tâches, l'équipe et vous aide à gérer les tests et votre temps. </br>
@@ -58,7 +58,7 @@
             Le tout gratuitement et simplement ! 
           </p>
         </div>
-        <img class="screenshot" src="./Assets/img/tplanner_image_screenshot2.svg" alt="separation" />
+        <img class="screenshot" src="<?= IMG_PATH ?>/tplanner_image_screenshot2.svg" alt="separation" />
       </div>
     </section>
 
@@ -72,16 +72,16 @@
           <li><a class="link" href='./privacy.php'>Politique de confidentialité</a></li>
         </ul>
 
-        <a href="https://fr-fr.facebook.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_facebook.svg" alt="logo facebook" /></a>
-        <a href="https://www.instagram.com/?hl=fr" target="_blank"><img class="network" src="./Assets/img/tplanner_network_instagram.svg" alt="logo instagram" /></a>
-        <a href="https://twitter.com/?lang=fr" target="_blank"><img class="network" src="./Assets/img/tplanner_network_twitter.svg" alt="logo twitter" /></a>
-        <a href="https://fr.linkedin.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_linkedin.svg" alt="logo linkedin" /></a>
-        <a href="https://www.youtube.com/" target="_blank"><img class="network" src="./Assets/img/tplanner_network_youtube.svg" alt="logo youtube" /></a>
+        <a href="https://fr-fr.facebook.com/" target="_blank"><img class="network" src="<?= IMG_PATH ?>/tplanner_network_facebook.svg" alt="logo facebook" /></a>
+        <a href="https://www.instagram.com/?hl=fr" target="_blank"><img class="network" src="<?= IMG_PATH ?>/tplanner_network_instagram.svg" alt="logo instagram" /></a>
+        <a href="https://twitter.com/?lang=fr" target="_blank"><img class="network" src="<?= IMG_PATH ?>/tplanner_network_twitter.svg" alt="logo twitter" /></a>
+        <a href="https://fr.linkedin.com/" target="_blank"><img class="network" src="<?= IMG_PATH ?>/tplanner_network_linkedin.svg" alt="logo linkedin" /></a>
+        <a href="https://www.youtube.com/" target="_blank"><img class="network" src="<?= IMG_PATH ?>/tplanner_network_youtube.svg" alt="logo youtube" /></a>
       </div>
 
-      <img id="prefooter_logo" src="./Assets/img/TPlanner_logo-white.svg" alt="logo tplanner prefooter" />
-      <img id="prefooter_left" src="./Assets/img/tplanner_prefooter-gauche.svg" alt="image prefooter" />
-      <img id="prefooter_right" src="./Assets/img/tplanner_prefooter-droite.svg" alt="image prefooter" />
+      <img id="prefooter_logo" src="<?= IMG_PATH ?>/TPlanner_logo-white.svg" alt="logo tplanner prefooter" />
+      <img id="prefooter_left" src="<?= IMG_PATH ?>/tplanner_prefooter-gauche.svg" alt="image prefooter" />
+      <img id="prefooter_right" src="<?= IMG_PATH ?>/tplanner_prefooter-droite.svg" alt="image prefooter" />
     </section>
 
   </main>

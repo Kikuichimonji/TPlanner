@@ -240,20 +240,20 @@ function init() { //Initialisation of all the basic elements, necessary to make 
             if (ev.target.hiddenType == "list" && ev.target.hiddenClass == "menu") {
                 let menu = document.getElementById("listMenu");
                 let list = ev.target.parentNode.parentNode;
-               
+
                 if (menu.style.display != "block" || (menu.style.display == "block" && menu.hiddenId != list.hiddenId)) //if the menu is hidden or is open at another place
                 {
                     menu.style.display = "block";
                     menu.list = list; //we attach the list id to the menu (passing the arg to the listener)
                     menu.hiddenId = list.hiddenId;
                     let rect = ev.target.getBoundingClientRect(); //we place the menu to the side of the list
-                    console.log(rect.x)
+                    /*console.log(rect.x)
                     console.log(window.innerWidth)
-                    console.log(window.innerWidth - (rect.x + menu.offsetWidth))
+                    console.log(window.innerWidth - (rect.x + menu.offsetWidth))*/
                     isTooBig = (window.innerWidth - (rect.x + menu.offsetWidth))
                     menu.style.left = isTooBig > 0 ? rect.x + 20 + "px" : menu.style.left = (rect.x + isTooBig - 10) + "px";
                     menu.style.top = rect.y + 20 + "px";
- 
+
                     menu.firstElementChild.textContent = "Paramètres " + ev.target.previousElementSibling.textContent //We change the title according to the list
                     for (let item of listOptions) //we put an event listener on each menu link
                     {
