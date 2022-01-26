@@ -22,7 +22,7 @@
         <h1>MENTIONS LÉGALES</h1>
         <h2>Editeur</h2>
           <p>Le site TPlanner est édité par CCI Campus, ayant son siège social en France : CCI Strasbourg.</br>
-              Directeur de la publication : ROESS Thomas - NGAU Epiphanie, développeur web.</br>
+              Directeur de la publication : ROESS Thomas - NGAU Epiphanie, développeurs web.</br>
               Création du site : ROESS Thomas - NGAU Epiphanie – CCI – 67000 Strasbourg – France.</br>
               Hébergement : O2Switch – 222 Bd Gustave Flaubert – 63000 Clermont-Ferrand.</p>
         <h2>Droits d’auteurs et copyright</h2>
