@@ -12,6 +12,7 @@ let target = null;
 let listoptions = null
 let lastChangeTime = null;
 let busy = false;
+let timerChecks = [];
 let timeToReload = 10000;
 let creator = null;
 let user = null;
@@ -361,13 +362,11 @@ function init() { //Initialisation of all the basic elements, necessary to make 
 }
 function isBusy(status) //Stop or start the sync reload
 {
-    
-    if(typeof timerCheck !== "undefined"){
+    //console.log(timerChecks.length)
+    if( timerChecks.length !== 0){
         //console.log("busy")
-        for(let i = 0; i <= timerCheck; i++)
-        {
-            window.clearInterval(i);
-        } 
+        timerChecks.forEach(clearInterval)
+        timerChecks = [];
     }
     if(!status){
         //console.log("not busy")
@@ -375,6 +374,7 @@ function isBusy(status) //Stop or start the sync reload
             args = { "type": "checkChange", 'board': board.hiddenId };
             goFetch(args);
         }, timeToReload);
+        timerChecks.push(timerCheck)
     }
 }
 function openEditor(el)// Function that open the card editor

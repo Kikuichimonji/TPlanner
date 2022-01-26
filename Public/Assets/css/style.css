@@ -76,6 +76,7 @@ nav img{
     height: 45px;
     filter: invert(100%) sepia(15%) saturate(2%) hue-rotate(352deg) brightness(112%) contrast(100%);
     transform: translate(-0,-50%);
+    margin-left: 1em;
 }
 #headerContainer{
     display: flex;
@@ -111,6 +112,7 @@ nav img{
     align-items: center;
     cursor: pointer;
     user-select: none;
+    margin-right: 1em;
 }
 .icon span:not(.tooltiptext){
     display: flex;
