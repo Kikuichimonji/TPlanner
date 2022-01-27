@@ -67,7 +67,7 @@
         <ul>
           <li><h3>TPlanner</h3></li>
           <li><a class="link" href='./aboutProject.php'>A Propos du projet</a></li>
-          <!--<a class="link" href='./contact.php'li>Contact</a></li>-->
+          <a class="link" href='./contact.php'li>Contact</a></li>
           <li><a class="link" href='./legal.php'>Mentions légales</a></li>
           <li><a class="link" href='./privacy.php'>Politique de confidentialité</a></li>
         </ul>
