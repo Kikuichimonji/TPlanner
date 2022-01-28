@@ -1149,10 +1149,15 @@ FOOTER
 footer{
     position: fixed;
     bottom: 0;
-    right:45vw;
+    right: 0;
+    width: 20%;
+    left: 0;
+    text-align: center;
+    justify-content: space-between;
+    margin: auto;
     background-color: white;
     padding: 0.5em 1em;
-    border-radius: 5px 5px 0 0 ;
+    border-radius: 5px 5px 0 0;
     box-shadow: var(--box-shadow);
 }
 
