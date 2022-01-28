@@ -7,7 +7,7 @@ class Controller
 	/**
 	 * View folder path
 	 */
-	const VIEW_PATH = '/Public/Views/';
+
 
 	/**
 	 * Where the user is redirected if not connected
@@ -43,12 +43,12 @@ class Controller
 	 */
 	protected function view(string $fileName, array $data = []): void
 	{
-		$filePath = ROOT . self::VIEW_PATH . $fileName;
+		$filePath = VIEW_PATH . $fileName;
 
 		if (file_exists($filePath)) { // If the file exist we import it, else we import a 404
 			require $filePath;
 		} else {
-			require ROOT . self::VIEW_PATH . "404.php"; //Custom 404
+			require VIEW_PATH . "404.php"; //Custom 404
 		}
 	}
 
