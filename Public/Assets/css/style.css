@@ -167,6 +167,9 @@ nav img{
 #headerConnection a:first-child,#adminButton a{
     color: white;
 }
+#headerConnection a:first-child:hover,#adminButton a:hover{
+    text-decoration: underline white;
+}
 #headerConnection a:last-child{
     background-color: white;
 }
