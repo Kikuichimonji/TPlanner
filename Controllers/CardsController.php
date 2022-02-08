@@ -65,12 +65,11 @@ class CardsController extends Controller
             }else{
                 $cardFiles[$duplicate] = $fileInfo;
             }
-            $cardFiles = json_encode($cardFiles);
         }
 
         $f_text = trim($text);
         
-        $cm->editCardDesc($id, $f_text, $idBoard,$color,$cardFiles);
+        $cm->editCardDesc($id, $f_text, $idBoard,$color,json_encode($cardFiles));
     }
 
     /**

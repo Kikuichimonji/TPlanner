@@ -660,7 +660,7 @@ function goFetch(args) // function that fetch the board content depending on the
                     //if everything went okay and we got no errors
                     error[0] === 'success' ? callSuccessModal(error[1]) : null;
                     isArchive = args["el"] ? (args["el"].hiddenFunc == "archive") : false;
-                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList" || response ==="reload") { //we reload in thoses cases
+                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList" ||args["type"] == "editCardDesc" || response ==="reload") { //we reload in thoses cases
                         args = { "type": "reload", 'board': board.hiddenId };
                         goFetch(args);
                     }
@@ -881,7 +881,8 @@ function events() { //all my general events
         menu = document.getElementById("cardDetail");
         if (!ev.target.classList.contains("modalMenu") && ev.target.id == "cardDetail") {
             menu.style.display = "none";
-            menu.querySelector("#modalFile").outerHTML = "";
+            $file = menu.querySelector("#modalFile")
+            menu.querySelector("#modalFile") ? menu.querySelector("#modalFile").outerHTML = "" : null;
         }
         menu = document.getElementById("listMenu");
         if (!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu")) {
