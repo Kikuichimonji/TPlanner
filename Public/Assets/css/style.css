@@ -894,7 +894,17 @@ BOARD
 }
 .modalMenu a.files{
     text-transform: none;
-    color:var(--third-color)
+    color:var(--third-color);
+    text-align: left;
+}
+#cardDetail #modalFile{
+    align-items: flex-start;
+    font-size: 16px;
+}
+#cardDetail #modalFile a{
+    display: inline-block;
+    margin-top: 1em;
+
 }
 .modalMenu p{
     margin: auto;
