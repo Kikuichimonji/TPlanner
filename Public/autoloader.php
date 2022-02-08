@@ -7,11 +7,13 @@ error_reporting(E_ALL);
 define('APP_ENV', 'dev');
 
 define("DS",DIRECTORY_SEPARATOR);
-define("ROOT","..".DS);
+define("ROOT",'..'.DS);
 define('ASSET_PATH', ROOT.'Assets'.DS);
 define('CSS_PATH', ASSET_PATH.'css'.DS);
 define('IMG_PATH', ASSET_PATH.'img'.DS);
 define('JS_PATH', ASSET_PATH.'scripts'.DS);
+define('FILE_PATH',__DIR__.DS.'Assets'.DS.'files'.DS);
+define('FILE_PATH_REL', ASSET_PATH.'files'.DS);
 
 define("APP_PATH",ROOT."App".DS);
 define("CONTROL_PATH", ROOT."Controllers".DS);

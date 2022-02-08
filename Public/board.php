@@ -139,7 +139,21 @@ if(!isset($_POST["act"])){
         case "editCardDesc" :
             if(isset($_GET["card"]) && isset($_POST['text']) && isset($_GET["board"]) && isset($_POST["color"])){
                 if($_GET["board"] != "undefined"){
-                    $cardsController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"],$_POST["color"]);
+                    if(array_key_exists('file',$_FILES) && $_FILES['file']['error'] === 0){
+                        if($_FILES['file']['size'] < 5000000){
+                            if(move_uploaded_file($_FILES['file']['tmp_name'],FILE_PATH.$_FILES['file']['name'])){
+                                $cardsController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"],$_POST["color"],$_FILES['file']);
+                                echo "success:Ficher uploadé";
+                            }else{
+                                echo "error:Problème d'upload";
+                            }
+                        }else{
+                            echo "error:Fichier trop lourd -> ".$_FILES['file']['size'].' octets';
+                        }
+                    }else{
+                        $cardsController->editCardDesc($_GET['card'],$_POST['text'],$_GET["board"],$_POST["color"]);
+                    }
+                    die();
                 }else{
                     echo "false";
                 }

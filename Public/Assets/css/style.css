@@ -892,6 +892,10 @@ BOARD
     box-shadow: var(--box-shadow);
     z-index: 3;
 }
+.modalMenu a.files{
+    text-transform: none;
+    color:var(--third-color)
+}
 .modalMenu p{
     margin: auto;
     text-align: center;

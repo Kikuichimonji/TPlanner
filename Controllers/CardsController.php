@@ -38,11 +38,39 @@ class CardsController extends Controller
      * @param string $color The hexa code of the card
      * @return void
      */
-    public function editCardDesc($id, $text, $idBoard,$color)
+    public function editCardDesc($id, $text, $idBoard,$color,$file = null)
     {
-        $f_text = trim($text);
         $cm = new CardsManager();
-        $cm->editCardDesc($id, $f_text, $idBoard,$color);
+        $card = $cm->getOneById($id);
+        $cardFiles = json_decode($card->getFiles()) ?? [];
+        $duplicate = -1;
+        $count = 0;
+        if($file){
+            
+            foreach($cardFiles as $cardFile){
+                
+                if($_FILES['file']['name'] == $cardFile->name){
+                    $duplicate = $count;
+                };
+                $count++;
+            }
+            
+            $fileInfo['path'] = FILE_PATH.$_FILES['file']['name'];
+            $fileInfo['name'] = $_FILES['file']['name'];
+            $fileInfo['size'] = $_FILES['file']['size'];
+            $fileInfo['type'] = $_FILES['file']['type'];
+            $fileInfo['relPath'] = FILE_PATH_REL.$_FILES['file']['name'];
+            if($duplicate == -1){
+                array_push($cardFiles,$fileInfo);
+            }else{
+                $cardFiles[$duplicate] = $fileInfo;
+            }
+            $cardFiles = json_encode($cardFiles);
+        }
+
+        $f_text = trim($text);
+        
+        $cm->editCardDesc($id, $f_text, $idBoard,$color,$cardFiles);
     }
 
     /**

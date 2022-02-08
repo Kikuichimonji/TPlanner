@@ -17,6 +17,7 @@ class Card extends AbstractEntity
     private $color;
     private $deadline;
     private $isArchived;
+    private $files;
 
     public function __construct($data)
     {
@@ -166,6 +167,26 @@ class Card extends AbstractEntity
     public function setIsArchived($isArchived)
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of files
+     */ 
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    /**
+     * Set the value of files
+     *
+     * @return  self
+     */ 
+    public function setFiles($files)
+    {
+        $this->files = $files;
 
         return $this;
     }

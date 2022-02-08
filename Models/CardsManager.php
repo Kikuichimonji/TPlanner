@@ -157,17 +157,18 @@ class CardsManager extends AbstractManager
         return self::delete($sql,$arg,$idBoard);
     }
 
-    public function editCardDesc($id,$text,$idBoard,$color){ //We update the card's elements
+    public function editCardDesc($id,$text,$idBoard,$color,$file = null){ //We update the card's elements
         
         $sql = "UPDATE cards".
-        " SET description = :text, color = :color".
-        " WHERE id = :id";
+        " SET description = :text, color = :color";
+        $sql .= $file ? ', files = :file': null;
+        $sql .=" WHERE id = :id";
         
         $arg= ["text" => $text,
                 "id" => $id,
                 "color" => $color,
             ];
-
+        $file ? ($arg["file"] = $file) : null;
         return self::update($sql,$arg,$idBoard);
     }
 

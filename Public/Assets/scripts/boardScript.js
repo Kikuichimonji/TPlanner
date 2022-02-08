@@ -22,7 +22,6 @@ function init() { //Initialisation of all the basic elements, necessary to make 
         isBusy(true);
     }
 
-
     creator = document.getElementById("creator") ? document.getElementById("creator").querySelector(".tooltiptext").lastChild.textContent : null;
 
     user = document.querySelector("main").getAttribute("creator");
@@ -117,6 +116,11 @@ function init() { //Initialisation of all the basic elements, necessary to make 
                 child.hiddenId = child.parentNode.hiddenId;
             })
         })
+        item.files = item.getAttribute("data-files")
+        item.removeAttribute("data-files")
+        if(item.files){
+            item.files = JSON.parse(item.files)
+        }
 
         cardTitle = item.querySelector(".cardTitle"); //We look for the title of each card
         handlerCard = function (ev) { //The function that change the card title into an input, then change it back into a clickable title
@@ -408,8 +412,36 @@ function openEditor(el)// Function that open the card editor
             }
         })
     }
+
+    if(el.files){
+        div = document.createElement("DIV");
+        div.id ='modalFile';
+        modal.querySelector("li:last-child").appendChild(div)
+        el.files.forEach(file => {
+            a = document.createElement("a");
+            a.setAttribute("href",file.relPath);
+            a.setAttribute("target","_blank");
+            a.innerHTML = file.name;
+            a.classList.add("files");
+            div.appendChild(a)
+            icon = document.createElement("IMG")
+            if(file.type.split('/')[0] == 'image'){
+                img = document.createElement("IMG")
+                img.height = 50;
+                img.setAttribute('src',file.relPath)
+                a.appendChild(img)
+            }else{
+                a.setAttribute("download",file.relPath)
+            }
+            icon.height = 20;
+            icon.setAttribute('src','../Assets/img/file.png')
+            a.prepend(icon)
+
+        });
+        
+    }
     modal.querySelector("button").addEventListener("click", ev => {
-        args = { "type": "editCardDesc", 'card': modal.el, "text": textarea.value, "idBoard": board.hiddenId, 'color': modal.querySelector("input").value }; //the args for the fetch
+        args = { "type": "editCardDesc", 'card': modal.el, "text": textarea.value, "idBoard": board.hiddenId, 'color': modal.querySelector("input").value , 'file': modal.querySelector('#file').files}; //the args for the fetch
         ev.stopImmediatePropagation();
         if(textarea.value.length < 500) //We limite the length to 500 char for now, need more testing
         {
@@ -421,6 +453,7 @@ function openEditor(el)// Function that open the card editor
             modal.el.querySelector(".cardBody").appendChild(bodyText);
             modal.el.originalText = textarea.value;
             modal.style.display = "none";
+            modal.querySelector("#modalFile").outerHTML = "";
         }else{
             callErrorModal("La description est limitée à 500 charactères (Actuellement : " + textarea.value.length + ")")
         }
@@ -565,6 +598,7 @@ function goFetch(args) // function that fetch the board content depending on the
             case "editCardDesc":
                 formData.append("text", args['text'])
                 formData.append("color", args['color'])
+                formData.append("file", args['file'][0])
                 link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"] ; //the link for changing the card description
                 break
             case "invite":
@@ -605,11 +639,11 @@ function goFetch(args) // function that fetch the board content depending on the
         fetch(myRequest).then((response) => { //We fetch the result
             response.text().then(response => {
                 if (args["type"] != "reload") { //if we reload we dn't show the whole thing in console
-                   // console.log(response) //My check of the controler response
+                console.log(response) //My check of the controler response
                 }
                 error = response.split(":");
                 if (response === 'false') {  //If the controler writes 'false' , i know it's shit but i haven't found out how to return a boolean with fetch
-                    //console.log("Problème de paramètres");
+                    console.log("Problème de paramètres");
                 }else if (error[0] === 'error') {
                     callErrorModal(error[1]);
                 }else if (error[0] === 'relocate') {
@@ -621,7 +655,7 @@ function goFetch(args) // function that fetch the board content depending on the
                         init();
                         //console.log("good reload")
                     } else {
-                        //console.log("good doggy")
+                        console.log("good doggy")
                     }
                     //if everything went okay and we got no errors
                     error[0] === 'success' ? callSuccessModal(error[1]) : null;
@@ -847,6 +881,7 @@ function events() { //all my general events
         menu = document.getElementById("cardDetail");
         if (!ev.target.classList.contains("modalMenu") && ev.target.id == "cardDetail") {
             menu.style.display = "none";
+            menu.querySelector("#modalFile").outerHTML = "";
         }
         menu = document.getElementById("listMenu");
         if (!ev.target.classList.contains("modalMenu") && !ev.target.classList.contains("menu")) {

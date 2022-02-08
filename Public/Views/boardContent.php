@@ -58,7 +58,12 @@
                         }else{
                             $desc2 = $desc;
                         }
-                        echo "<li draggable='true' class='card' id='{$card->getId()}'><span class='cardHeader' style='background-color:{$card->getColor()}'><span class='cardTitle'>".e($card->getTitle())."</span><span class='menu'>...</span></span><span  class='cardBody' originalText='{$desc}'><p draggable='false'>{$desc2}</p></span></li>";
+                        echo '<li draggable="true" class="card"  data-files=\''.$card->getFiles().'\' id="'.$card->getId().'">
+                                <span class="cardHeader" style="background-color:'.$card->getColor().'">
+                                    <span class="cardTitle">'.e($card->getTitle()).'</span>
+                                    <span class="menu">...</span>
+                                </span>
+                                <span  class="cardBody" originalText="'.$desc.'"><p draggable="false">'.$desc2.'</p></span></li>';
                     } 
                 }
                 echo "</ul><span class='addCard'><span>+ Add a card</span></span></div>";
@@ -147,14 +152,17 @@
             </div>
             <ul>
                 <li func='color'>Couleur <input type="color"></li>
-                <li func='tag'>étiquettes</li>
+                <!--<li func='tag'>étiquettes</li>
                 <li func='move'>Déplacer</li>
-                <li func='assign'>Assigner</li>
+                <li func='assign'>Assigner</li>-->
                 <?php 
                     if($isCreator || $isAdmin){
                         echo "<li func='delete' class='delete'>Supprimer</li>";
                     }
                 ?>
+
+                <li func='file'><input type="file" name="file" id="file"></li>
+                
             </ul>
         </div>
         <div>
