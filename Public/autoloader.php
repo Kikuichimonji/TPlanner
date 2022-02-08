@@ -18,7 +18,7 @@ define('FILE_PATH_REL', ASSET_PATH.'files'.DS);
 define("APP_PATH",ROOT."App".DS);
 define("CONTROL_PATH", ROOT."Controllers".DS);
 define("MODEL_PATH", ROOT."Models".DS);    
-define("VIEW_PATH", ROOT."Views".DS);
+define("VIEW_PATH",ROOT."Views".DS);
 
 abstract class Autoloader{
     public static function register()
