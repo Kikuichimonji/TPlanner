@@ -184,4 +184,16 @@ class CardsManager extends AbstractManager
             
         return self::update($sql,$arg,$board);
     }
+    public function deleteFile($id,$files,$idBoard)
+    {
+        $sql = "UPDATE cards".
+        " SET files = :files".
+        " WHERE id = :id";
+        
+        $arg= ["files" => $files,
+                "id" => $id,
+            ];
+            
+        return self::update($sql,$arg,$idBoard);;
+    }
 }

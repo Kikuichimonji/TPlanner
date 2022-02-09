@@ -423,8 +423,11 @@ function openEditor(el)// Function that open the card editor
             a.setAttribute("target","_blank");
             a.innerHTML = file.name;
             a.classList.add("files");
+            deleteButton = document.createElement("span")
+            div.appendChild(deleteButton)
+            deleteButton.innerHTML = 'X';
+            deleteButton.fileName= file.name
             div.appendChild(a)
-            icon = document.createElement("IMG")
             if(file.type.split('/')[0] == 'image'){
                 img = document.createElement("IMG")
                 img.height = 50;
@@ -433,10 +436,14 @@ function openEditor(el)// Function that open the card editor
             }else{
                 a.setAttribute("download",file.relPath)
             }
+            icon = document.createElement("IMG")
             icon.height = 20;
             icon.setAttribute('src','../Assets/img/file.png')
             a.prepend(icon)
-
+            deleteButton.addEventListener("click", ev =>{
+                args = { "type": "deleteFile", 'card': modal.el, "idBoard": board.hiddenId,  'fileName': ev.target.fileName}; //the args for the fetch
+                youSure(goFetch,args,"Voulez vous vraiment supprimer le fichier: ".ev.target.fileName);
+            })
         });
         
     }
@@ -601,6 +608,10 @@ function goFetch(args) // function that fetch the board content depending on the
                 formData.append("file", args['file'][0])
                 link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"] ; //the link for changing the card description
                 break
+            case "deleteFile":
+                formData.append("fileName", args['fileName'])
+                link = "board.php?card=" + args["card"].hiddenId + "&board=" + args["idBoard"] ; //the link for changing the card description
+                break
             case "invite":
                 formData.append("mail", args['mail'])
                 link = "board.php?&board=" + args["idBoard"]; //the link for changing the card description
@@ -660,7 +671,7 @@ function goFetch(args) // function that fetch the board content depending on the
                     //if everything went okay and we got no errors
                     error[0] === 'success' ? callSuccessModal(error[1]) : null;
                     isArchive = args["el"] ? (args["el"].hiddenFunc == "archive") : false;
-                    if (args["type"] == "newCard" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList" ||args["type"] == "editCardDesc" || response ==="reload") { //we reload in thoses cases
+                    if (args["type"] == "newCard" || args["type"] == "deleteFile" || args["type"] == "deleteCard" || args["type"] == "newList" || args["type"] == "deleteList" || isArchive || args["type"] == "archiveDeleteList" ||args["type"] == "editCardDesc" || response ==="reload") { //we reload in thoses cases
                         args = { "type": "reload", 'board': board.hiddenId };
                         goFetch(args);
                     }

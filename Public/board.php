@@ -161,6 +161,15 @@ if(!isset($_POST["act"])){
                 echo "false";
             }
             break;
+        case "deleteFile" :
+            if(isset($_GET['card']) && isset($_GET["board"]) && isset($_POST["fileName"])){
+                if($_GET["board"] != "undefined"){
+                    $cardsController->deleteFile($_GET['card'],$_POST['fileName'],$_GET["board"]);
+                }
+            }else{
+                echo "false";
+            }
+            break;
         case "invite" :
             if(isset($_POST["mail"]) && isset($_GET["board"])){
                 if($_GET["board"] != "undefined"){

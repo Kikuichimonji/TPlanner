@@ -72,6 +72,24 @@ class CardsController extends Controller
         $cm->editCardDesc($id, $f_text, $idBoard,$color,json_encode($cardFiles));
     }
 
+    public function deleteFile($id,$fileName,$idBoard)
+    {
+        $cm = new CardsManager();
+        $card = $cm->getOneById($id);
+        $cardFiles = json_decode($card->getFiles()) ?? [];
+        $count = 0;
+        foreach($cardFiles as $cardFile){
+            if($fileName == $cardFile->name){
+                array_splice($cardFiles,$count);
+                unlink(FILE_PATH.$fileName);
+            }
+            $count++;
+        }
+        
+        $cm->deleteFile($id,json_encode($cardFiles),$idBoard);
+        
+    }
+
     /**
      * Delete the card
      * @param int $id The card ID
